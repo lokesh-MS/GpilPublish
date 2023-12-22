@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "ItemMasterIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">ITEM MASTER</h2>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-3">
+
+        <label>Crop</label>
+        @Html.DropDownList("CROP1", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        <label>Item</label>
+
+
+        <input class="form-control" id="txtItem" type="text" minlength ="4" maxlength = "20" />
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <label>Item Code</label>
+
+        <input class="form-control" id="txtItemCode" type="text" minlength ="4" maxlength = "20"  />
+
+    </div>
+    <div class="col-md-3">
+        <label>UOM</label>
+
+
+        <input class="form-control " id="txtUom" type="text"  minlength ="2" maxlength = "20"/>
+
+    </div>
+
+</div>
+
+
+
+<div class="row">
+    <div><label></label></div>
+</div>
+<div class="row">
+    <div id="alert_placeholder"></div>
+    <span id="message"></span>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            Save
+
+        </button>
+        <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+            Clear
+
+        </button>
+        <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ItemMasterExcelIndex", "LDD") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+        @*<button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>*@
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+        $('#btnSubmit').on('click', function (event) {
+            var CropList = $('#ddlCrop').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var ItemList = $('#txtItem').val();
+            ItemList = (ItemList == "0") ? "" : ItemList;
+            var ItemCodeList = $('#txtItemCode').val();
+            ItemCodeList = (ItemCodeList == "0") ? "" : ItemCodeList;
+            var UomList = $('#txtUom').val();
+            UomList = (UomList == "0") ? "" : UomList;
+
+            GetInsertItemMasterDetails(CropList, ItemList, ItemCodeList, UomList);
+        });
+
+
+
+
+        function GetInsertItemMasterDetails(Crop, Item, ItemCode, Uom) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/LDD/InsertItemMaster',
+                data: { Crop: Crop, Item: Item, ItemCode: ItemCode, Uom: Uom },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning(msg, "success");
+                        Clear();
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+
+
+        function Clear() {
+            $("#ddlCrop").val('');
+            $('#txtItem').val('');
+            $('#txtItemCode').val('');
+            $('#txtUom').val('');
+        }
+
+
+        $('#btnClear').on('click', function (event) {
+
+            $("#ddlCrop").val('');
+            $('#txtItem').val('');
+            $('#txtItemCode').val('');
+            $('#txtUom').val('');
+
+
+        });
+
+    });
+
+
+
+
+</script>

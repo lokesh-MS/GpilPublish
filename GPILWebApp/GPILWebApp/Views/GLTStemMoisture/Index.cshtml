@@ -1,0 +1,386 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align:center; color:#438EB9">STEM MOISTURE</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="col-sm-3">
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+            <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GLTStemMoisture") + "'");" class="btn btn-success btn-sm"> Import From Excel</button>
+        </div>
+
+    </div>
+
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Crop</label>
+            <div>
+                <select class="form-control" id="ddlCrop">
+                    <option value="0">SELECT CROP CODE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Variety</label>
+            <div>
+                <select class="form-control" id="ddlVariety">
+                    <option value="0">SELECT VARIETY</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Strip Grade</label>
+            <div>
+                <select class="form-control" id="ddlStripGrade">
+                    <option value="0">SELECT STRIP GRADE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label> </label>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Stem Grade</label>
+            <div>
+                <select class="form-control" id="ddlStemGrade">
+                    <option value="0">SELECT STEM GRADE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Date</label>
+
+            <input class="form-control" id="txtFromDate", type="date",data-date-format="dd-mm-yyyy" />
+
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Sample Time</label>
+            <input class="form-control", id="txtSampleTime" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label> </label>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Equip No</label>
+
+            <input class="form-control date-picker", id="txtEquipNo" />
+
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Case No</label>
+            <input class="form-control date-picker" ,id="txtCaseRunNo" />
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Moisture Result</label>
+            <input class="form-control date-picker" , id="txtMoistureResult"  ,onchange = "MoistureResultCheck();" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label> </label>
+</div>
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">After Corre.Factor(-1.8)</label>
+            <input class="form-control date-picker" ,id="txtAfterCorreFactor" />
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Case Temperature</label>
+            <input class="form-control date-picker" , id="txtCaseTemperature" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label> </label>
+</div>
+<hr />
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <button type="button" role="button" id="btnSave" class="btn btn-success btn-sm"> Save</button>
+            <button type="button" role="button" id="btnClear" class="btn btn-success btn-sm"> Clear</button>
+            <button type="button" role="button" class="btn btn-success btn-sm"> Close</button>
+
+            
+
+        </div>
+    </div>
+
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    GetCrop();
+    GetGrade();
+    GetType();
+    GetStemGrade();
+
+    function GetCrop() {
+        $('#ddlCrop').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetCrop',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].CROP_YEAR + '</option>';
+                }
+                $('#ddlCrop').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+    function GetGrade() {
+        $('#ddlStripGrade').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT STRIP GRADE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetGrade',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].ITEM_CODE + '</option>';
+                }
+                $('#ddlStripGrade').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+    function GetStemGrade() {
+        $('#ddlStemGrade').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT STEM GRADE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetGrade',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].ITEM_CODE + '</option>';
+                }
+                $('#ddlStemGrade').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+
+    function GetType() {
+        $('#ddlVariety').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT TYPE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetType',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].VARIETY_TYPE + '</option>';
+                }
+                $('#ddlVariety').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+
+
+        $('#btnSave').on('click', function (event) {
+            var CropList = $('#ddlCrop').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+            var StripGradeList = $('#ddlStripGrade').val();
+            StripGradeList = (StripGradeList == "0") ? "" : StripGradeList;
+            var StemGradeList = $('#ddlStemGrade').val();
+            StemGradeList = (StemGradeList == "0") ? "" : StemGradeList;
+            var FromDateList = $('#txtFromDate').val();
+            FromDateList = (FromDateList == "0") ? "" : FromDateList;
+            var SampleTimeList = $('#txtSampleTime').val();
+            SampleTimeList = (SampleTimeList == "0") ? "" : SampleTimeList;
+            var EquipNoList = $('#txtEquipNo').val();
+            EquipNoList = (EquipNoList == "0") ? "" : EquipNoList;
+            var CaseRunNoList = $('#txtCaseRunNo').val();
+            CaseRunNoList = (CaseRunNoList == "0") ? "" : CaseRunNoList;
+            var MoistureResultList = $('#txtMoistureResult').val();
+            MoistureResultList = (MoistureResultList == "0") ? "" : MoistureResultList;
+            var AfterCoreFacList = $('#txtAfterCorreFactor').val();
+            AfterCoreFacList = (AfterCoreFacList == "0") ? "" : AfterCoreFacList;
+            var CaseTempList = $('#txtCaseTemperature').val();
+            CaseTempList = (CaseTempList == "0") ? "" : CaseTempList;
+            GetInsertStemMoistureDetails(CropList, VarietyList, StripGradeList, StemGradeList, FromDateList, SampleTimeList, EquipNoList, CaseRunNoList, MoistureResultList, AfterCoreFacList, CaseTempList);
+        });
+
+
+
+        //CropList, VarietyList, StripGradeList, StemGradeList, FromDateList, SampleTimeList, EquipNoList, CaseRunNoList, MoistureResultList, AfterCoreFacList, CaseTempList
+        function GetInsertLaminaMoistureDetails(Crop, Variety, StripGrade, StemGrade, FromDate, SampleTime, EquipNo, CaseRunNo, MoistureResult, AfterCoreFac, CaseTemp) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/GLTStemMoisture/InsertStemMoisture',
+
+                //crop, variety, stripGrade, stemGrade, fromDate, sampleTime, equipNo, caseRunNo, moistureResult, afterCoreFac, caseTemp
+                data: { crop: Crop, variety: Variety, stripGrade: StripGrade, stemGrade: StemGrade, fromDate: FromDate, sampleTime: SampleTime, equipNo: EquipNo, caseRunNo: CaseRunNo, moistureResult: MoistureResult, afterCoreFac: AfterCoreFac, caseTemp: CaseTemp },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                        Clear();
+                    }
+                },
+                error: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg.responseText, "error");
+                    }
+
+                }
+            });
+        }
+
+
+        function Clear() {
+            GetCrop();
+            GetGrade();
+            GetStemGrade();
+            GetType();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtEquipNo').val('');
+            $('#txtCaseRunNo').val('');
+            $('#txtMoistureResult').val('');
+            $('#txtAfterCorreFactor').val('');
+            $('#txtCaseTemperature').val('');
+        }
+
+
+        $('#btnClear').on('click', function (event) {
+            GetCrop();
+            GetGrade();
+            GetStemGrade();
+            GetType();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtEquipNo').val('');
+            $('#txtCaseRunNo').val('');
+            $('#txtMoistureResult').val('');
+            $('#txtAfterCorreFactor').val('');
+            $('#txtCaseTemperature').val('');
+        });
+    });
+
+
+</script>

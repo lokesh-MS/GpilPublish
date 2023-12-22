@@ -1,0 +1,182 @@
+﻿@model GPILWebApp.Models.GPIL_FARMER_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Farmer Details</h2>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FARM_CATEGORY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FARM_CATEGORY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FARM_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FARM_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FARM_FATHER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FARM_FATHER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VILLAGE_CODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VILLAGE_CODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SOIL_TYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SOIL_TYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FARM_ADDRESS1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FARM_ADDRESS1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FARM_ADDRESS2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FARM_ADDRESS2)
+        </dd>
+
+      
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEL_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEL_NO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOBILE_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOBILE_NO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BANK_ACCOUNT_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BANK_ACCOUNT_NO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BANK_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BANK_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BRANCH_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BRANCH_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IFSC_CODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IFSC_CODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_DATE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FARM_CODE }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

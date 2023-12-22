@@ -1,0 +1,715 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "TTDCRRRDetailsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+<h2 style="text-align:center; color:#438EB9">Today ToDate CR-RR Details</h2>
+<hr />
+
+<div class="row">
+
+
+
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-4">
+            <label class="control-label">From Date</label>
+            <div class="form-control-sm">
+                <input class="form-control" id="txtFromDate" type="date" data-date-format="dd-mm-yyyy" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label>Select Crop</label>
+            @*@Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnMaster" })*@
+            <div>
+                @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCropMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label>Select Variety</label>
+            <div>
+                @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVarietyMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div><label class="control-label"></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+        </button>
+        <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+            Clear
+        </button>
+    </div>
+
+
+
+</div>
+<div class="row">
+    <div><label class="control-label"></label></div>
+</div>
+
+<div class="row">
+    <div id="alert_placeholder"></div>
+    <span id="message"></span>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Today-Todate CR-RR Details"
+        </div>
+
+        @*<div class="table-responsive">*@
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SI.No.
+                        </th>
+
+                        <th>
+                            Organization Code
+                        </th>
+
+                        <th>
+                            Today Offered
+                        </th>
+
+                        <th>
+                            Todate Offered
+                        </th>
+
+                        <th>
+                            Today CR
+                        </th>
+
+                        <th>
+                            Todate CR
+                        </th>
+
+                        <th>
+                            Today RR
+                        </th>
+
+                        <th>
+                            Todate RR
+                        </th>
+
+                        <th>
+                            Today Sold
+                        </th>
+
+                        <th>
+                            Todate Sold
+                        </th>
+
+
+
+
+
+                    </tr>
+                </thead>
+
+
+            </table>
+        </div>
+        @*</div>*@
+
+    </div>
+</div>
+<div id="loader">
+</div>
+
+
+
+<div id="TTCRRR"></div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+        $('#btnSubmit').on('click', function (event) {
+            var FromDate = $('#txtFromDate').val();
+            var CropList = $('#ddlCropMaster').val();
+            var VarietyList = $('#ddlVarietyMaster').val();
+            GetFarmerPurchaseTTDCRRRDetails(FromDate, CropList, VarietyList);
+        });
+
+        $('#btnClear').on('click', function (event) {
+            $('#txtFromDate').val('');
+
+            $('#ddlCropMaster').val('');
+            $('#ddlVarietyMaster').val('');
+            var dt1 = $('#dynamic-tabl').DataTable();
+            dt1.destroy();
+            var tblContent = '';
+            $('#dynamic-tabl tbody').empty();
+            $('#dynamic-tabl tbody').append(tblContent)
+
+            $('#TTCRRR').empty();
+        });
+
+
+        function GetFarmerPurchaseTTDCRRRDetails(fromDate, crop, variety) {
+            spinner.show();
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/TTDCRRRDetails',
+                data: { Fromdate: fromDate, Crop: crop, Variety: variety },
+                success: function (msg) {
+                    let data = JSON.parse(msg);
+
+                    if (data == "Error: Please Select All Fields") {
+
+                        spinner.hide();
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            //var IndexID = "" + j;
+                            tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].ORGN_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TODAY_OFFERED + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_OFFERED + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TODAY_CR + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_CR + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].TODAY_RR + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].TODATE_RR + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].TODAY_SOLD + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_SOLD + '</td>'
+                                + '</tr >';
+                        }
+                    }
+
+                    //dt1.destroy
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+
+
+
+                    if (data.length > 0) {
+                        var dblTotalTodateOffered = "";
+                        var dblTotalTodateCR = "";
+                        var dblTotalTodateRR = "";
+                        var dblTotalTodateSold = "";
+
+                        var dblTodateOffered = "";
+                        var dblTodateCR = "";
+                        var dblTodateRR = "";
+                        var dblTodateSold = "";
+
+                        var ToTdblTotalTodateOffered = "0";
+                        var ToTdblTotalTodateCR = "0";
+                        var ToTdblTotalTodateRR = "0";
+                        var ToTdblTotalTodateSold = "0";
+
+                        var ToTdblTodateOffered = "0";
+                        var ToTdblTodateCR = "0";
+                        var ToTdblTodateRR = "0";
+                        var ToTdblTodateSold = "0";
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            dblTotalTodateOffered = (data[i].TODATE_OFFERED == null) ? "0" : data[i].TODATE_OFFERED;
+                            dblTotalTodateCR = (data[i].TODATE_CR == null) ? "0" : data[i].TODATE_CR;
+                            dblTotalTodateRR = (data[i].TODATE_RR == null) ? "0" : data[i].TODATE_RR;
+                            dblTotalTodateSold = (data[i].TODATE_SOLD == null) ? "0" : data[i].TODATE_SOLD;
+
+
+                            dblTodateOffered = (data[i].TODAY_OFFERED == null) ? "0" : data[i].TODAY_OFFERED;
+                            dblTodateCR = (data[i].TODAY_CR == null) ? "0" : data[i].TODAY_CR;
+                            dblTodateRR = (data[i].TODAY_RR == null) ? "0" : data[i].TODAY_RR;
+                            dblTodateSold = (data[i].TODAY_SOLD == null) ? "0" : data[i].TODAY_SOLD;
+
+                            ToTdblTotalTodateOffered = parseFloat(ToTdblTotalTodateOffered) + parseFloat(dblTotalTodateOffered);
+                            ToTdblTotalTodateCR = parseFloat(ToTdblTotalTodateCR) + parseFloat(dblTotalTodateCR);
+                            ToTdblTotalTodateRR = parseFloat(ToTdblTotalTodateRR) + parseFloat(dblTotalTodateRR);
+                            ToTdblTotalTodateSold = parseFloat(ToTdblTotalTodateSold) + parseFloat(dblTotalTodateSold);
+
+
+                            ToTdblTodateOffered = parseFloat(ToTdblTodateOffered) + parseFloat(dblTodateOffered);
+                            ToTdblTodateCR = parseFloat(ToTdblTodateCR) + parseFloat(dblTodateCR);
+                            ToTdblTodateRR = parseFloat(ToTdblTodateRR) + parseFloat(dblTodateRR);
+                            ToTdblTodateSold = parseFloat(ToTdblTodateSold) + parseFloat(dblTodateSold);
+                        }
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label  style="background-color:Blue;color:ghostwhite">Total Offered Today: ' + ToTdblTodateOffered + ' & ToDate : ' + ToTdblTotalTodateOffered + ' </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label  style="background-color:Blue;color:ghostwhite">Total CR Today: ' + ToTdblTodateCR + ' & ToDate : ' + ToTdblTotalTodateCR + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label  style="background-color:Blue;color:ghostwhite">Total RR Today: ' + ToTdblTodateRR + ' & ToDate : ' + ToTdblTotalTodateRR + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label  style="background-color:Blue;color:ghostwhite">Total Sold Today: ' + ToTdblTodateSold + ' & ToDate : ' + ToTdblTotalTodateSold + ' </label></td >'
+                            + '</tr ></table>';
+                    }
+                    $('#TTCRRR').empty();
+                    $('#TTCRRR').append(tblContentLnDet);
+                    spinner.hide();
+
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+
+                    var myTable = $('#dynamic-tabl')
+       //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+     .DataTable({
+         "bLengthChange": true,
+         "paging": true,
+         "jQueryUI": true,
+         bAutoWidth: false,
+         'order': [[0, 'asc']],
+         "aoColumns": [
+              null, null, null, null, null, null, null, null, null,
+             { "bSortable": false },
+
+            // { "bSortable": false }
+         ],
+         "aaSorting": [],
+
+         //"bProcessing": true,
+         //"bServerSide": true,
+         //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+         //,
+         //"sScrollY": "200px",
+         // "bPaginate": true,
+
+         //"sScrollX": "100%",
+         //"sScrollXInner": "120%",
+         //"bScrollCollapse": true,
+         //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+         //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+         //"iDisplayLength": 50,
+
+
+         select: {
+             style: 'multi'
+         }
+     });
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                          {
+                              "extend": "colvis",
+                              "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              columns: ':not(:first):not(:last)'
+                          },
+                          {
+                              "extend": "copy",
+                              "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "csv",
+                              "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "excel",
+                              "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "pdf",
+                              "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "print",
+                              "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              autoPrint: false,
+                              message: 'This print was produced using the Print button for DataTables'
+                          }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container1'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable.button(1).action();
+                    myTable.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable.button(0).action();
+                    myTable.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                            .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                            .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable.row(row).select();
+                            else myTable.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable.row(row).deselect();
+                        else myTable.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+        //function GetFarmerPurchaseTTDCRRRDetails(fromDate, crop, variety) {
+
+        //    var tblContent = '';
+        //    var tblContentLnDet = '<table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/LDD/TTDCRRRDetails',
+        //        data: { Fromdate: fromDate, Crop: crop, Variety: variety },
+        //        success: function (msg) {
+
+        //            let data = JSON.parse(msg);
+
+        //            for (var i = 0; i < data.length; i++) {
+        //                var j = i + 1;
+        //                //var IndexID = "" + j;
+        //                tblContent = tblContent + '<tr>'
+        //                    + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].ORGN_CODE + '</td>'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].TODAY_OFFERED + '</td>'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_OFFERED + '</td>'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].TODAY_CR + '</td>'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_CR + '</td>'
+        //                    + '<td class="trBg" style="text-align:right;">' + data[i].TODAY_RR + '</td>'
+        //                    + '<td class="trBg" style="text-align:right;">' + data[i].TODATE_RR + '</td>'
+        //                    + '<td class="trBg" style="text-align:right;">' + data[i].TODAY_SOLD + '</td>'
+        //                    + '<td class="trBg" style="text-align:center;">' + data[i].TODATE_SOLD + '</td>'
+        //                    + '</tr >';
+        //            }
+        //            //dt1.destroy();
+        //            $('#dynamic-tabl tbody').empty();
+        //            $('#dynamic-tabl tbody').append(tblContent);
+
+
+
+        //            //if (data.length > 0) {
+        //            //    var dblTodateOffered = "";
+        //            //    var dblTodateCR = "";
+        //            //    var dblTodateRR = "";
+        //            //    var dblTodateSold = "";
+        //            //    var ToTdblTodateOffered = "0";
+        //            //    var ToTdblTodateCR = "0";
+        //            //    var ToTdblTodateRR = "0";
+        //            //    var ToTdblTodateSold = "0";
+        //            //    for (var i = 0; i < data.length; i++) {
+        //            //        var j = i + 1;
+        //            //        dblTodateOffered = (data[i].TODAY_OFFERED == null) ? "0" : data[i].TODAY_OFFERED;
+        //            //        dblTodateCR = (data[i].TODAY_CR == null) ? "0" : data[i].TODAY_CR;
+        //            //        dblTodateRR = (data[i].TODAY_RR == null) ? "0" : data[i].TODAY_RR;
+        //            //        dblTodateSold = (data[i].TODAY_SOLD == null) ? "0" : data[i].TODAY_SOLD;
+
+        //            //        ToTdblTodateOffered = parseFloat(ToTdblTodateOffered) + parseFloat(dblTodateOffered);
+        //            //        ToTdblTodateCR = parseFloat(ToTdblTodateCR) + parseFloat(dblTodateCR);
+        //            //        ToTdblTodateRR = parseFloat(ToTdblTodateRR) + parseFloat(dblTodateRR);
+        //            //        ToTdblTodateSold = parseFloat(ToTdblTodateSold) + parseFloat(dblTodateSold);
+        //            //    }
+        //            //    tblContentLnDet = tblContentLnDet + '<tr>'
+        //            //        + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Total Offered : ' + ToTdblTodateOffered + '  </label></td >'
+        //            //        + '<td class="trBg" style="text-align:center;" ><label>Total CR : ' + ToTdblTodateCR + '  </label></td >'
+        //            //        + '<td class="trBg" style="text-align:center;" ><label>Total RR : ' + ToTdblTodateRR + '  </label></td >'
+        //            //        + '<td class="trBg" style="text-align:center;" ><label>Total Sold : ' + ToTdblTodateSold + ' </label></td >'
+        //            //        + '</tr ></table>';
+        //            //}
+        //            //$('#TTCRRR').empty();
+        //            //$('#TTCRRR').append(tblContentLnDet);
+
+
+
+
+
+        //            var myTable = $('#dynamic-tabl')
+        //              .DataTable({
+        //                  bAutoWidth: false,
+        //                  'order': [[0, 'desc']],
+        //                  "aoColumns": [
+        //                      null, null, null, null, null, null, null, null, null,
+        //                      {},
+        //                  ],
+        //                  select: {
+        //                      style: 'multi'
+        //                  }
+        //              });
+
+        //            new $.fn.dataTable.Buttons(myTable, {
+        //                buttons: [
+        //                        {
+        //                            "extend": "colvis",
+        //                            "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold",
+
+        //                        },
+        //                        {
+        //                            "extend": "copy",
+        //                            "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold"
+        //                        },
+        //                        {
+        //                            "extend": "csv",
+        //                            "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold"
+        //                        },
+        //                        {
+        //                            "extend": "excel",
+        //                            "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold"
+        //                        },
+        //                        {
+        //                            "extend": "pdf",
+        //                            "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold"
+        //                        },
+        //                        {
+        //                            "extend": "print",
+        //                            "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+        //                            "className": "btn btn-white btn-primary btn-bold",
+        //                            autoPrint: false,
+        //                            message: 'This print was produced using the Print button for DataTables'
+        //                        }
+        //                ]
+        //            });
+        //            myTable.buttons().container().appendTo($('.tableTools-container'));
+
+        //            //style the message box
+        //            var defaultCopyAction = myTable.button(1).action();
+        //            myTable.button(1).action(function (e, dt, button, config) {
+        //                defaultCopyAction(e, dt, button, config);
+        //                $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+        //            });
+
+
+        //            var defaultColvisAction = myTable.button(0).action();
+        //            myTable.button(0).action(function (e, dt, button, config) {
+
+        //                defaultColvisAction(e, dt, button, config);
+
+
+        //                if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+        //                    $('.dt-button-collection')
+        //                        .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+        //                        .find('a').attr('href', '#').wrap("<li />")
+        //                }
+        //                $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+        //            });
+
+
+
+        //            setTimeout(function () {
+        //                $($('.tableTools-container')).find('a.dt-button').each(function () {
+        //                    var div = $(this).find(' > div').first();
+        //                    if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+        //                    else $(this).tooltip({ container: 'body', title: $(this).text() });
+        //                });
+        //            }, 2000);
+
+
+
+
+
+        //            myTable.on('select', function (e, dt, type, index) {
+        //                if (type === 'row') {
+        //                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+        //                }
+        //            });
+        //            myTable.on('deselect', function (e, dt, type, index) {
+        //                if (type === 'row') {
+        //                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+        //                }
+        //            });
+
+
+
+
+        //            /////////////////////////////////
+        //            //table checkboxes
+        //            $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+        //            //select/deselect all rows according to table header checkbox
+        //            $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+        //                var th_checked = this.checked;//checkbox inside "TH" table header
+
+        //                $('#dynamic-tabl').find('tbody > tr').each(function () {
+        //                    var row = this;
+        //                    if (th_checked) myTable.row(row).select();
+        //                    else myTable.row(row).deselect();
+        //                });
+        //            });
+
+        //            //select/deselect a row when the checkbox is checked/unchecked
+        //            $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+        //                var row = $(this).closest('tr').get(0);
+        //                if (this.checked) myTable.row(row).deselect();
+        //                else myTable.row(row).select();
+        //            });
+
+
+
+        //            $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+        //                e.stopImmediatePropagation();
+        //                e.stopPropagation();
+        //                e.preventDefault();
+        //            });
+
+        //        },
+        //        error: function (msg) {
+        //            //alert(0); alert(msg);
+        //        }
+
+
+
+
+
+        //    });
+
+
+
+
+        //}
+
+    });
+</script>
+
+
+
+
+

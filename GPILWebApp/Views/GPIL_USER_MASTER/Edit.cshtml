@@ -1,0 +1,159 @@
+﻿@model GPILWebApp.Models.GPIL_USER_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "USER EDIT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>GPIL_USER_MASTER</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @Html.HiddenFor(model => model.USER_ID)
+        @Html.HiddenFor(model => model.CREATED_BY)
+        @Html.HiddenFor(model => model.CREATED_DATE)
+        @Html.HiddenFor(model => model.SYNC_ID)
+        @Html.HiddenFor(model => model.SYNC_PASSWORD)
+        @Html.HiddenFor(model => model.PASSWORD)
+        @Html.HiddenFor(model => model.DESIGNATION)
+        @Html.HiddenFor(model => model.USER_RIGHTS)
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">User Name </label>
+
+                    @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUserName", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">ERP Name </label>
+
+                    @Html.EditorFor(model => model.USER_ERP_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtERPName", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.USER_ERP_NAME, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Employee Code </label>
+
+                    @Html.EditorFor(model => model.EMP_CODE, new { htmlAttributes = new { @class = "form-control", id = "txtEmpCode", minlength = "4", maxlength = "6" } })
+                    @Html.ValidationMessageFor(model => model.EMP_CODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Email ID </label>
+
+                    @Html.EditorFor(model => model.EMAIL_ID, new { htmlAttributes = new { @class = "form-control", id = "txtEmailID", type = "email", minlength = "5", maxlength = "30" } })
+                    @Html.ValidationMessageFor(model => model.EMAIL_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Department </label>
+
+                    @Html.EditorFor(model => model.DEPARTMENT, new { htmlAttributes = new { @class = "form-control", id = "txtDepartment", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.DEPARTMENT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">Mobile Number </label>
+
+                    @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", id = "txtMobNo", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);", type = "number", minlength = "10", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">Status </label>
+
+                    @Html.DropDownListFor(model => model.STATUS, new List<SelectListItem> {
+                    new SelectListItem {Text="Y" ,Value="Y" },
+                    new SelectListItem {Text="N" ,Value="N" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlStatus" })
+                    @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Designation </label>
+
+                    @Html.EditorFor(model => model.DESIGNATION, new { htmlAttributes = new { @class = "form-control", id = "txtDesignation", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.DESIGNATION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <br />
+
+                    <input type="submit" value="Save" style="width:95px" class="btn btn-success btn-sm" />
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <p id="notify" style="display:none"> @TempData["SuccessMessage"]</p>
+
+            </div>
+        </div>
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+<script>
+
+    var mes = document.getElementById("notify").innerHTML
+    if (mes.startsWith("Success", 1)) {
+        sweetAlert("Done", mes, "success");
+        setTimeout(function () {
+            window.location = "/GPIL_USER_MASTER/Index";
+        }, 2000)
+    }
+
+</script>

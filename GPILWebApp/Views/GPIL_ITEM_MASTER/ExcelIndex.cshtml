@@ -1,0 +1,614 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_ITEM_MASTER>
+@{
+    ViewBag.root = "ItemMaster";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+<h2 style="text-align:center; color:#438EB9">Item Master Excel Upload</h2>
+
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                @*<input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />*@
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">ITEM UPLOAD</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            RESULT FOR "ITEM DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto; width:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SNO</th>
+                        <th>ITEM_CODE</th>
+                        <th>ITEM_CODE_GROUP</th>
+                        <th>ITEM_GROUP</th>
+                        <th>ITEM_TYPE</th>
+                        <th>ITEM_DESC</th>
+                        <th>CROP</th>
+                        <th>VARIETY</th>
+                        <th>COST_CATEGORY</th>
+                        <th>ORGN_TYPE</th>
+                        <th>SUBINVENTORY_CODE</th>
+                        <th>BMGL_Grade</th>
+                        <th>HSNCode</th>
+                        <th>STATUS</th>
+                        <th>ADD/EDIT/DELETE</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="loader">
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@*@section scripts{*@
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+
+            var formData = new FormData();
+            if (ExcelIndexList.length > 0) {
+                formData.append('postedFile', ExcelIndexList[0]);
+                GetItemExcel(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+
+        function GetItemExcel(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            // spinner.show();
+            $.ajax({
+                type: 'POST',
+                url: '/GPIL_ITEM_MASTER/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    /* alert(msg)*/
+                    let data = $.parseJSON(msg);
+                    var gethdnITEM_CODE = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var ITEM_CODE = (data[i].ITEM_CODE == null) ? "" : data[i].ITEM_CODE;
+                        gethdnITEM_CODE = ITEM_CODE; // this gives textbox value
+                        var ITEM_CODE_GROUP = (data[i].ITEM_CODE_GROUP == null) ? "" : data[i].ITEM_CODE_GROUP;
+                        var ITEM_GROUP = (data[i].ITEM_GROUP == null) ? "" : data[i].ITEM_GROUP;
+                        var ITEM_TYPE = (data[i].ITEM_TYPE == null) ? "" : data[i].ITEM_TYPE;
+                        var ITEM_DESC = (data[i].ITEM_DESC == null) ? "" : data[i].ITEM_DESC;
+
+                        var CROP = (data[i].CROP == null) ? "" : data[i].CROP;
+                        var VARIETY = (data[i].VARIETY == null) ? "" : data[i].VARIETY;
+                        var COST_CATEGORY = (data[i].COST_CATEGORY == null) ? "" : data[i].COST_CATEGORY;
+                        var ORGN_TYPE = (data[i].ORGN_TYPE == null) ? "" : data[i].ORGN_TYPE;
+                        var SUBINVENTORY_CODE = (data[i].ATTRIBUTE2 == null) ? "" : data[i].ATTRIBUTE2;
+                        var BMGL_Grade = (data[i].ATTRIBUTE3 == null) ? "" : data[i].ATTRIBUTE3;
+                        var HSNCode = (data[i].ATTRIBUTE4 == null) ? "" : data[i].ATTRIBUTE4;
+                        var STATUS = (data[i].STATUS == null) ? "" : data[i].STATUS;
+
+
+
+                        if (ITEM_GROUP != "TBG" && ITEM_GROUP != "BCG" && ITEM_GROUP != "VFG" && ITEM_GROUP != "CLG" && ITEM_GROUP != "ICG" && ITEM_GROUP != "GOG" && ITEM_GROUP != "BYP" && ITEM_GROUP != "PCG" && ITEM_GROUP != "LOSS" || ITEM_GROUP.Length > 3
+                            || SUBINVENTORY_CODE != "BT" && SUBINVENTORY_CODE != "BYP" && SUBINVENTORY_CODE != "CL" && SUBINVENTORY_CODE != "FGD" && SUBINVENTORY_CODE != "FGE" && SUBINVENTORY_CODE != "FW" && SUBINVENTORY_CODE != "GRD" && SUBINVENTORY_CODE != "LOSS" && SUBINVENTORY_CODE != "W" || SUBINVENTORY_CODE.Length > 50
+                            || BMGL_Grade != "B" && BMGL_Grade != "M" && BMGL_Grade != "L" && BMGL_Grade != "G" && BMGL_Grade != "" || BMGL_Grade.Length > 50) {
+
+                            tblContent = tblContent + '<tr style="background-color:#F5405F">'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE + '</span><input class="text" value="' + ITEM_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE_GROUP + '</span><input class="text" value="' + ITEM_CODE_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_GROUP + '</span><input class="text" value="' + ITEM_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_TYPE + '</span><input class="text" value="' + ITEM_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_DESC + '</span><input class="text" value="' + ITEM_DESC + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + CROP + '</span><input class="text" value="' + CROP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + VARIETY + '</span><input class="text" value="' + VARIETY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + COST_CATEGORY + '</span><input class="text" value="' + COST_CATEGORY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ORGN_TYPE + '</span><input class="text" value="' + ORGN_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + SUBINVENTORY_CODE + '</span><input class="text" value="' + SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + BMGL_Grade + '</span><input class="text" value="' + BMGL_Grade + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + HSNCode + '</span><input class="text" value="' + HSNCode + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STATUS + '</span><input class="text" value="' + STATUS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><input class="text1" type="hidden" value="' + ITEM_CODE + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                + '</tr >';
+
+                        }
+
+
+                        else if (ITEM_CODE == "" || ITEM_CODE.length > 20 || ITEM_CODE_GROUP == "" || ITEM_CODE_GROUP.length > 20 ||
+                            CROP == "" || CROP.length > 2 || VARIETY == "" || VARIETY.length > 2 ||
+                            ITEM_TYPE == "" || ITEM_TYPE.Length > 50 || ITEM_DESC == "" || ITEM_DESC.Length > 50 ||
+                            COST_CATEGORY == "" || COST_CATEGORY.Length > 50 || ORGN_TYPE == "" || ORGN_TYPE.Length > 50 || ITEM_GROUP == "" ||
+                            SUBINVENTORY_CODE == "" || BMGL_Grade == "") {
+
+                            tblContent = tblContent + '<tr style="background-color:#F5405F">'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE + '</span><input class="text" value="' + ITEM_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE_GROUP + '</span><input class="text" value="' + ITEM_CODE_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_GROUP + '</span><input class="text" value="' + ITEM_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_TYPE + '</span><input class="text" value="' + ITEM_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_DESC + '</span><input class="text" value="' + ITEM_DESC + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + CROP + '</span><input class="text" value="' + CROP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + VARIETY + '</span><input class="text" value="' + VARIETY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + COST_CATEGORY + '</span><input class="text" value="' + COST_CATEGORY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ORGN_TYPE + '</span><input class="text" value="' + ORGN_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + SUBINVENTORY_CODE + '</span><input class="text" value="' + SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + BMGL_Grade + '</span><input class="text" value="' + BMGL_Grade + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + HSNCode + '</span><input class="text" value="' + HSNCode + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STATUS + '</span><input class="text" value="' + STATUS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><input class="text1" type="hidden" value="' + ITEM_CODE + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                + '</tr >';
+                        }
+                        else {
+                            tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE + '</span><input class="text" value="' + ITEM_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_CODE_GROUP + '</span><input class="text" value="' + ITEM_CODE_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_GROUP + '</span><input class="text" value="' + ITEM_GROUP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_TYPE + '</span><input class="text" value="' + ITEM_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ITEM_DESC + '</span><input class="text" value="' + ITEM_DESC + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + CROP + '</span><input class="text" value="' + CROP + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + VARIETY + '</span><input class="text" value="' + VARIETY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + COST_CATEGORY + '</span><input class="text" value="' + COST_CATEGORY + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ORGN_TYPE + '</span><input class="text" value="' + ORGN_TYPE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + SUBINVENTORY_CODE + '</span><input class="text" value="' + SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + BMGL_Grade + '</span><input class="text" value="' + BMGL_Grade + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + HSNCode + '</span><input class="text" value="' + HSNCode + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STATUS + '</span><input class="text" value="' + STATUS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><input class="text1" type="hidden" value="' + ITEM_CODE + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                + '</tr >';
+
+                        }
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+                    var myTable1 =
+                        $('#dynamic-tabl')
+                            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                            .DataTable({
+                                "bLengthChange": true,
+                                "paging": false,
+                                //"aLengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "ALL"]],
+                                //"iDisplayLength": -1,
+                                //iDisplayLength: 200,
+                                "jQueryUI": true,
+                                bAutoWidth: false,
+                                "sScrollY": "200px",
+                                "sScrollX": "100%",
+                                //"sScrollXInner":"100%",
+                                'order': [[0, 'asc']],
+                                "aoColumns": [
+                                    null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                                    { "bSortable": false },
+
+                                    // { "bSortable": false }
+                                ],
+                                "aaSorting": [],
+
+                                //"bProcessing": true,
+                                //"bServerSide": true,
+                                //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                                //,
+
+                                //"bPaginate": true,
+
+                                //"sScrollX": "100%",
+                                //"sScrollXInner": "120%",
+                                //"bScrollCollapse": true,
+                                //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                                //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                                //"iDisplayLength": 50,
+
+
+                                select: {
+                                    style: 'multi'
+                                }
+                            });
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable1, {
+                        buttons: [
+                            {
+                                "extend": "colvis",
+                                "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                "className": "btn btn-white btn-primary btn-bold",
+                                columns: ':not(:first):not(:last)'
+                            },
+                            {
+                                "extend": "copy",
+                                "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "csv",
+                                "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "excel",
+                                "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "pdf",
+                                "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "print",
+                                "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                "className": "btn btn-white btn-primary btn-bold",
+                                autoPrint: false,
+                                message: 'This print was produced using the Print button for DataTables'
+                            }
+                        ]
+                    });
+                    myTable1.buttons().container().appendTo($('.tableTools-container1'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable1.button(1).action();
+                    myTable1.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable1.button(0).action();
+                    myTable1.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                                .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                                .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable1.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable1.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable1.row(row).select();
+                            else myTable1.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable1.row(row).deselect();
+                        else myTable1.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+        $('#btnComplete').on('click', function () {
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+            /*alert(ExcelIndexList)*/
+            if (ExcelIndexList.length > 0) {
+                var LIM = {};
+                var ItemMasters = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+                    var row = $(this);
+                    var GPIL_ITEM_MASTER = {};
+                    GPIL_ITEM_MASTER.SNO = row.find("td:eq(0)")[0].innerText;
+                    GPIL_ITEM_MASTER.ITEM_CODE = row.find("td:eq(1)")[0].innerText;
+                    GPIL_ITEM_MASTER.ITEM_CODE_GROUP = row.find("td:eq(2)")[0].innerText;
+                    GPIL_ITEM_MASTER.ITEM_GROUP = row.find("td:eq(3)")[0].innerText;
+                    GPIL_ITEM_MASTER.ITEM_TYPE = row.find("td:eq(4)")[0].innerText;
+                    GPIL_ITEM_MASTER.ITEM_DESC = row.find("td:eq(5)")[0].innerText;
+
+                    GPIL_ITEM_MASTER.CROP = row.find("td:eq(6)")[0].innerText;
+                    GPIL_ITEM_MASTER.VARIETY = row.find("td:eq(7)")[0].innerText;
+                    GPIL_ITEM_MASTER.COST_CATEGORY = row.find("td:eq(8)")[0].innerText;
+                    GPIL_ITEM_MASTER.ORGN_TYPE = row.find("td:eq(9)")[0].innerText;
+                    GPIL_ITEM_MASTER.ATTRIBUTE2 = row.find("td:eq(10)")[0].innerText;
+                    GPIL_ITEM_MASTER.ATTRIBUTE3 = row.find("td:eq(11)")[0].innerText;
+                    GPIL_ITEM_MASTER.ATTRIBUTE4 = row.find("td:eq(12)")[0].innerText;
+                    GPIL_ITEM_MASTER.STATUS = row.find("td:eq(13)")[0].innerText;
+
+
+
+
+                    ItemMasters.push(GPIL_ITEM_MASTER);
+                });
+
+                if (ItemMasters.length > 0) {
+                    LIM.ItemMasters = ItemMasters;
+
+                    //var i = 0;
+                    //var j = 0;
+                    //for (i = 0; ItemMasters.length < j; )
+                    //var i = 0;
+
+                    //for (i=0; i < ItemMasters.length; i +50) {
+                    //    LIM.ItemMasters = ItemMasters.slice(i, i + 50 > ItemMasters.length ? ItemMasters.length : i + 50);
+
+                    //    i = i + 50;
+
+                    //Send the JSON array to Controller using AJAX.
+                    spinner.show();
+                    $.ajax({
+                        type: "POST",
+                        //async: false,
+                        url: "/GPIL_ITEM_MASTER/ItemMasterComplete",
+                        data: JSON.stringify(LIM),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+
+                        success: function (response) {
+
+                            if (response.startsWith("Error", 1)) {
+                                sweetAlert("Oops...!!!", response, "error");
+                                //bootstrap_alert.warning(response, "error");
+                                spinner.hide();
+                            }
+                            else {
+                                if (response.startsWith("Error", 1)) {
+                                    sweetAlert("Oops...!!!", response, "error");
+                                    //bootstrap_alert.warning(response, "error");
+                                }
+                                else if (response.startsWith("Succuss", 1)) {
+                                    sweetAlert("Done", response, "success");
+
+                                    window.location = "/GPIL_ITEM_MASTER/Index";
+                                    //bootstrap_alert.warning('Succussful', "success");
+                                }
+                                spinner.hide();
+                            }
+                        },
+                        //error: function (response) {
+
+                        //    if (response.startsWith("Error")) {
+                        //        bootstrap_alert.warning(response, "error");
+                        //    }
+                        //    //bootstrap_alert.warning(response.responseText, "error");
+                        //}
+                    });
+                    // }
+                } else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+
+        });
+
+    });
+
+
+</script>
+
+
+@*}*@

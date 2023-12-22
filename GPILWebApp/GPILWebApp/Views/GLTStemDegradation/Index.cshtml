@@ -1,0 +1,498 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">STEM DEGRADATION</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>From Date</label>
+            <input class="form-control" id="txtFromDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>To Date</label>
+            <input class="form-control" id="txtToDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>CROP</label>
+            <select class="form-control" id="ddlCropCode">
+                <option value="0">SELECT CROP CODE</option>
+            </select>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Scrap Grade</label>
+            <select class="form-control" id="ddlGrade">
+                <option value="0">SELECT GRADE</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Variety</label>
+            <select class="form-control" id="ddlVariety">
+                <option value="0">SELECT VARIETY CODE</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Lamia Grade</label>
+            <select class="form-control" id="ddlLamiaGrade">
+                <option value="0">SELECT LAMIA GRADE</option>
+            </select>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+        @*<button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>*@
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Stem Verification Report List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container1"></div>
+        </div>
+        <div class="table-header">
+            Results for "STEM VERIFICATION REPORT VERIFICATION"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+
+                        <th>Crop</th>
+                        <th>Variety</th>
+                        <th>Lamia Grade</th>
+                        <th>Grade</th>
+                        <th>Date</th>
+                        <th>Case No</th>
+                        <th>Time</th>
+                        <th>Total Length</th>
+                        <th>No of Stem Pieces</th>
+                        <th>Avg Stem Length</th>
+                        <th>Stem Weight</th>
+                        <th>>3/32(%)</th>
+                        <th>Lesser than 3/32(%)</th>
+                        <th>Sand & Dust (%)</th>
+                        <th>No of Total Stem Pieces</th>
+                        <th>Lesser than 1/2 Stem Pieces(%)</th>
+                        <th>ListSubsidyMaster</th>
+                        <th>>4 Stem Pieces</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+        GetCropCode();
+        GetScrabCode();
+        GetVarietyCode();
+        GetLamiaGrade();
+        function GetCropCode() {
+            $('#ddlCropCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTStemDegradation/CropCode',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Crop + '</option>';
+                    }
+                    $('#ddlCropCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        function GetScrabCode() {
+            $('#ddlGrade').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT SCRAP GRADE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTStemDegradation/ScrapGrade',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Grade + '</option>';
+                    }
+                    $('#ddlGrade').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        function GetVarietyCode() {
+            $('#ddlVariety').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT VARIETY CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTStemDegradation/VarietyCode',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Variety + '</option>';
+                    }
+                    $('#ddlVariety').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        function GetLamiaGrade() {
+            $('#ddlLamiaGrade').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT LAMIA GRADE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTStemDegradation/LamiaGrade',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].LamiaGrade + '</option>';
+                    }
+                    $('#ddlLamiaGrade').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var FromDateList = $('#txtFromDate').val();
+            FromDateList = (FromDateList == "0") ? "" : FromDateList;
+            var ToDateList = $('#txtToDate').val();
+            ToDateList = (ToDateList == "0") ? "" : ToDateList;
+            var CropYearList = $('#ddlCropCode').val();
+            CropYearList = (CropYearList == "0") ? "" : CropYearList;
+            var GradeList = $('#ddlGrade').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+            var LamiaGradeList = $('#ddlLamiaGrade').val();
+            LamiaGradeList = (LamiaGradeList == "0") ? "" : LamiaGradeList;
+            GetStemDegradationReport(FromDateList, ToDateList, CropYearList, GradeList, VarietyList, LamiaGradeList);
+        });
+
+
+        function GetStemDegradationReport(FromDate, ToDate, CropYear, Grade, Variety, LamiaGrade) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'GET',
+                url: '/GLTStemDegradation/getStemDegradationReport',
+                data: { fromDate: FromDate, toDate: ToDate, cropYear: CropYear, grade: Grade, variety: Variety, lamiaGrade: LamiaGrade },
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.length; i++) {
+
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg">' + data[i].Crop + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].Variety + '</td>'
+                            + '<td class="trBg">' + data[i].LamiaGrade + '</td>'
+                            + '<td class="trBg">' + data[i].Grade + '</td>'
+                            + '<td class="trBg">' + data[i].Date + '</td>'
+                            + '<td class="trBg">' + data[i].CaseNo + '</td>'
+                            + '<td class="trBg">' + data[i].TimeStem + '</td>'
+                            + '<td class="trBg">' + data[i].TotalLength + '</td>'
+                            + '<td class="trBg">' + data[i].NoofStemPieces + '</td>'
+                            + '<td class="trBg">' + data[i].AvgStemLength + '</td>'
+                            + '<td class="trBg">' + data[i].StemWeight + '</td>'
+                            + '<td class="trBg">' + data[i].G3_32Percent + '</td>'
+                            + '<td class="trBg">' + data[i].L3_32Percent + '</td>'
+                            + '<td class="trBg">' + data[i].SandnDustPercent + '</td>'
+                            + '<td class="trBg">' + data[i].NoofTotalStemPieces + '</td>'
+                            + '<td class="trBg">' + data[i].L1_2StemPiecesPercent + '</td>'
+                            + '<td class="trBg">' + data[i].G1_2to4StemPiecesPercent + '</td>'
+                            + '<td class="trBg">' + data[i].G4StemPiecesPercent + '</td>'
+                            
+                            + '</tr >';
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+
+
+                    $('#dynamic-tabl').DataTable({
+                        "bLengthChange": true,
+                        "paging": true,
+                        "jQueryUI": true,
+                        bAutoWidth: false,
+                        'order': [[0, 'asc']],
+                        "aoColumns": [
+                            null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                            { "bSortable": false },
+
+                            // { "bSortable": false }
+                        ],
+                        "aaSorting": [],
+
+                        //"bProcessing": true,
+                        //"bServerSide": true,
+                        //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                        //,
+                        //"sScrollY": "200px",
+                        // "bPaginate": true,
+
+                        //"sScrollX": "100%",
+                        //"sScrollXInner": "120%",
+                        //"bScrollCollapse": true,
+                        //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                        //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                        //"iDisplayLength": 50,
+
+
+                        select: {
+                            style: 'multi'
+                        }
+                    });
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                            {
+                                "extend": "colvis",
+                                "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                "className": "btn btn-white btn-primary btn-bold",
+                                columns: ':not(:first):not(:last)'
+                            },
+                            {
+                                "extend": "copy",
+                                "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "csv",
+                                "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "excel",
+                                "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "pdf",
+                                "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                "className": "btn btn-white btn-primary btn-bold"
+                            },
+                            {
+                                "extend": "print",
+                                "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                "className": "btn btn-white btn-primary btn-bold",
+                                autoPrint: false,
+                                message: 'This print was produced using the Print button for DataTables'
+                            }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container1'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable.button(1).action();
+                    myTable.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable.button(0).action();
+                    myTable.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                                .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                                .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable.row(row).select();
+                            else myTable.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable.row(row).deselect();
+                        else myTable.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+                },
+
+
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        }
+
+
+    });
+
+</script>

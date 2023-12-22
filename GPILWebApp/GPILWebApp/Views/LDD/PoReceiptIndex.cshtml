@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "PoReceiptIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">PO RECEIPT</h2>
+<hr />
+
+
+
+
+
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>CROP</label>
+            @Html.DropDownList("CROP_YEAR", new SelectList(ViewBag.GPIL_CROP_MASTERs, "CROP_YEAR", "CROP_YEAR"), "Please select", new { @id = "ddlCropYear", @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>InVoice No</label>
+            <input class="form-control" id="txtInvoiceNo" ontextchanged="" />
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            @*<label>ITEM_CODE</label>
+                @Html.DropDownList("ITEM_CODE", new SelectList(ViewBag.GPIL_ITEM_MASTERs, "ITEM_CODE", "ITEM_CODE"), "Please select", new { @id = "ddlItemCode", @class = "form-control" })*@
+
+            <label>ITEM_CODE</label>
+            <select class="form-control" id="ddlItemCode">
+                <option value="0">SELECT ITEM CODE</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>InVoice Date</label>
+            <input class="form-control" id="txtGpi" type="date" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Po No</label>
+            <input class="form-control" id="txtPoNo" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>SUPPLIER NAME</label>
+            @Html.DropDownList("SUPP_NAME", new SelectList(ViewBag.GPIL_SUPPLIER_MASTERs, "SUPP_NAME", "SUPP_NAME"), "Please select", new { @id = "ddlSupplierName", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Quantity</label>
+            <input class="form-control" id="txtQuantity" ontextchanged="" />
+            @*<label id="lblExStock">0.0</label>*@
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Total Amount</label>
+            <input class="form-control" id="txtTotalAmount" ontextchanged="" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Amount</label>
+            <input class="form-control" id="txtAmount" ontextchanged="" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>GST Value</label>
+            <input class="form-control" id="txtGstValaue" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>CGST & SGST %</label>
+            <input class="form-control" id="txtCgstSgst" ontextchanged="" />
+
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>IGST Value</label>
+            <input class="form-control" id="txtIGSTValue" ontextchange="" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>IGST %</label>
+            <input class="form-control" id="txtIgst" ontextchange="" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Toatal Amount INR</label>
+            <input class="form-control" id="txtTotAmountINR" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+
+<div class="row">
+
+
+    <input type="submit" value="Submit" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+
+    <input type="submit" value="Clear" id="btnClear" style="width:95px" class="btn btn-success btn-sm" />
+
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("POReciptExcelIndex", "LDD") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+
+
+
+        $("#ddlCropYear").on('change', function (event) {
+            $('#ddlItemCode').empty();
+            var CropYr = $('#ddlCropYear').val();
+            GetItemCode(CropYr);
+        });
+
+
+        function GetItemCode(ItemName) {
+            $('#ddlItemCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ITEM CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/ItemCode',
+                data: { itemName: ItemName },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].ITEM_CODE + '">' + data[i].ITEM_CODE + '</option>';
+                    }
+                    $('#ddlItemCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+    });
+
+
+</script>
+
+

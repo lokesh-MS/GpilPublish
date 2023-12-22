@@ -1,0 +1,216 @@
+﻿@model GPILWebApp.Models.GPIL_TAP_FARM_PURCHS_DTLS
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Invoice Verification Creation</h2>
+<hr />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @*<h4>Invoice Verification Creation</h4>
+            <hr />*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*GPIL BALE NUMBER </label>
+                    @Html.EditorFor(model => model.GPIL_BALE_NUMBER, new { htmlAttributes = new { @class = "form-control", id = "txtGPIL_BALE_NUMBER", minlength = "13", maxlength = "13", @onchange = "UserIDCheck();" } })
+                    @Html.ValidationMessageFor(model => model.GPIL_BALE_NUMBER, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*TB LOT NO </label>
+                    @Html.EditorFor(model => model.TB_LOT_NO, new { htmlAttributes = new { @class = "form-control", id = "txtTB_LOT_NO", type = "number" } })
+                    @Html.ValidationMessageFor(model => model.TB_LOT_NO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*TBGR NO</label>
+                    @Html.EditorFor(model => model.TBGR_NO, new { htmlAttributes = new { @class = "form-control", id = "txtTBGR_NO" } })
+                    @Html.ValidationMessageFor(model => model.TBGR_NO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*TB GRADE </label>
+                    @Html.EditorFor(model => model.TB_GRADE, new { htmlAttributes = new { @class = "form-control", id = "txtTB_GRADE" } })
+                    @Html.ValidationMessageFor(model => model.TB_GRADE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*NET WT</label>
+                    @Html.EditorFor(model => model.NET_WT, new { htmlAttributes = new { @class = "form-control", id = "txtNET_WT", type = "number", step = "0.01" } })
+                    @Html.ValidationMessageFor(model => model.NET_WT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*RATE</label>
+                    @Html.EditorFor(model => model.RATE, new { htmlAttributes = new { @class = "form-control", id = "txtRATE", type = "number", step = "0.01" } })
+                    @Html.ValidationMessageFor(model => model.RATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*BUYER GRADE</label>
+                    @Html.EditorFor(model => model.BUYER_GRADE, new { htmlAttributes = new { @class = "form-control", id = "txtBUYER_GRADE" } })
+                    @Html.ValidationMessageFor(model => model.BUYER_GRADE, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">REJE TYPE</label>
+                    @Html.DropDownListFor(model => model.REJE_TYPE, new List<SelectListItem> {
+                    new SelectListItem {Text="CR" ,Value="CR" },
+                    new SelectListItem {Text="RR" ,Value="RR" },
+                    new SelectListItem {Text="NONE" ,Value="NONE" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlREJE_TYPE" })
+                    @Html.ValidationMessageFor(model => model.REJE_TYPE, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*PATTA CHARGE</label>
+                    @Html.EditorFor(model => model.PATTA_CHARGE, new { htmlAttributes = new { @class = "form-control", id = "txtPATTA_CHARGE", type = "number" } })
+                    @Html.ValidationMessageFor(model => model.PATTA_CHARGE, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label"></label>
+                    <br />
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <br />
+                    <input type="submit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+                    <input type="button" id="btnClear" value="Clear" style="width:95px" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <p id="notify" style="display:none"> @TempData["SuccessMessage"]</p>
+
+            </div>
+        </div>
+
+    </div>
+
+}
+<div>
+    @Html.ActionLink("Back to List", "InvoiceVerifyIndex")
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+<script>
+    var mes = document.getElementById("notify").innerHTML
+    if (mes.startsWith("Success", 1)) {
+        sweetAlert("Done", mes, "success");
+        setTimeout(function () {
+            window.location = "/InvoiceVerify/InvoiceVerifyIndex";
+
+        }, 2000)
+    }
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+    });
+        function UserIDCheck() {
+            var BaleNumber = $("#txtGPIL_BALE_NUMBER").val();
+            $.ajax({
+                url: '@Url.Action("CheckBaleAvailability", "InvoiceVerify")',
+                type: "POST",
+                datatype: 'json',
+                data: { 'Baledata': BaleNumber },
+                success: function (data) {
+                    if (data.startsWith("Error", 1)) {
+                        //bootstrap_alert.warning(msg, "error");
+                        alert('Bale Number Already Exist');
+                    }
+                    else if (data.startsWith("error", 1)) {
+                        bootstrap_alert.warning(data, "error");
+                        $("#txtGPIL_BALE_NUMBER").focus();
+                    }
+                    else if (data.startsWith("Success", 1)) {
+                        //alert('You Can Use This Bale Number');
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning(data, "success");
+                        //Clear();//
+                    }
+                },
+                error: function () { alert("Huh? What? What did you need?.") }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#btnClear').on('click', function (event) {
+
+                $("#txtGPIL_BALE_NUMBER").val('');
+                $('#txtTB_LOT_NO').val('');
+                $('#txtTBGR_NO').val('');
+                $('#txtTB_GRADE').val('');
+                $('#txtNET_WT').val('');
+                $('#txtRATE').val('');
+                $('#txtBUYER_GRADE').val('');
+                $('#ddlREJE_TYPE').val('');
+                $('#txtPATTA_CHARGE').val('');
+
+            });
+
+
+        });
+
+
+
+
+</script>

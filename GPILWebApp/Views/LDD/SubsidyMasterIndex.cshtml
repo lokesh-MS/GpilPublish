@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "SubsidyMasterIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">SUBSIDY MASTER</h2>
+<hr />
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>CROP</label>
+            @Html.DropDownList("CROP_YEAR", new SelectList(ViewBag.GPIL_CROP_MASTERs, "CROP_YEAR", "CROP_YEAR"), "SELECT CROP", new { @id = "ddlCropYear", @class = "form-control" })
+        </div>
+    </div>
+    @*<div class="col-md-4">
+            <div class="sm-3">
+                <label>ITEM_CODE</label>
+                @Html.DropDownList("ITEM_CODE", new SelectList(ViewBag.GPIL_ITEM_MASTERs, "ITEM_CODE", "ITEM_CODE"), "Please select", new { @id = "ddlItemCode", @class = "form-control" })
+            </div>
+        </div>*@
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>ITEM_CODE </label>
+            <select class="form-control" id="ddlItemCode">
+                <option value="0">SELECT ITEM CODE</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>GPI</label>
+            <input class="form-control" id="txtGpi" minlength="2" maxlength="20" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>PMI</label>
+            <input class="form-control" id="txtPmi" minlength="2" maxlength="20" />
+
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Farmer</label>
+            <input class="form-control" id="txtFarmer" minlength="2" maxlength="20" />
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+
+            <input type="submit" value="Submit" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+
+            <input type="submit" value="Clear" id="btnClear" style="width:95px" class="btn btn-sm btn-danger" />
+
+            <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("SubsidyMasterExcelIndex", "LDD") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+        $('#btnSubmit').on('click', function (event) {
+            var CropList = $('#ddlCropYear').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var ItemCodeList = $('#ddlItemCode').val();
+            ItemCodeList = (ItemCodeList == "0") ? "" : ItemCodeList;
+            var GpiList = $('#txtGpi').val();
+            GpiList = (GpiList == "0") ? "" : GpiList;
+            var PmiList = $('#txtPmi').val();
+            PmiList = (PmiList == "0") ? "" : PmiList;
+            var FarmerList = $('#txtFarmer').val();
+            FarmerList = (FarmerList == "0") ? "" : FarmerList;
+
+            InsertSubsidyMasterDetails(CropList, ItemCodeList, GpiList, PmiList, FarmerList);
+        });
+
+
+
+        function InsertSubsidyMasterDetails(Crop, ItemCode, Gpi, Pmi, Farmer) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/LDD/InsertSubsidyMaster',
+                data: { crop: Crop, itemCode: ItemCode, gpi: Gpi, pmi: Pmi, farmer: Farmer },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning(msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+        ItemCode();
+        function ItemCode() {
+            $('#ddlItemCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ITEM CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/GetItemCode',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].ItemCode + '</option>';
+                    }
+                    $('#ddlItemCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+
+
+        $('#btnClear').on('click', function (event) {
+
+            $("#ddlCropYear").val('');
+            $('#ddlItemCode').val('');
+            $('#txtGpi').val('');
+            $('#txtPmi').val('');
+            $('#txtFarmer').val('');
+
+
+        });
+    });
+
+
+</script>

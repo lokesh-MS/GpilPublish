@@ -1,0 +1,225 @@
+﻿@model GPILWebApp.ViewModel.QualityLab
+@{
+    ViewBag.Root = "Quality Lab";
+    ViewBag.Title = "ManualIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">CREATE CHEMISTRY DATA</h2>
+<hr />
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <label>DOP</label>
+        <input class="form-control" id="txtDateOfTime" type="date" />
+    </div>
+    <div class="col-md-4">
+        <label>CROP</label>
+        @Html.DropDownList("Crop", new SelectList(ViewBag.GPIL_Chemical_Target, "Crop", "Crop"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+    </div>
+    <div class="col-md-4">
+        <label>TYPE</label>
+        <select class="form-control" id="ddlType">
+            <option value="0">SELECT TYPE</option>
+            <option value="NRL">NRL</option>
+            <option value="RTL">RTL</option>
+            <option value="RECON">RECON</option>
+            <option value="NRBy ProductL">By Product</option>
+            <option value="Picking">Picking</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label>GRADE</label>
+        @Html.DropDownList("Grade", new SelectList(ViewBag.GPIL_Chemical_Targetss, "Grade", "Grade"), "Please select", new { @id = "ddlGrade", @class = "form-control" })
+    </div>
+    <div class="col-md-4">
+        <label>VARIETY</label>
+        @Html.DropDownList("Variety", new SelectList(ViewBag.GPIL_Chemical_Targets, "Variety", "Variety"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+    </div>
+    <div class="col-md-4">
+        <label>EXPORT TYPE</label>
+        <select class="form-control" id="ddlExportType">
+            <option value="0">SELECT EXPORT TYPE</option>
+            <option value="Domestic">Domestic</option>
+            <option value="Export">Export</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label>MARK</label>
+        <input class="form-control" id="txtMark" type="text" />
+    </div>
+    <div class="col-md-4">
+        <label>PRODUCT</label>
+        <input class="form-control" id="txtProduct" type="text" />
+    </div>
+    <div class="col-md-4">
+        <label>Source_Organization</label>
+        <input class="form-control" id="txtSourceOrganization" type="text" />
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label>From_No</label>
+        <input class="form-control" id="txtFromNo" type="text" />
+    </div>
+    <div class="col-md-4">
+        <label>To_No</label>
+        <input class="form-control" id="txtToNo" type="text" />
+    </div>
+    <div class="col-md-4">
+        <label>TRS</label>
+        <input class="form-control" id="txtTrs" type="text" />
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>CL</label>
+            <input class="form-control" id="txtCl" type="text" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>NIC</label>
+            <input class="form-control" id="txtNic" type="text" />
+            <label>Range</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Moisture_Percentage  </label>
+            <div>
+                <input class="form-control" id="txtMoisturePercentage" type="text" />
+                <label>Range</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        @*<div class="col-md-offset-2 col-md-10">*@
+        <br />
+        <input type="submit" id="btnSubmit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+        @Html.ActionLink("Back to List", "Index")
+        @*<input type="button" id="btnView" value="Cancel" style="width:95px" onclick=@("window.location.href='" + @Url.Action("Index", "GPIL_ITEM_MASTER") + "'") ; class="btn btn-primary btn-sm" />*@
+    </div>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+
+
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+        //txtDateOfTime        ddlCrop        ddlType        ddlGrade        ddlVariety        ddlExportType
+        //txtMark        txtProduct        txtSourceOrganization        txtFromNo        txtToNo
+        //txtTrs        txtCl        txtNic        txtMoisturePercentage
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var DateOfTimeList = $('#txtDateOfTime').val();
+            DateOfTimeList = (DateOfTimeList == "0") ? "" : DateOfTimeList;
+            var CropList = $('#ddlCrop').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var TypeList = $('#ddlType').val();
+            TypeList = (TypeList == "0") ? "" : TypeList;
+            var GradeList = $('#ddlGrade').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+            var ExportTypeList = $('#ddlExportType').val();
+            ExportTypeList = (ExportTypeList == "0") ? "" : ExportTypeList;
+            var MarkList = $('#txtMark').val();
+            MarkList = (MarkList == "0") ? "" : MarkList;
+            var ProductList = $('#txtProduct').val();
+            ProductList = (ProductList == "0") ? "" : ProductList;
+            var SourceOrgnList = $('#txtSourceOrganization').val();
+            SourceOrgnList = (SourceOrgnList == "0") ? "" : SourceOrgnList;
+            var FromNoList = $('#txtFromNo').val();
+            FromNoList = (FromNoList == "0") ? "" : FromNoList;
+            var ToNoList = $('#txtToNo').val();
+            ToNoList = (ToNoList == "0") ? "" : ToNoList;
+            var TrsList = $('#txtTrs').val();
+            TrsList = (TrsList == "0") ? "" : TrsList;
+            var ClList = $('#txtCl').val();
+            ClList = (ClList == "0") ? "" : ClList;
+            var NicList = $('#txtNic').val();
+            NicList = (NicList == "0") ? "" : NicList;
+            var MoisturePerList = $('#txtMoisturePercentage').val();
+            MoisturePerList = (MoisturePerList == "0") ? "" : MoisturePerList;
+            GetInsertQualityLabDetails(DateOfTimeList, CropList, TypeList, GradeList, VarietyList, ExportTypeList, MarkList, ProductList, SourceOrgnList, FromNoList, ToNoList, TrsList, ClList, NicList, MoisturePerList);
+        });
+
+
+
+        function GetInsertQualityLabDetails(DateOfTime, Crop, Type, Grade, Variety, ExportType, Mark, Product, SourceOrgn, FromNo, ToNo, Trs, Cl, Nic, MoisturePer) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/QualityLab/InsertQualityData',
+                data: { dateOfTime: DateOfTime, crop: Crop, type: Type, grade: Grade, variety: Variety, exportType: ExportType, mark: Mark, product: Product, sourceOrgn: SourceOrgn, fromNo: FromNo, toNo: ToNo, trs: Trs, cl: Cl, nic: Nic, moisturePer: MoisturePer },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+
+
+    });
+
+
+
+
+</script>

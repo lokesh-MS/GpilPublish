@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Root = "WMS";
+    ViewBag.Title = "ViewPrintAllocationIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align:center; color:#438EB9">View Print Allocation</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label" style="text-align:center; color:#438EB9">Location Code</label>
+            <div class="input-group">
+                @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Date Of Packing</label>
+            <div>
+                <input class="form-control date-picker" id="txtDateOfPacking" type="date" data-date-format="dd-mm-yyyy" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+
+
+
+    });
+
+</script>
+

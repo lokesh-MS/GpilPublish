@@ -1,0 +1,444 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.GLTLaminaMoisture>
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+<h2 style="text-align:center; color:#438EB9">LUMINA MOISTURE EXCEL UPLOAD</h2>
+<hr />
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        @*<h3 class="header smaller lighter blue">OLD PACKED STOCK LOADER</h3>*@
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "LAMINA MOISTURE DATA"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Type</th>
+                        <th>Grade</th>
+                        <th>Date</th>
+                        <th>Sample_Time</th>
+                        <th>Run_No</th>
+                        <th>Run_Case</th>
+                        <th>Time_In</th>
+                        <th>Time_Out</th>
+                        <th>Results</th>
+                        <th>Packed_Temp</th>
+                        <th>Grinding_Start_Time</th>
+                        <th>Grinding_Stop_Time</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+
+
+        $('#btnCreate').on('click', function (event) {
+
+            //var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            //window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var LuminaMoistureList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (LuminaMoistureList.length > 0) {
+                formData.append('postedFile', LuminaMoistureList[0]);
+                GetLaminaMoisture(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+        function GetLaminaMoisture(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'POST',
+                url: '/GLTLaminaMoisture/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+
+                        var Crop = (data[i].Crop == null) ? "" : data[i].Crop;
+                        var Type = (data[i].Type == null) ? "" : data[i].Type;
+                        var Grade = (data[i].Grade == null) ? "" : data[i].Grade;
+                        var Date = (data[i].Date == null) ? "" : data[i].Date;
+                        var Sample_Time = (data[i].Sample_Time == null) ? "" : data[i].Sample_Time;
+                        var Run_No = (data[i].Run_No == null) ? "" : data[i].Run_No;
+                        var Run_Case = (data[i].Run_Case == null) ? "" : data[i].Run_Case;
+                        var Time_In = (data[i].Time_In == null) ? "" : data[i].Time_In;
+                        var Time_Out = (data[i].Time_Out == null) ? "" : data[i].Time_Out;
+                        var Results = (data[i].Results == null) ? "" : data[i].Results;
+
+                        var Packed_Temp = (data[i].Packed_Temp == null) ? "" : data[i].Packed_Temp;
+                        var Grinding_Start_Time = (data[i].Grinding_Start_Time == null) ? "" : data[i].Grinding_Start_Time;
+                        var Grinding_Stop_Time = (data[i].Grinding_Stop_Time == null) ? "" : data[i].Grinding_Stop_Time;
+
+
+
+
+
+
+
+                        if (Crop == "" || Type == "" || Grade == "" || Date == "" || Sample_Time == "" || Run_No == "" || Run_Case == "" || Time_In == "" ||
+                            Time_Out == "" || Results == "" || Packed_Temp == "" || Grinding_Start_Time == "" || Grinding_Stop_Time == "") {
+                            tblContent = tblContent + '<tr style="background-color:#F5405F">'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg"><span class="trBg">' + Crop + '</span><input class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Type + '</span><input class="text" value="' + Type + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Grade + '</span><input class="text" value="' + Grade + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Date + '</span><input class="text" value="' + Date + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Sample_Time + '</span><input class="text" value="' + Sample_Time + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Run_No + '</span><input class="text" value="' + Run_No + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Run_Case + '</span><input class="text" value="' + Run_Case + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Time_In + '</span><input class="text" value="' + Time_In + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Time_Out + '</span><input class="text" value="' + Time_Out + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Results + '</span><input class="text" value="' + Results + '" style="display:none" /></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + Packed_Temp + '</span><input class="text" value="' + Packed_Temp + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Grinding_Start_Time + '</span><input class="text" value="' + Grinding_Start_Time + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Grinding_Stop_Time + '</span><input class="text" value="' + Grinding_Stop_Time + '" style="display:none" /></span></td>'
+
+
+                            + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                        } else {
+                                    tblContent = tblContent + '<tr>'
+                                    + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                    + '<td class="trBg"><span class="trBg">' + Crop + '</span><input class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Type + '</span><input class="text" value="' + Type + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Grade + '</span><input class="text" value="' + Grade + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Date + '</span><input class="text" value="' + Date + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Sample_Time + '</span><input class="text" value="' + Sample_Time + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Run_No + '</span><input class="text" value="' + Run_No + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Run_Case + '</span><input class="text" value="' + Run_Case + '" style="display:none"/></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Time_In + '</span><input class="text" value="' + Time_In + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Time_Out + '</span><input class="text" value="' + Time_Out + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Results + '</span><input class="text" value="' + Results + '" style="display:none" /></span></td>'
+
+                                    + '<td class="trBg"><span class="trBg">' + Packed_Temp + '</span><input class="text" value="' + Packed_Temp + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Grinding_Start_Time + '</span><input class="text" value="' + Grinding_Start_Time + '" style="display:none" /></span></td>'
+                                    + '<td class="trBg"><span class="trBg">' + Grinding_Stop_Time + '</span><input class="text" value="' + Grinding_Stop_Time + '" style="display:none" /></span></td>'
+
+
+                                    + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                    + '</tr >';
+                        }
+
+
+
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+
+                    var myTable1 =
+                        $('#dynamic-tabl')
+                            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                            .DataTable({
+                                "bLengthChange": true,
+                                "paging": false,
+                                //"aLengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "ALL"]],
+                                //"iDisplayLength": -1,
+                                //iDisplayLength: 200,
+                                "jQueryUI": true,
+                                bAutoWidth: false,
+                                "sScrollY": "200px",
+                                "sScrollX": "100%",
+                                //"sScrollXInner":"100%",
+                                'order': [[0, 'asc']],
+                                "aoColumns": [
+                                    null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                                    { "bSortable": false },
+
+                                    // { "bSortable": false }
+                                ],
+                                "aaSorting": [],
+
+                                //"bProcessing": true,
+                                //"bServerSide": true,
+                                //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                                //,
+
+                                //"bPaginate": true,
+
+                                //"sScrollX": "100%",
+                                //"sScrollXInner": "120%",
+                                //"bScrollCollapse": true,
+                                //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                                //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                                //"iDisplayLength": 50,
+
+
+                                select: {
+                                    style: 'multi'
+                                }
+                            });
+                },
+
+
+
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+
+
+            });
+        }
+
+
+
+
+
+        $('#btnComplete').on('click', function () {
+            var LuminaMoistureList = $("#txtExcelData").get(0).files;
+            if (LuminaMoistureList.length > 0) {
+                var LGLM = {};
+                var GLTLaminaMoistures = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+                    var row = $(this);
+                    var GLTLaminaMoisture = {};
+                    GLTLaminaMoisture.SNO = row.find("td:eq(0)")[0].innerText;
+                    GLTLaminaMoisture.Crop = row.find("td:eq(1)")[0].innerText;
+                    GLTLaminaMoisture.Type = row.find("td:eq(2)")[0].innerText;
+                    GLTLaminaMoisture.Grade = row.find("td:eq(3)")[0].innerText;
+                    GLTLaminaMoisture.Date = row.find("td:eq(4)")[0].innerText;
+                    GLTLaminaMoisture.SampleTime = row.find("td:eq(5)")[0].innerText;
+
+                    GLTLaminaMoisture.RunNo = row.find("td:eq(6)")[0].innerText;
+                    GLTLaminaMoisture.RunCaseNo = row.find("td:eq(7)")[0].innerText;
+                    GLTLaminaMoisture.TimeIn = row.find("td:eq(8)")[0].innerText;
+                    GLTLaminaMoisture.TimeOut = row.find("td:eq(9)")[0].innerText;
+                    GLTLaminaMoisture.Results = row.find("td:eq(10)")[0].innerText;
+                    GLTLaminaMoisture.PackedTemp = row.find("td:eq(11)")[0].innerText;
+                    GLTLaminaMoisture.GrindingStartTIme = row.find("td:eq(12)")[0].innerText;
+                    GLTLaminaMoisture.GrindingEndTIme = row.find("td:eq(13)")[0].innerText;
+
+
+
+
+                    GLTLaminaMoistures.push(GLTLaminaMoisture);
+                });
+
+                if (GLTLaminaMoistures.length > 0) {
+                    LGLM.GLTLaminaMoistures = GLTLaminaMoistures;
+
+                  
+
+                    //Send the JSON array to Controller using AJAX.
+                    spinner.show();
+                    $.ajax({
+                        type: "POST",
+                        //async: false,
+                        url: "/GLTLaminaMoisture/LaminaMoistureComplete",
+                        data: JSON.stringify(LGLM),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+
+                        success: function (response) {
+
+                            if (response.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(response, "error");
+                                spinner.hide();
+                            }
+                            else {
+                                if (response.startsWith("Error", 1)) {
+                                    bootstrap_alert.warning(response, "error");
+                                }
+                                else if (response.startsWith("Succuss", 1)) {
+
+                                    window.location = "/GLTLaminaMoisture/Index";
+                                    bootstrap_alert.warning('Succussful', "success");
+                                }
+                                spinner.hide();
+                            }
+                        },
+                        //error: function (response) {
+
+                        //    if (response.startsWith("Error")) {
+                        //        bootstrap_alert.warning(response, "error");
+                        //    }
+                        //    //bootstrap_alert.warning(response.responseText, "error");
+                        //}
+                    });
+                    // }
+                } else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+
+        });
+
+
+    });
+
+
+
+</script>

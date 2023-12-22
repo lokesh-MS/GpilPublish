@@ -1,0 +1,628 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">BALE MARKED WEIGHT AND SUB-INVENTORY TRACKING</h2>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+
+            <input id="rdbMarkedWeight" type="radio" name="radio" value="Marked_Weight_Cross_Check" /> Marked_Weight_Cross_Check
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <input id="rdbSubInventory" type="radio" name="radio" value="SubInventory_Cross_Check" /> SubInventory_Cross_Check
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Selected Created Year</label>
+            @Html.DropDownList("CROP_YEAR", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP_YEAR", "CROP_YEAR"), "Please select", new { @id = "ddlCropYear", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label></label>
+        <div class="sm-3">
+            <button type="submit" id="btnSearch" value="Search" style="width:75px ;height:38px" class="btn btn-success btn-sm"> Search </button>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="alert_placeholder"></div>
+    <span id="message"></span>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12" id="Grid">
+        <h3 class="header smaller lighter blue">BALE NETWT AND SUBINVENTORY TRACK</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            RESULT FOR "BALE NETWT &Aacute; SUBINVENTORY TARCK DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SNO</th>
+                        <th>ORGN_CODE</th>
+                        <th>PROCESS_NAME</th>
+                        <th>CREATED DATE</th>
+                        <th>REPORT REFERENCE NO</th>
+                        <th>BALE NUMBER</th>
+                        <th>ERP STATUS</th>
+                        <th>PROCESS WT/SUBINVENTORY CODE</th>
+                        <th>STOCK WT/STOCK SUBIN CODE</th>
+                        <th>EDIT/UPDATE/DELETE</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+@*<div class="row">
+        <div class="col-xs-12" id="Grid1">
+            <h3 class="header smaller lighter blue">BALE SUBINVENTORY TRACK</h3>
+            <div class="clearfix">
+                <div class="pull-right tableTools-container"></div>
+            </div>
+            <div class="table-header">
+                RESULT FOR "SUBINVENTORY TRACK DETAILS"
+            </div>
+            <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+                <table id="dynamic-table1" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>SNO</th>
+                            <th>ORGN_CODE</th>
+                            <th>PROCDESS_NAME</th>
+                            <th>CREATED DATE</th>
+                            <th>REPORT REFERENCE NO</th>
+                            <th>GPIL_BALE_NUMBER</th>
+                            <th>GRADE</th>
+                            <th>FROM SUBINVENTORY CODE</th>
+                            <th>TO SUBINVENTORY CODE</th>
+                            <th>ITEM SINV CODE</th>
+                            <th>EDIT/DELETE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>*@
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <button type="submit" id="btnUpDateSubInventory" value="Update" class="btn btn-success btn-sm"> UpDate SubInventory Code </button>
+    <button type="submit" id="btnClear" value="Clear" class="btn btn-success btn-sm"> Clear </button>
+</div>
+
+
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+
+
+        //Edit event handler.
+        $("#dynamic-table").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-table").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+
+        //Update event handler.
+        $("#dynamic-table").on('click', '.btnUpdate', function () {
+
+            var BNT = {};
+            var BaleNetWtTracks = new Array();
+            var isMarkedWeight = $("[name=radio]:checked").val();
+            // var i = 0;
+            $("#dynamic-table tbody tr").each(function () {
+              //  var SHIPMENT_WT = $("#txtSHIPMENT_WT" + i).val();
+                //  var RdbMarkedWt = $("[name=radio]:checked").val();
+                var row = $(this).closest("tr");
+                $("td", row).each(function () {
+                    if ($(this).find("input").length > 0) {
+                        var span = $(this).find("span");
+                        var input = $(this).find("input");
+                        span.html(input.val());
+                        span.show();
+                        input.hide();
+                    }
+                });
+                var BaleNetWtTrack = {};
+
+                BaleNetWtTrack.SNO = row.find("td:eq(0)")[0].innerText;
+                BaleNetWtTrack.ORGN_CODE = row.find("td:eq(1)")[0].innerText;
+                BaleNetWtTrack.PROCESS = row.find("td:eq(2)")[0].innerText;
+                BaleNetWtTrack.CREATED_DATE = row.find("td:eq(3)")[0].innerText;
+                BaleNetWtTrack.REPORT_REF = row.find("td:eq(4)")[0].innerText;
+                BaleNetWtTrack.GPIL_BALE_NUMBER = row.find("td:eq(5)")[0].innerText;
+                BaleNetWtTrack.ERP_STATUS = row.find("td:eq(6)")[0].innerText;
+                BaleNetWtTrack.SHIPMENT_WT = row.find("td:eq(7)")[0].innerText;;
+                BaleNetWtTrack.STOCK_WT = row.find("td:eq(8)")[0].innerText;
+                BaleNetWtTracks.push(BaleNetWtTrack);
+               // i++;
+            });
+            if (BaleNetWtTracks.length > 0) {
+                BNT.BaleNetWtTracks = BaleNetWtTracks;
+               // spinner.show();
+               
+                //Send the JSON array to Controller using AJAX.
+               
+                $.ajax({
+                    type: "POST",
+                    url: "/VerificationBaleNetWtTrack/UpdateBaleTrack",
+                  
+                    data: JSON.stringify({ BNT: BNT, isMarkedWeight:isMarkedWeight }),
+                 
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.startsWith("Error", 1)) {
+                            bootstrap_alert.warning(msg, "error");
+                           // spinner.hide();
+                        }
+                        else if (msg.startsWith("Success", 1)) {
+
+                            window.location = "/VerificationBaleNetWtTrack/Index";
+                            bootstrap_alert.warning('Successful ' + msg, "success");
+                        }
+                        // spinner.hide();
+                    },
+                    error: function (msg) {
+                        bootstrap_alert.warning(msg.responseText, "error");
+                    }
+                });
+
+
+
+            } else {
+                bootstrap_alert.warning('THERE IS NO DATA IN GRID!!', "error");
+            }
+
+
+
+        });
+
+
+
+        $("#dynamic-table").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+
+
+
+
+
+        //Delete event handler.
+        //$("#dynamic-table").on('click', '.btnDelete', function () {
+        //    if (confirm("Do you want to delete this row?")) {
+        //        var row = $(this).closest("tr");
+        //        var FarmerPurchase = {};
+        //        FarmerPurchase.SNO = row.find("td:eq(0)")[0].innerText;
+        //        FarmerPurchase.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+        //        FarmerPurchase.TB_LOT_NO = row.find("td:eq(2)")[0].innerText;
+        //        FarmerPurchase.FARMER_CODE = row.find("td:eq(3)")[0].innerText;
+        //        FarmerPurchase.BUYER_GRADE = row.find("td:eq(4)")[0].innerText;
+        //        FarmerPurchase.CLASS_GRADE = row.find("td:eq(5)")[0].innerText;
+        //        FarmerPurchase.NET_WT = row.find("td:eq(6)")[0].innerText;
+        //        FarmerPurchase.RATE = row.find("td:eq(7)")[0].innerText;
+        //        FarmerPurchase.REJE_TYPE = row.find("td:eq(8)")[0].innerText;
+        //        //FarmerPurchase.HEADER_ID = row.find("td:eq(9)")[0].find('input[type="hidden"]').val();
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/Verification/DeleteFarmerPurchase",
+        //            data: '{GPIL_BALE_NUMBER:"' + FarmerPurchase.GPIL_BALE_NUMBER + '"}',
+        //            contentType: "application/json; charset=utf-8",
+
+        //            success: function (response) {
+        //                if ($("#dynamic-tabl tr").length > 2) {
+        //                    row.remove();
+        //                } else {
+        //                    row.find(".btnEdit").hide();
+        //                    row.find(".btnDelete").hide();
+        //                    row.find("span").html('&nbsp;');
+        //                }
+        //            }
+        //        });
+        //    }
+        //});
+
+
+
+        $('#btnSearch').on('click', function (event) {
+            var CropList = $('#ddlCropYear').val();  //$('#ddlOrgnMaster').val() + today;'A3220150525'
+            var Status = $("[name=radio]:checked").val();
+            GetBaleTrackMWTSubInDetails(CropList, Status);
+        });
+
+        function GetBaleTrackMWTSubInDetails(CropList, Status) {
+            debugger;
+            spinner.show();
+            var tblContent = '';
+
+            $.ajax({
+                type: 'GET',
+                url: '/VerificationBaleNetWtTrack/BaleTrackNTWeightSubInvDetails',
+                data: { crop: CropList, ReportType: Status },
+                success: function (msg) {
+                    let data = JSON.parse(msg);
+                    if (data == "Error: Please select Any one option") {
+
+                        spinner.hide();
+                    }
+                    else {
+                        if (data == "Error: No Records found") {
+
+                            spinner.hide();
+                        }
+                        else {
+                            for (var i = 0; i < data.length; i++) {
+                                debugger;
+                                var j = i + 1;
+                                var ORGN_CODE = (data[i].ORGN_CODE == null) ? "" : data[i].ORGN_CODE;
+                                var PROCESS = (data[i].PROCESS == null) ? "" : data[i].PROCESS;
+                                //gethdnHEADER_ID = HEADER_ID; // this gives textbox value
+                                var CREATED_DATE = (data[i].CREATED_DATE == null) ? "" : data[i].CREATED_DATE;
+                                var REPORT_REF = (data[i].REPORT_REF == null) ? "" : data[i].REPORT_REF;
+                                var GPIL_BALE_NUMBER = (data[i].GPIL_BALE_NUMBER == null) ? "" : data[i].GPIL_BALE_NUMBER;
+                                var ERP_STATUS = (data[i].ERP_STATUS == null) ? "" : data[i].ERP_STATUS;
+                                var SHIPMENT_WT = (data[i].SHIPMENT_WT == null) ? "" : data[i].SHIPMENT_WT;
+                                var STOCK_WT = (data[i].STOCK_WT == null) ? "" : data[i].STOCK_WT;
+                                  var IndexID = "" + j;
+                                tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + ORGN_CODE + '</span></td>'
+                                + '<td class="trBg"><span class="trBg">' + PROCESS + '</span></td>'
+                                + '<td class="trBg"><span class="trBg">' + CREATED_DATE + '</span></td>'
+                                + '<td class="trBg"><span class="trBg">' + REPORT_REF + '</span></td>'
+                                + '<td class="trBg"><span class="trBg">' + GPIL_BALE_NUMBER + '</span></td>'
+                                + '<td class="trBg"><span class="trBg">' + ERP_STATUS + '</span></td>'
+
+                                + '<td class="trBg"><span class="trBg">' + SHIPMENT_WT + '</span><input class="text" value="' + SHIPMENT_WT + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STOCK_WT + '</span></td>'
+
+
+                                //<input class="text1" type="hidden" value="' + HEADER_ID + '"/></span>
+                                // <input class="text" value="' + SHIPMENT_WT + '" style="display:none"/></span>
+                                //<input class="text" value="' + SHIPMENT_WT + '" style="display:none"/></span>
+                                + '<td class="trBg"><button class="btnEdit">Edit</button><button style="display:none" class="btnUpdate">Update</button><button class="btnDelete">Delete</button><button style="display:none" class="btnCancel">Cancel</button></td>'
+                                + '</tr >';
+
+
+
+
+                            }
+                        }
+                    }
+                    var dt1 = $('#dynamic-table').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-table tbody').empty();
+                    $('#dynamic-table tbody').append(tblContent);
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                    spinner.hide();
+
+                    var myTable1 =
+       $('#dynamic-table')
+       //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+     .DataTable({
+         "bLengthChange": true,
+         "paging": false,
+         "jQueryUI": true,
+         bAutoWidth: false,
+         'order': [[0, 'desc']],
+         "aoColumns": [
+              null, null, null, null, null, null, null, null,
+             { "bSortable": false },
+
+            // { "bSortable": false }
+         ],
+         "aaSorting": [],
+
+         //"bProcessing": true,
+         //"bServerSide": true,
+         //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+         //,
+         //"sScrollY": "200px",
+         // "bPaginate": true,
+
+         //"sScrollX": "100%",
+         //"sScrollXInner": "120%",
+         //"bScrollCollapse": true,
+         //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+         //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+         //"iDisplayLength": 50,
+
+
+         select: {
+             style: 'multi'
+         }
+     });
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable1, {
+                        buttons: [
+                          {
+                              "extend": "colvis",
+                              "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              columns: ':not(:first):not(:last)'
+                          },
+                          {
+                              "extend": "copy",
+                              "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "csv",
+                              "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "excel",
+                              "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "pdf",
+                              "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "print",
+                              "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              autoPrint: false,
+                              message: 'This print was produced using the Print button for DataTables'
+                          }
+                        ]
+                    });
+                    myTable1.buttons().container().appendTo($('.tableTools-container1'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable1.button(1).action();
+                    myTable1.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable1.button(0).action();
+                    myTable1.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                            .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                            .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable1.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable1.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-table').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable1.row(row).select();
+                            else myTable1.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-table').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable1.row(row).deselect();
+                        else myTable1.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-table.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+</script>

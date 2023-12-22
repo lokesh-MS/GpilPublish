@@ -1,0 +1,234 @@
+﻿@model GPILWebApp.Models.GPIL_ITEM_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Item Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @Html.HiddenFor(model => model.ITEM_CODE)
+        @Html.HiddenFor(model => model.CREATED_BY)
+        @Html.HiddenFor(model => model.CREATED_DATE)
+
+        <div class="row">
+            
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Code Group </label>
+
+                    @Html.EditorFor(model => model.ITEM_CODE_GROUP, new { htmlAttributes = new { @class = "form-control", id = "txtItemCodeGroup", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_CODE_GROUP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Group </label>
+
+                    @Html.DropDownListFor(model => model.ITEM_GROUP, new List<SelectListItem> {
+                    new SelectListItem {Text="TBG" ,Value="TBG" },
+                    new SelectListItem {Text="BCG" ,Value="BCG" },
+                    new SelectListItem {Text="VFG" ,Value="VFG" },
+                    new SelectListItem {Text="CLG" ,Value="CLG" },
+                    new SelectListItem {Text="ICG" ,Value="ICG" },
+                    new SelectListItem {Text="GOG" ,Value="GOG" },
+                    new SelectListItem {Text="BYP" ,Value="BYP" },
+                    new SelectListItem {Text="PCG" ,Value="PCG" },
+                    new SelectListItem {Text="LOSS" ,Value="LOSS" },
+               }, "SELECT ITEM GROUP", new { @class = "form-control", @id = "ddlItemGroup" })
+                    @Html.ValidationMessageFor(model => model.ITEM_GROUP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Type </label>
+
+                    @Html.EditorFor(model => model.ITEM_TYPE, new { htmlAttributes = new { @class = "form-control", id = "txtItemType", minlength = "4", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_TYPE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Description </label>
+
+                    @Html.EditorFor(model => model.ITEM_DESC, new { htmlAttributes = new { @class = "form-control", id = "txtItemDescription", minlength = "4", maxlength = "30" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_DESC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Crop </label>
+                    @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+                    @*@Html.DropDownListFor(model => model.CROP, (IEnumerable<SelectListItem>)ViewData["GPIL_CROP_MASTER"] as SelectList, "SELECT CROP CODE", new { @class = "form-control", @id = "ddlCrop" })*@
+                    @Html.ValidationMessageFor(model => model.CROP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Variety </label>
+                    @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+                    @*@Html.DropDownListFor(model => model.VARIETY, (IEnumerable<SelectListItem>)ViewData["GPIL_VARIETY_MASTER"] as SelectList, "SELECT VARIETY CODE", new { @class = "form-control", @id = "ddlVariety" })*@
+                    @Html.ValidationMessageFor(model => model.VARIETY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Cost Category </label>
+
+                    @Html.EditorFor(model => model.COST_CATEGORY, new { htmlAttributes = new { @class = "form-control", id = "txtCostCategory", minlength = "4", maxlength = "12" } })
+                    @Html.ValidationMessageFor(model => model.COST_CATEGORY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Orgn Type </label>
+
+
+                    @Html.DropDownListFor(model => model.ORGN_TYPE, new List<SelectListItem> {
+                    new SelectListItem {Text="FACTORY" ,Value="FACTORY" },
+                    new SelectListItem {Text="FARMER" ,Value="FARMER" },
+                    new SelectListItem {Text="GLT" ,Value="GLT" },
+                    new SelectListItem {Text="PM" ,Value="PM" },
+                    new SelectListItem {Text="PPD" ,Value="PPD" },
+                    new SelectListItem {Text="TAP" ,Value="TAP" },
+                    new SelectListItem {Text="WH" ,Value="WH" },
+
+               }, "SELECT ORGN TYPE", new { @class = "form-control", @id = "ddlOrgnType" })
+                    @Html.ValidationMessageFor(model => model.ORGN_TYPE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Status </label>
+
+                    @Html.DropDownListFor(model => model.STATUS, new List<SelectListItem> {
+                    new SelectListItem {Text="Y" ,Value="Y" },
+                    new SelectListItem {Text="N" ,Value="N" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlStatus" })
+                    @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Sub-Inventory </label>
+
+                    @Html.DropDownListFor(model => model.ATTRIBUTE2, new List<SelectListItem> {
+                    new SelectListItem {Text="BT" ,Value="BT" },
+                    new SelectListItem {Text="BYP" ,Value="BYP" },
+                    new SelectListItem {Text="CHE" ,Value="CHE" },
+                    new SelectListItem {Text="CL" ,Value="CL" },
+                    new SelectListItem {Text="FGD" ,Value="FGD" },
+                    new SelectListItem {Text="FGE" ,Value="FGE" },
+                    new SelectListItem {Text="FW" ,Value="FW" },
+                    new SelectListItem {Text="GRD" ,Value="GRD" },
+                    new SelectListItem {Text="LOSS" ,Value="LOSS" },
+                    new SelectListItem {Text="PM" ,Value="PM" },
+                    new SelectListItem {Text="W" ,Value="W" },
+
+               }, "SELECT SUB_INV CODE", new { @class = "form-control", @id = "ddlOrgnType" })
+
+                    @*@Html.DropDownListFor(model => model.ATTRIBUTE2, (IEnumerable<SelectListItem>)ViewBag.SubInventoryType as SelectList, "SELECT SUB-INVENTORY", new { @class = "form-control", @id = "ddlSubInventory" })*@
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @*<div class="col-md-6">
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ATTRIBUTE1, htmlAttributes: new { @class = "control-label" })
+
+                    @Html.EditorFor(model => model.ATTRIBUTE1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE1, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">BMLG GRADE </label>
+                    @Html.DropDownListFor(model => model.ATTRIBUTE3, new List<SelectListItem> {
+                    new SelectListItem {Text="BRIGHT" ,Value="B" },
+                    new SelectListItem {Text="MEDIUM" ,Value="M" },
+                    new SelectListItem {Text="LOW" ,Value="L" },
+                    new SelectListItem {Text="GREEN" ,Value="G" },
+                    new SelectListItem {Text="NIL" ,Value="NIL" }
+               }, "SELECT BMLG GRADE", new { @class = "form-control", @id = "ddlBMGLGrade" })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">HSN Code</label>
+                    @Html.EditorFor(model => model.ATTRIBUTE4, new { htmlAttributes = new { @class = "form-control", id = "txtHsnCode", minlength = "4", maxlength = "12" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE4, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-6">
+
+
+                    <br />
+                    @*@Html.ActionLink("Back to List", "Index")*@
+                    <input type="submit" value="Save" style="width:95px" class="btn btn-success btn-sm" />
+
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                  
+                    
+                        
+                        
+                   
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        
+
+       
+
+        
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

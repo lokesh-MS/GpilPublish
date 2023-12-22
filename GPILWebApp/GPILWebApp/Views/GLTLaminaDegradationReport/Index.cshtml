@@ -1,0 +1,418 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">LAMINA DEGRADATION REPORT</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>From Date</label>
+            <input class="form-control" id="txtFromDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>To Date</label>
+            <input class="form-control" id="txtToDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>CROP</label>
+            <select class="form-control" id="ddlCropCode">
+                <option value="0">SELECT CROP CODE</option>
+            </select>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Scrap Grade</label>
+            <select class="form-control" id="ddlGrade">
+                <option value="0">SELECT GRADE</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Variety</label>
+            <select class="form-control" id="ddlVariety">
+                <option value="0">SELECT VARIETY CODE</option>
+            </select>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+        <div class="sm-3">
+            <label>Lamia Grade</label>
+            <select class="form-control" id="ddlLamiaGrade">
+                <option value="0">SELECT LAMIA GRADE</option>
+            </select>
+        </div>
+    </div>*@
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" id="btnClear" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+        @*<button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>*@
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Lamina Degradation Report List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container1"></div>
+        </div>
+        <div class="table-header">
+            Results for "LAMINA DEGRADATION REPORT"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Grade</th>
+                        <th>Variety</th>
+                        <th>Grade_Date</th>
+                        <th>Sample_Time</th>
+                        <th>Run_No</th>
+                        <th>Case_No</th>
+                        <th>Sample_Weight</th>
+                        <th>Over_1/2_1/2</th>
+                        <th>TOver_1/2</th>
+                        <th>Over_1/4</th>
+                        <th>Over_PAN</th>
+                        <th>Percent_Over_Pan</th>
+                        <th>Over_18_Percentage</th>
+                        <th>Percentage_First_Pass</th>
+                        <th>Percentage_Second_Pass</th>
+                        <th>Obj_3/32</th>
+                        <th>Slot_#07</th>
+                        <th>Slot_#12</th>
+                        <th>Mesh_#12</th>
+                        <th>Fiber_Hist</th>
+                        <th>Tsef_Hist</th>
+                        <th>New_Fiber</th>
+                        <th>Tsef_New</th>
+                        <th>New</th>
+                        <th>Total_Stem_In_Tips</th>
+                        <th>LC</th>
+                        <th>Stem</th>
+                        <th>Percentage_Obj_Stem</th>
+                        <th>Percentage_Stem_Tips</th>
+                        <th>System_Flag_Analysis</th>
+                        <th>Packed_Density_VDR</th>
+                        <th>Remarks</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="loader">
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+        GetCropCode();
+        GetGrade();
+        GetVarietyCode();
+
+        function GetCropCode() {
+            $('#ddlCropCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTLaminaDegradationReport/CropCode',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Crop + '</option>';
+                    }
+                    $('#ddlCropCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        function GetGrade() {
+            $('#ddlGrade').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT GRADE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTLaminaDegradationReport/Grade',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Grade + '</option>';
+                    }
+                    $('#ddlGrade').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        function GetVarietyCode() {
+            $('#ddlVariety').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT VARIETY CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLTLaminaDegradationReport/VarietyCode',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Variety + '</option>';
+                    }
+                    $('#ddlVariety').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var FromDateList = $('#txtFromDate').val();
+            FromDateList = (FromDateList == "0") ? "" : FromDateList;
+            var ToDateList = $('#txtToDate').val();
+            ToDateList = (ToDateList == "0") ? "" : ToDateList;
+            var CropYearList = $('#ddlCropCode').val();
+            CropYearList = (CropYearList == "0") ? "" : CropYearList;
+            var GradeList = $('#ddlGrade').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+           
+            GetLaminaDegradationReport(FromDateList, ToDateList, CropYearList, GradeList, VarietyList);
+        });
+
+
+        function GetLaminaDegradationReport(FromDate, ToDate, CropYear, Grade, Variety) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'GET',
+                url: '/GLTLaminaDegradationReport/GetLaminaDegradationReport',
+                data: { fromDate: FromDate, toDate: ToDate, cropYear: CropYear, grade: Grade, variety: Variety},
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.length; i++) {
+
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg">' + data[i].Crop + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].Grade + '</td>'
+                            + '<td class="trBg">' + data[i].Variety + '</td>'
+                            + '<td class="trBg">' + data[i].Grade_Date + '</td>'
+                            + '<td class="trBg">' + data[i].Sample_Time + '</td>'
+                            + '<td class="trBg">' + data[i].RunNo + '</td>'
+                            + '<td class="trBg">' + data[i].CaseNo + '</td>'
+                            + '<td class="trBg">' + data[i].SampleWeight + '</td>'
+                            + '<td class="trBg">' + data[i].Over1212 + '</td>'
+                            + '<td class="trBg">' + data[i].TOver12 + '</td>'
+                            + '<td class="trBg">' + data[i].Over14Second + '</td>'
+                            + '<td class="trBg">' + data[i].OverPan + '</td>'
+                            + '<td class="trBg">' + data[i].PercntOnPan + '</td>'
+                            + '<td class="trBg">' + data[i].Over18P + '</td>'
+                            + '<td class="trBg">' + data[i].PercentFirstPass + '</td>'
+                            + '<td class="trBg">' + data[i].PercentSecondPass + '</td>'
+                            + '<td class="trBg">' + data[i].Obj3_32Second + '</td>'
+                            + '<td class="trBg">' + data[i].Slot07Second + '</td>'
+
+                            + '<td class="trBg">' + data[i].Slot12Second + '</td>'
+                            + '<td class="trBg">' + data[i].Mesh12Second + '</td>'
+                            + '<td class="trBg">' + data[i].FiberHistSecond + '</td>'
+                            + '<td class="trBg">' + data[i].TsefHistSecond + '</td>'
+                            + '<td class="trBg">' + data[i].NewFiberSecond + '</td>'
+                            + '<td class="trBg">' + data[i].TsefNew + '</td>'
+                            + '<td class="trBg">' + data[i].New + '</td>'
+                            + '<td class="trBg">' + data[i].TotalStemInTips + '</td>'
+                            + '<td class="trBg">' + data[i].LC + '</td>'
+                            + '<td class="trBg">' + data[i].Stem + '</td>'
+                            + '<td class="trBg">' + data[i].PercentObjStem + '</td>'
+                            + '<td class="trBg">' + data[i].PercentStemTips + '</td>'
+                            + '<td class="trBg">' + data[i].SystemFlagAnalysis + '</td>'
+                            + '<td class="trBg">' + data[i].PackedDensityDVR + '</td>'
+                            + '<td class="trBg">' + data[i].Remarks + '</td>'
+
+                            + '</tr >';
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                       
+                    }
+
+
+
+                    var myTable1 =
+                       $('#dynamic-tabl').DataTable({
+                               //"bLengthChange": true,
+                               //"paging": false,
+                               ////"aLengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "ALL"]],
+                               ////"iDisplayLength": -1,
+                               ////iDisplayLength: 200,
+                               //"jQueryUI": true,
+                               //bAutoWidth: false,
+                               //"sScrollY": "200px",
+                               //"sScrollX": "100%",
+                               ////"sScrollXInner":"100%",
+                               //'order': [[0, 'asc']],
+                               //"aoColumns": [
+                               //    null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                               //    { "bSortable": false },
+
+                               //    // { "bSortable": false }
+                               //],
+                               //"aaSorting": [],
+
+                               ////"bProcessing": true,
+                               ////"bServerSide": true,
+                               ////"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                               ////,
+
+                               ////"bPaginate": true,
+
+                               ////"sScrollX": "100%",
+                               ////"sScrollXInner": "120%",
+                               ////"bScrollCollapse": true,
+                               ////Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                               ////you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                               ////"iDisplayLength": 50,
+
+
+                               //select: {
+                               //    style: 'multi'
+                               //}
+                           });
+
+
+
+                   
+
+
+                },
+
+
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+
+
+        $('#btnClear').on('click', function (event) {
+            GetCropCode();
+            GetGrade();
+            GetVarietyCode();
+            $('#txtFromDate').val('');
+            $('#txtToDate').val('');
+            
+        });
+
+
+    });
+
+
+</script>

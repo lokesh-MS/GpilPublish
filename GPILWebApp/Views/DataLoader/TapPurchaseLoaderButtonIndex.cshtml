@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "TapPurchaseLoaderButtonIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TapPurchaseLoaderButtonIndex</h2>
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("TapPurchaseLoaderIndex", "DataLoader") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+</p>

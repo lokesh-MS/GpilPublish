@@ -1,0 +1,3203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16AEA3F8-AA5C-4A8A-B7A3-65EEC3E6D475}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GPILWebApp</RootNamespace>
+    <AssemblyName>GPILWebApp</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.4\lib\net46\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.ClientDoc.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CommLayer.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonControls, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CommonControls.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CommonControls.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CommonObjectModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.Controllers, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.Controllers.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.Controllers.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CubeDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.DataDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.ReportDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DataTables-Editor-Server">
+      <HintPath>..\..\..\..\..\.Net\Editor NET Framework Demo\bin\DataTables-Editor-Server.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReportViewerForMvc.1.1.1\lib\net45\ReportViewerForMvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.OleDb, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.OleDb.6.0.0\lib\net461\System.Data.OleDb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddOldStockMaster.aspx.cs">
+      <DependentUpon>AddOldStockMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddOldStockMaster.aspx.designer.cs">
+      <DependentUpon>AddOldStockMaster.aspx</DependentUpon>
+    </Compile>
+    <Content Include="App_Code\Business\Class1.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ChemistryDataLoader.aspx.cs">
+      <DependentUpon>ChemistryDataLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChemistryDataLoader.aspx.designer.cs">
+      <DependentUpon>ChemistryDataLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChemistryReports.aspx.cs">
+      <DependentUpon>ChemistryReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChemistryReports.aspx.designer.cs">
+      <DependentUpon>ChemistryReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ClassificationReport.aspx.cs">
+      <DependentUpon>ClassificationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ClassificationReport.aspx.designer.cs">
+      <DependentUpon>ClassificationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AddOldStockMasterController.cs" />
+    <Compile Include="Controllers\AuthorisedQtyMasterController.cs" />
+    <Compile Include="Controllers\BaleTrackWithUpdationController.cs" />
+    <Compile Include="Controllers\BatchWiseClosingVerificationController.cs" />
+    <Compile Include="Controllers\ChemistryReportController.cs" />
+    <Compile Include="Controllers\ChemistryTargetController.cs" />
+    <Compile Include="Controllers\ConnectOraController.cs" />
+    <Compile Include="Controllers\DataLoaderController.cs" />
+    <Compile Include="Controllers\DateWiseIssueController.cs" />
+    <Compile Include="Controllers\FarmerLoanStatusController.cs" />
+    <Compile Include="Controllers\FarmerWisePurchaseSummaryLDDController.cs" />
+    <Compile Include="Controllers\FumigationDetailsController.cs" />
+    <Compile Include="Controllers\GLTController.cs" />
+    <Compile Include="Controllers\GLTLaminaDegradationReportController.cs" />
+    <Compile Include="Controllers\GLTLaminaMoistureController.cs" />
+    <Compile Include="Controllers\GLTLaminaMoistureReportController.cs" />
+    <Compile Include="Controllers\GLTScrapDegradationReportController.cs" />
+    <Compile Include="Controllers\GLTScrapMoistureController.cs" />
+    <Compile Include="Controllers\GLTScrapMoistureReportController.cs" />
+    <Compile Include="Controllers\GLTStemDegradationController.cs" />
+    <Compile Include="Controllers\GLTStemMoistureController.cs" />
+    <Compile Include="Controllers\GLTStemMoistureReportController.cs" />
+    <Compile Include="Controllers\GPIL_Chemistry_ReportsController.cs" />
+    <Compile Include="Controllers\GPIL_CLUSTER_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_COMPANY_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_CROP_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_FARMER_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_ITEM_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_OPERATION_RECIPEController.cs" />
+    <Compile Include="Controllers\GPIL_ORGN_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_RATE_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_SOIL_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_SUBINVENTORYController.cs" />
+    <Compile Include="Controllers\GPIL_SUPPLIER_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_USER_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_VARIETY_MASTERController.cs" />
+    <Compile Include="Controllers\GPIL_VILLAGE_MASTERController.cs" />
+    <Compile Include="Controllers\InvoiceVerificationController.cs" />
+    <Compile Include="Controllers\InvoiceVerifyController.cs" />
+    <Compile Include="Controllers\LDDateWiseIssueReportController.cs" />
+    <Compile Include="Controllers\LDDController.cs" />
+    <Compile Include="Controllers\LDLoanDownloadController.cs" />
+    <Compile Include="Controllers\LDMonthlyReconsilationController.cs" />
+    <Compile Include="Controllers\LDPoReceiptController.cs" />
+    <Compile Include="Controllers\LDStockReconsilationController.cs" />
+    <Compile Include="Controllers\LPDController.cs" />
+    <Compile Include="Controllers\OldPackedCaseStockLoaderVerificationController.cs" />
+    <Compile Include="Controllers\PPDController.cs" />
+    <Compile Include="Controllers\ProfileBackendProcessController.cs" />
+    <Compile Include="Controllers\ProfilePrintAllocationUpdateController.cs" />
+    <Compile Include="Controllers\QualityLabController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SupplierVerificationController.cs" />
+    <Compile Include="Controllers\TapPurchaseLoaderController.cs" />
+    <Compile Include="Controllers\TestingController.cs" />
+    <Compile Include="Controllers\UpAndDownGradeMappingController.cs" />
+    <Compile Include="Controllers\UpAndDownGradeMappingNewController.cs" />
+    <Compile Include="Controllers\UpAndDownGradeMappingUploadController.cs" />
+    <Compile Include="Controllers\USERMASTERController.cs" />
+    <Compile Include="Controllers\ValidationController.cs" />
+    <Compile Include="Controllers\VerificationBaleNetWtTrackController.cs" />
+    <Compile Include="Controllers\VerificationCompleteDispatchController.cs" />
+    <Compile Include="Controllers\VerificationController.cs" />
+    <Compile Include="Controllers\VerificationExportDataController.cs" />
+    <Compile Include="Controllers\VerificationFactoryDispatchDataCheckController.cs" />
+    <Compile Include="Controllers\VerificationFarmerPurchaseCrossCheckController.cs" />
+    <Compile Include="Controllers\VerificationFreightChargeReportDCNumberController.cs" />
+    <Compile Include="Controllers\VerificationFreightUpdateController.cs" />
+    <Compile Include="Controllers\VerificationSkipRemnantController.cs" />
+    <Compile Include="Controllers\VreificationNewController.cs" />
+    <Compile Include="Controllers\WMSController.cs" />
+    <Compile Include="Controllers\WmsPrintAllocationsController.cs" />
+    <Compile Include="Controllers\WmsViewPrintAllocationController.cs" />
+    <Compile Include="CropMaster.aspx.cs">
+      <DependentUpon>CropMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CropMaster.aspx.designer.cs">
+      <DependentUpon>CropMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\DS_FARMERSLIP.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_FARMERSLIP.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\rptBaleTrack.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBaleTrack.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptBalewiseSTK.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBalewiseSTK.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptBGreport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBGreport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RPTChemistryReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPTChemistryReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptClassificationCumulativeTAPWiseReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptClassificationCumulativeTAPWiseReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptClassificationReportforTAP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptClassificationReportforTAP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptClassificationReportforTAP_Summary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptClassificationReportforTAP_Summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptCompetetionReport_111.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCompetetionReport_111.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptCompetitonConsilidate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCompetitonConsilidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptCompetitonConsilidate1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCompetitonConsilidate1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptCropTransferReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptCropTransferReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptDispatchreprort.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptDispatchreprort.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptFarmerPurchaseSlipFinalByDate.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptFarmerPurchaseSlip_New.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptFarmerPurchaseSlip_New.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptGradeTransfer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptGradeTransfer.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptGradeTransferReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptGradeTransferReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptGradeWiseSTK.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptGradeWiseSTK.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptGradeWiseSTKCLS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptGradeWiseSTKCLS.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptGradingOperation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptGradingOperation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptGradingReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptGradingReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptLP5.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptLP5.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptLP5_Auction.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptLP5_Auction.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\rptLP5_Invoice_SO.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptLP5_Invoice_SO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptOrgwiseGradewiseStock.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptOrgwiseGradewiseStock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptRecepitreprort.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptRecepitreprort.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptThreshingBlendRatio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptThreshingBlendRatio.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptThreshingBlendRatioWtPerc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptThreshingBlendRatioWtPerc.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptThreshingChartIssueDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptThreshingChartIssueDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptThreshingHourlyBlendRatio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptThreshingHourlyBlendRatio.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptUpandDownClassificationReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptUpandDownClassificationReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\RptWeeklyRecon.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptWeeklyRecon.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\ChemistryReport.aspx.cs">
+      <DependentUpon>ChemistryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\ChemistryReport.aspx.designer.cs">
+      <DependentUpon>ChemistryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\FarmerBankDetailsLoader.aspx.cs">
+      <DependentUpon>FarmerBankDetailsLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\FarmerBankDetailsLoader.aspx.designer.cs">
+      <DependentUpon>FarmerBankDetailsLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\FarmerPurchaseLoanLoader.aspx.cs">
+      <DependentUpon>FarmerPurchaseLoanLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\FarmerPurchaseLoanLoader.aspx.designer.cs">
+      <DependentUpon>FarmerPurchaseLoanLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\GLTLaminaMoisture.aspx.cs">
+      <DependentUpon>GLTLaminaMoisture.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\GLTLaminaMoisture.aspx.designer.cs">
+      <DependentUpon>GLTLaminaMoisture.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\LaminaMoistureReport.aspx.cs">
+      <DependentUpon>LaminaMoistureReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\LaminaMoistureReport.aspx.designer.cs">
+      <DependentUpon>LaminaMoistureReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\RptLamia.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptLamia.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\RptScrapDegradation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptScrapDegradation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\RptScrapMoisture.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptScrapMoisture.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\RptStemMoisture.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptStemMoisture.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ScrapDegradationReport.aspx.cs">
+      <DependentUpon>ScrapDegradationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ScrapDegradationReport.aspx.designer.cs">
+      <DependentUpon>ScrapDegradationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ScrapMoistureReport.aspx.cs">
+      <DependentUpon>ScrapMoistureReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ScrapMoistureReport.aspx.designer.cs">
+      <DependentUpon>ScrapMoistureReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\StemMoistureReport.aspx.cs">
+      <DependentUpon>StemMoistureReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\StemMoistureReport.aspx.designer.cs">
+      <DependentUpon>StemMoistureReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingBatchLiveBlendRatio.aspx.cs">
+      <DependentUpon>ThreshingBatchLiveBlendRatio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingBatchLiveBlendRatio.aspx.designer.cs">
+      <DependentUpon>ThreshingBatchLiveBlendRatio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingBlendRatio.aspx.cs">
+      <DependentUpon>ThreshingBlendRatio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingBlendRatio.aspx.designer.cs">
+      <DependentUpon>ThreshingBlendRatio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingProcessChart.aspx.cs">
+      <DependentUpon>ThreshingProcessChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\GLT\ThreshingProcessChart.aspx.designer.cs">
+      <DependentUpon>ThreshingProcessChart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipDatewise.aspx.cs">
+      <DependentUpon>FarmerPurchaseSlipDatewise.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipDatewise.aspx.designer.cs">
+      <DependentUpon>FarmerPurchaseSlipDatewise.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWeb.aspx.cs">
+      <DependentUpon>FarmerPurchaseSlipWeb.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWeb.aspx.designer.cs">
+      <DependentUpon>FarmerPurchaseSlipWeb.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWebFinal.aspx.cs">
+      <DependentUpon>FarmerPurchaseSlipWebFinal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWebFinal.aspx.designer.cs">
+      <DependentUpon>FarmerPurchaseSlipWebFinal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlipFinal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptFarmerPurchaseSlipFinal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlipFinalByDate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptFarmerPurchaseSlipFinalByDate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlip_New.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RptFarmerPurchaseSlip_New.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LP5DocumentGSTWEB.aspx.cs">
+      <DependentUpon>LP5DocumentGSTWEB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LP5DocumentGSTWEB.aspx.designer.cs">
+      <DependentUpon>LP5DocumentGSTWEB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LP5Printing.aspx.cs">
+      <DependentUpon>LP5Printing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LP5Printing.aspx.designer.cs">
+      <DependentUpon>LP5Printing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BGTransactionReport.aspx.cs">
+      <DependentUpon>BGTransactionReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BGTransactionReport.aspx.designer.cs">
+      <DependentUpon>BGTransactionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassificationReport.aspx.cs">
+      <DependentUpon>BuyerClassificationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassificationReport.aspx.designer.cs">
+      <DependentUpon>BuyerClassificationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReport.aspx.cs">
+      <DependentUpon>BuyerClassMinMaxReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReport.aspx.designer.cs">
+      <DependentUpon>BuyerClassMinMaxReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReportWithTransport.aspx.cs">
+      <DependentUpon>BuyerClassMinMaxReportWithTransport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReportWithTransport.aspx.designer.cs">
+      <DependentUpon>BuyerClassMinMaxReportWithTransport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetetionConsolitate.aspx.cs">
+      <DependentUpon>CompetetionConsolitate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetetionConsolitate.aspx.designer.cs">
+      <DependentUpon>CompetetionConsolitate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetitionHighBidLowBidInfo.aspx.cs">
+      <DependentUpon>CompetitionHighBidLowBidInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetitionHighBidLowBidInfo.aspx.designer.cs">
+      <DependentUpon>CompetitionHighBidLowBidInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetitionReport.aspx.cs">
+      <DependentUpon>CompetitionReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\CompetitionReport.aspx.designer.cs">
+      <DependentUpon>CompetitionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\PPGRDReport.aspx.cs">
+      <DependentUpon>PPGRDReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\PPGRDReport.aspx.designer.cs">
+      <DependentUpon>PPGRDReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapPurchaseInfo.aspx.cs">
+      <DependentUpon>TapPurchaseInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapPurchaseInfo.aspx.designer.cs">
+      <DependentUpon>TapPurchaseInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWisePurchaseReport.aspx.cs">
+      <DependentUpon>TapWisePurchaseReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWisePurchaseReport.aspx.designer.cs">
+      <DependentUpon>TapWisePurchaseReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWiseQuantityMarketed.aspx.cs">
+      <DependentUpon>TapWiseQuantityMarketed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWiseQuantityMarketed.aspx.designer.cs">
+      <DependentUpon>TapWiseQuantityMarketed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWiseStockSummaryReport.aspx.cs">
+      <DependentUpon>TapWiseStockSummaryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\LPD\TapWiseStockSummaryReport.aspx.designer.cs">
+      <DependentUpon>TapWiseStockSummaryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\BatchwiseClassificationRpt.aspx.cs">
+      <DependentUpon>BatchwiseClassificationRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\BatchwiseClassificationRpt.aspx.designer.cs">
+      <DependentUpon>BatchwiseClassificationRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\BuyerClassGradeReport.aspx.cs">
+      <DependentUpon>BuyerClassGradeReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\BuyerClassGradeReport.aspx.designer.cs">
+      <DependentUpon>BuyerClassGradeReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassCumuWithGradeTransferFrightReport.aspx.cs">
+      <DependentUpon>ClassCumuWithGradeTransferFrightReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassCumuWithGradeTransferFrightReport.aspx.designer.cs">
+      <DependentUpon>ClassCumuWithGradeTransferFrightReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReport.aspx.cs">
+      <DependentUpon>ClassificationCumulativeReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReport.aspx.designer.cs">
+      <DependentUpon>ClassificationCumulativeReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReportVKBU.aspx.cs">
+      <DependentUpon>ClassificationCumulativeReportVKBU.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReportVKBU.aspx.designer.cs">
+      <DependentUpon>ClassificationCumulativeReportVKBU.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeTodayVSTodateReport.aspx.cs">
+      <DependentUpon>ClassificationCumulativeTodayVSTodateReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeTodayVSTodateReport.aspx.designer.cs">
+      <DependentUpon>ClassificationCumulativeTodayVSTodateReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeWithGradeTransferReport.aspx.cs">
+      <DependentUpon>ClassificationCumulativeWithGradeTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationCumulativeWithGradeTransferReport.aspx.designer.cs">
+      <DependentUpon>ClassificationCumulativeWithGradeTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationReportForTAP.aspx.cs">
+      <DependentUpon>ClassificationReportForTAP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClassificationReportForTAP.aspx.designer.cs">
+      <DependentUpon>ClassificationReportForTAP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClOrgWiseClassificationReport.aspx.cs">
+      <DependentUpon>ClOrgWiseClassificationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\ClOrgWiseClassificationReport.aspx.designer.cs">
+      <DependentUpon>ClOrgWiseClassificationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingIssueOutTurnSheet.aspx.cs">
+      <DependentUpon>GradingIssueOutTurnSheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingIssueOutTurnSheet.aspx.designer.cs">
+      <DependentUpon>GradingIssueOutTurnSheet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingOperationReport.aspx.cs">
+      <DependentUpon>GradingOperationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingOperationReport.aspx.designer.cs">
+      <DependentUpon>GradingOperationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingReport.aspx.cs">
+      <DependentUpon>GradingReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GradingReport.aspx.designer.cs">
+      <DependentUpon>GradingReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GreenStockReport.aspx.cs">
+      <DependentUpon>GreenStockReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\GreenStockReport.aspx.designer.cs">
+      <DependentUpon>GreenStockReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\SupplierPurchaseInfoReports.aspx.cs">
+      <DependentUpon>SupplierPurchaseInfoReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\PPD\SupplierPurchaseInfoReports.aspx.designer.cs">
+      <DependentUpon>SupplierPurchaseInfoReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\AuctionDispatchReport.aspx.cs">
+      <DependentUpon>AuctionDispatchReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\AuctionDispatchReport.aspx.designer.cs">
+      <DependentUpon>AuctionDispatchReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\BaleTrack.aspx.cs">
+      <DependentUpon>BaleTrack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\BaleTrack.aspx.designer.cs">
+      <DependentUpon>BaleTrack.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\CropTransferReport.aspx.cs">
+      <DependentUpon>CropTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\CropTransferReport.aspx.designer.cs">
+      <DependentUpon>CropTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\DispatchReport.aspx.cs">
+      <DependentUpon>DispatchReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\DispatchReport.aspx.designer.cs">
+      <DependentUpon>DispatchReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\FactoryDispatchLP5Print.aspx.cs">
+      <DependentUpon>FactoryDispatchLP5Print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\FactoryDispatchLP5Print.aspx.designer.cs">
+      <DependentUpon>FactoryDispatchLP5Print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\GradeTransferReport.aspx.cs">
+      <DependentUpon>GradeTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\GradeTransferReport.aspx.designer.cs">
+      <DependentUpon>GradeTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\IntransitReport.aspx.cs">
+      <DependentUpon>IntransitReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\IntransitReport.aspx.designer.cs">
+      <DependentUpon>IntransitReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LotWiseStock.aspx.cs">
+      <DependentUpon>LotWiseStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LotWiseStock.aspx.designer.cs">
+      <DependentUpon>LotWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LP4PrintReport.aspx.cs">
+      <DependentUpon>LP4PrintReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LP4PrintReport.aspx.designer.cs">
+      <DependentUpon>LP4PrintReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LP5DocumentAuction.aspx.cs">
+      <DependentUpon>LP5DocumentAuction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\LP5DocumentAuction.aspx.designer.cs">
+      <DependentUpon>LP5DocumentAuction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReceiptReport.aspx.cs">
+      <DependentUpon>ReceiptReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReceiptReport.aspx.designer.cs">
+      <DependentUpon>ReceiptReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseAllStock.aspx.cs">
+      <DependentUpon>ReportGradeWiseAllStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseAllStock.aspx.designer.cs">
+      <DependentUpon>ReportGradeWiseAllStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseStock.aspx.cs">
+      <DependentUpon>ReportGradeWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseStock.aspx.designer.cs">
+      <DependentUpon>ReportGradeWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportLotWiseStock.aspx.cs">
+      <DependentUpon>ReportLotWiseStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\ReportLotWiseStock.aspx.designer.cs">
+      <DependentUpon>ReportLotWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\SalesOrderPrint.aspx.cs">
+      <DependentUpon>SalesOrderPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\SalesOrderPrint.aspx.designer.cs">
+      <DependentUpon>SalesOrderPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\WeeklyReconcilation.aspx.cs">
+      <DependentUpon>WeeklyReconcilation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\WeeklyReconcilation.aspx.designer.cs">
+      <DependentUpon>WeeklyReconcilation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\WeightLossReport.aspx.cs">
+      <DependentUpon>WeightLossReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\REPORTS\WeightLossReport.aspx.designer.cs">
+      <DependentUpon>WeightLossReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\TAPPurchaseLoader.aspx.cs">
+      <DependentUpon>TAPPurchaseLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\TAPPurchaseLoader.aspx.designer.cs">
+      <DependentUpon>TAPPurchaseLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\ThreshingHourBasedBlendRatio.aspx.cs">
+      <DependentUpon>ThreshingHourBasedBlendRatio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\ThreshingHourBasedBlendRatio.aspx.designer.cs">
+      <DependentUpon>ThreshingHourBasedBlendRatio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WMS\WmsPrintAllocation.aspx.cs">
+      <DependentUpon>WmsPrintAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WMS\WmsPrintAllocation.aspx.designer.cs">
+      <DependentUpon>WmsPrintAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WMS\WmsViewPrintAllocation.aspx.cs">
+      <DependentUpon>WmsViewPrintAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrystalReport\WebForms\WMS\WmsViewPrintAllocation.aspx.designer.cs">
+      <DependentUpon>WmsViewPrintAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FactoryDispatchComplete.aspx.cs">
+      <DependentUpon>FactoryDispatchComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FactoryDispatchComplete.aspx.designer.cs">
+      <DependentUpon>FactoryDispatchComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerAuthorisedQtyReport.aspx.cs">
+      <DependentUpon>FarmerAuthorisedQtyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerAuthorisedQtyReport.aspx.designer.cs">
+      <DependentUpon>FarmerAuthorisedQtyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerBankDetailsLoader.aspx.cs">
+      <DependentUpon>FarmerBankDetailsLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerBankDetailsLoader.aspx.designer.cs">
+      <DependentUpon>FarmerBankDetailsLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerLoanLoader.aspx.cs">
+      <DependentUpon>FarmerLoanLoader.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerLoanLoader.aspx.designer.cs">
+      <DependentUpon>FarmerLoanLoader.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerMaster.aspx.cs">
+      <DependentUpon>FarmerMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerMaster.aspx.designer.cs">
+      <DependentUpon>FarmerMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerPurchase.aspx.cs">
+      <DependentUpon>FarmerPurchase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerPurchase.aspx.designer.cs">
+      <DependentUpon>FarmerPurchase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerPurchaseCRRRBalesDetails.aspx.cs">
+      <DependentUpon>FarmerPurchaseCRRRBalesDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerPurchaseCRRRBalesDetails.aspx.designer.cs">
+      <DependentUpon>FarmerPurchaseCRRRBalesDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmerWisePurchaseSummary.aspx.cs">
+      <DependentUpon>FarmerWisePurchaseSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmerWisePurchaseSummary.aspx.designer.cs">
+      <DependentUpon>FarmerWisePurchaseSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FPSlip.aspx.cs">
+      <DependentUpon>FPSlip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FPSlip.aspx.designer.cs">
+      <DependentUpon>FPSlip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FumigatedCaseDetails.aspx.cs">
+      <DependentUpon>FumigatedCaseDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FumigatedCaseDetails.aspx.designer.cs">
+      <DependentUpon>FumigatedCaseDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FumigationPartialClose.aspx.cs">
+      <DependentUpon>FumigationPartialClose.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FumigationPartialClose.aspx.designer.cs">
+      <DependentUpon>FumigationPartialClose.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FumigationReceipt.aspx.cs">
+      <DependentUpon>FumigationReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FumigationReceipt.aspx.designer.cs">
+      <DependentUpon>FumigationReceipt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradingBatchDetails.aspx.cs">
+      <DependentUpon>GradingBatchDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradingBatchDetails.aspx.designer.cs">
+      <DependentUpon>GradingBatchDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradingBatchTempDetails.aspx.cs">
+      <DependentUpon>GradingBatchTempDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradingBatchTempDetails.aspx.designer.cs">
+      <DependentUpon>GradingBatchTempDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="JesCrop.aspx.cs">
+      <DependentUpon>JesCrop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="JesCrop.aspx.designer.cs">
+      <DependentUpon>JesCrop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master.Master.cs">
+      <DependentUpon>Master.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master.Master.designer.cs">
+      <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="OperationReceipeMaster.aspx.cs">
+      <DependentUpon>OperationReceipeMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OperationReceipeMaster.aspx.designer.cs">
+      <DependentUpon>OperationReceipeMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OrganizationMaster.aspx.cs">
+      <DependentUpon>OrganizationMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrganizationMaster.aspx.designer.cs">
+      <DependentUpon>OrganizationMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PackedCaseTrack.aspx.cs">
+      <DependentUpon>PackedCaseTrack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PackedCaseTrack.aspx.designer.cs">
+      <DependentUpon>PackedCaseTrack.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PrintAllocation.aspx.cs">
+      <DependentUpon>PrintAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PrintAllocation.aspx.designer.cs">
+      <DependentUpon>PrintAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCMODELS\LD\FarmerPurchase.cs" />
+    <Compile Include="REPORTS\AuctionDispatchLP5Print.aspx.cs">
+      <DependentUpon>AuctionDispatchLP5Print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\AuctionDispatchLP5Print.aspx.designer.cs">
+      <DependentUpon>AuctionDispatchLP5Print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\FactoryDispatchLP5print.aspx.cs">
+      <DependentUpon>FactoryDispatchLP5print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\FactoryDispatchLP5print.aspx.designer.cs">
+      <DependentUpon>FactoryDispatchLP5print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\FarmerPurchaseDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FarmerPurchaseDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeTransfer.aspx.cs">
+      <DependentUpon>ReportGradeTransfer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeTransfer.aspx.designer.cs">
+      <DependentUpon>ReportGradeTransfer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeWiseAllStock.aspx.cs">
+      <DependentUpon>ReportGradeWiseAllStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeWiseAllStock.aspx.designer.cs">
+      <DependentUpon>ReportGradeWiseAllStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeWiseStock.aspx.cs">
+      <DependentUpon>ReportGradeWiseStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportGradeWiseStock.aspx.designer.cs">
+      <DependentUpon>ReportGradeWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportLotWiseStock.aspx.cs">
+      <DependentUpon>ReportLotWiseStock.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportLotWiseStock.aspx.designer.cs">
+      <DependentUpon>ReportLotWiseStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportLP4Print.aspx.cs">
+      <DependentUpon>ReportLP4Print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportLP4Print.aspx.designer.cs">
+      <DependentUpon>ReportLP4Print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTS\ReportLP5Print.aspx.cs">
+      <DependentUpon>ReportLP5Print.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="REPORTS\ReportLP5Print.aspx.designer.cs">
+      <DependentUpon>ReportLP5Print.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="REPOSITORY\IUserRepository.cs" />
+    <Compile Include="REPOSITORY\UserRepository.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="SubInventoryMaster.aspx.cs">
+      <DependentUpon>SubInventoryMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubInventoryMaster.aspx.designer.cs">
+      <DependentUpon>SubInventoryMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierPurchase.aspx.cs">
+      <DependentUpon>SupplierPurchase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupplierPurchase.aspx.designer.cs">
+      <DependentUpon>SupplierPurchase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TAPCompetitionReports.aspx.cs">
+      <DependentUpon>TAPCompetitionReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TAPCompetitionReports.aspx.designer.cs">
+      <DependentUpon>TAPCompetitionReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TAPPurchase.aspx.cs">
+      <DependentUpon>TAPPurchase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TAPPurchase.aspx.designer.cs">
+      <DependentUpon>TAPPurchase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingBatchComplete.aspx.cs">
+      <DependentUpon>ThreshingBatchComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingBatchComplete.aspx.designer.cs">
+      <DependentUpon>ThreshingBatchComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingBatchDetails.aspx.cs">
+      <DependentUpon>ThreshingBatchDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingBatchDetails.aspx.designer.cs">
+      <DependentUpon>ThreshingBatchDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingBatchLiveBlendRatios.aspx.cs">
+      <DependentUpon>ThreshingBatchLiveBlendRatios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingBatchLiveBlendRatios.aspx.designer.cs">
+      <DependentUpon>ThreshingBatchLiveBlendRatios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingBatchTempDetails.aspx.cs">
+      <DependentUpon>ThreshingBatchTempDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingBatchTempDetails.aspx.designer.cs">
+      <DependentUpon>ThreshingBatchTempDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingBlendRatios.aspx.cs">
+      <DependentUpon>ThreshingBlendRatios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingBlendRatios.aspx.designer.cs">
+      <DependentUpon>ThreshingBlendRatios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingHourlyBaseBlendRatios.aspx.cs">
+      <DependentUpon>ThreshingHourlyBaseBlendRatios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingHourlyBaseBlendRatios.aspx.designer.cs">
+      <DependentUpon>ThreshingHourlyBaseBlendRatios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreshingProcessChart.aspx.cs">
+      <DependentUpon>ThreshingProcessChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreshingProcessChart.aspx.designer.cs">
+      <DependentUpon>ThreshingProcessChart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TodateCRRRReports.aspx.cs">
+      <DependentUpon>TodateCRRRReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TodateCRRRReports.aspx.designer.cs">
+      <DependentUpon>TodateCRRRReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UnderFumigationDetails.aspx.cs">
+      <DependentUpon>UnderFumigationDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnderFumigationDetails.aspx.designer.cs">
+      <DependentUpon>UnderFumigationDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UpAndDownClassificationReport.aspx.cs">
+      <DependentUpon>UpAndDownClassificationReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpAndDownClassificationReport.aspx.designer.cs">
+      <DependentUpon>UpAndDownClassificationReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UpAndDownGradeMapping.aspx.cs">
+      <DependentUpon>UpAndDownGradeMapping.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpAndDownGradeMapping.aspx.designer.cs">
+      <DependentUpon>UpAndDownGradeMapping.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UpAndDownGradeMappingNew.aspx.cs">
+      <DependentUpon>UpAndDownGradeMappingNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpAndDownGradeMappingNew.aspx.designer.cs">
+      <DependentUpon>UpAndDownGradeMappingNew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserMaster.aspx.cs">
+      <DependentUpon>UserMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserMaster.aspx.designer.cs">
+      <DependentUpon>UserMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VarietyMaster.aspx.cs">
+      <DependentUpon>VarietyMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VarietyMaster.aspx.designer.cs">
+      <DependentUpon>VarietyMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BankDetails.cs" />
+    <Compile Include="ViewModel\ChemistryTarget.cs" />
+    <Compile Include="ViewModel\ClusterDetails.cs" />
+    <Compile Include="ViewModel\CommonManagement.cs" />
+    <Compile Include="ViewModel\CompanyDetails.cs" />
+    <Compile Include="ViewModel\CountryList.cs" />
+    <Compile Include="ViewModel\Crop.cs" />
+    <Compile Include="ViewModel\CropManagement.cs" />
+    <Compile Include="ViewModel\CropRepository.cs" />
+    <Compile Include="ViewModel\CrystalReporData.cs" />
+    <Compile Include="ViewModel\DataLoaderManagement.cs" />
+    <Compile Include="ViewModel\DataLoader\ClassificationLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\CropTransferLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\Dispatch.cs" />
+    <Compile Include="ViewModel\DataLoader\FactoryDispatchLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\FarmerBankDetailsLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\FarmerLoanLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\FarmerPurchaseLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\FumigationReportLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\GradeTransferLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\GradingIssueLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\GradingOutturnLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\PackedCaseDispatchLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\PackedCaseReceipt.cs" />
+    <Compile Include="ViewModel\DataLoader\ReceiptLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\SalesTransactionLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\SupplierPurchaseLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\SupplierVerifications.cs" />
+    <Compile Include="ViewModel\DataLoader\TapPurchaseLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\ThreshingIssueLoader.cs" />
+    <Compile Include="ViewModel\DataLoader\ThreshingOutturnLoader.cs" />
+    <Compile Include="ViewModel\DataServerAsync.cs" />
+    <Compile Include="ViewModel\DataServerSync.cs" />
+    <Compile Include="ViewModel\Enums.cs" />
+    <Compile Include="ViewModel\FarmerDetails.cs" />
+    <Compile Include="ViewModel\FarmerManagement.cs" />
+    <Compile Include="ViewModel\FarmerMaster_FarmerCropHistory.cs" />
+    <Compile Include="ViewModel\GltManagement.cs" />
+    <Compile Include="ViewModel\GLT\GLTLaminaMoisture.cs" />
+    <Compile Include="ViewModel\GLT\GLTManagement.cs" />
+    <Compile Include="ViewModel\GLT\GLTScrapMoisture.cs" />
+    <Compile Include="ViewModel\GLT\GLTStemMoisture.cs" />
+    <Compile Include="ViewModel\GPIBase.cs" />
+    <Compile Include="ViewModel\GPIObject.cs" />
+    <Compile Include="ViewModel\GPISession.cs" />
+    <Compile Include="ViewModel\IBaseDB.cs" />
+    <Compile Include="ViewModel\InvoiceVerification.cs" />
+    <Compile Include="ViewModel\InvoiceVerificationAuction.cs" />
+    <Compile Include="ViewModel\ItemDetails.cs" />
+    <Compile Include="ViewModel\ItemMaster.cs" />
+    <Compile Include="ViewModel\LDDManagement.cs" />
+    <Compile Include="ViewModel\LDItemMaster.cs" />
+    <Compile Include="ViewModel\LDManagement.cs" />
+    <Compile Include="ViewModel\LDReport.cs" />
+    <Compile Include="ViewModel\LOGIN\Login.cs" />
+    <Compile Include="ViewModel\LPDManagement.cs" />
+    <Compile Include="ViewModel\MasterManagement.cs" />
+    <Compile Include="ViewModel\OperationReceipeManagement.cs" />
+    <Compile Include="ViewModel\OperationReciepeDetails.cs" />
+    <Compile Include="ViewModel\OrganizationManagement.cs" />
+    <Compile Include="ViewModel\OrganizatioDetails.cs" />
+    <Compile Include="ViewModel\PoReceipt.cs" />
+    <Compile Include="ViewModel\PPDManagement.cs" />
+    <Compile Include="ViewModel\Propertycls.cs" />
+    <Compile Include="ViewModel\QualityLab.cs" />
+    <Compile Include="ViewModel\RateMaster.cs" />
+    <Compile Include="ViewModel\RDLCReport.cs" />
+    <Compile Include="ViewModel\ReportManagement.cs" />
+    <Compile Include="ViewModel\REPORTS\FarmerVerificationSlip.cs" />
+    <Compile Include="ViewModel\SessionKey.cs" />
+    <Compile Include="ViewModel\SkipRemnantThreshingIssue.cs" />
+    <Compile Include="ViewModel\SoilMaster.cs" />
+    <Compile Include="ViewModel\SubinventoryDetails.cs" />
+    <Compile Include="ViewModel\SubinventoryManagement.cs" />
+    <Compile Include="ViewModel\SubsidyMaster.cs" />
+    <Compile Include="ViewModel\SupplierMaster.cs" />
+    <Compile Include="ViewModel\TPLoader.cs" />
+    <Compile Include="ViewModel\UpAndDownGradeMappingUpload.cs" />
+    <Compile Include="ViewModel\UpDownGradeMapping.cs" />
+    <Compile Include="ViewModel\UserDetails.cs" />
+    <Compile Include="ViewModel\UserManagement.cs" />
+    <Compile Include="ViewModel\Utils.cs" />
+    <Compile Include="ViewModel\Variety.cs" />
+    <Compile Include="ViewModel\VarietyManagement.cs" />
+    <Compile Include="ViewModel\Verification.cs" />
+    <Compile Include="ViewModel\VerificationBaleNetWtTrackDetails.cs" />
+    <Compile Include="ViewModel\VerificationManagement.cs" />
+    <Compile Include="ViewModel\Verificationn\CompleteDispatch.cs" />
+    <Compile Include="ViewModel\Verificationn\FarmerPurchaseCrossCheck.cs" />
+    <Compile Include="ViewModel\Verificationn\FumigationDetails.cs" />
+    <Compile Include="ViewModel\Verificationn\OldPackedCaseStockLoader.cs" />
+    <Compile Include="ViewModel\Verificationn\SupplierPurchaseVerification.cs" />
+    <Compile Include="ViewModel\Verificationn\SupplierVerification.cs" />
+    <Compile Include="ViewModel\Verificationn\UserMaster.cs" />
+    <Compile Include="ViewModel\VillageDetails.cs" />
+    <Compile Include="ViewModel\WMSManagement.cs" />
+    <Compile Include="ViewModel\WMS\FumigationReceipt.cs" />
+    <Compile Include="ViewPrintAllocation.aspx.cs">
+      <DependentUpon>ViewPrintAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewPrintAllocation.aspx.designer.cs">
+      <DependentUpon>ViewPrintAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VillageMaster.aspx.cs">
+      <DependentUpon>VillageMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VillageMaster.aspx.designer.cs">
+      <DependentUpon>VillageMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WMSDataStatus.aspx.cs">
+      <DependentUpon>WMSDataStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WMSDataStatus.aspx.designer.cs">
+      <DependentUpon>WMSDataStatus.aspx</DependentUpon>
+    </Compile>
+    <Content Include="AddOldStockMaster.aspx" />
+    <Content Include="App_Code\GPIBase.cs" />
+    <Content Include="App_Code\GPIObject.cs" />
+    <Content Include="App_Code\GPISession.cs" />
+    <Content Include="App_Code\DataServerAsync.cs" />
+    <Content Include="App_Code\DataServerSync.cs" />
+    <Content Include="App_Code\Enums.cs" />
+    <Content Include="App_Code\IBaseDB.cs" />
+    <Content Include="App_Code\SessionKey.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClusterController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CropController.cs" />
+    <Compile Include="Controllers\FarmerController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\LDController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\VarietyController.cs" />
+    <Compile Include="Controllers\VillageController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BC_Batch_Details.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BC_Batch_Header.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BC_ERP_IOT_DTL.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BC_InterGrade.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BC_WMS_LEAF_ASN_D.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFarmerPurchaseSummaryDetails_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPILDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GPILDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPILDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPILDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GPILDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_3ROWDATA_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_3ROWDATA_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_BANK_NAME_LIST.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_BG_INFO.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_BG_INFORMATION.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_BG_TRANSACTION.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_BUYER_VS_CLASSIFIER_GRD_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_Chemical_Targets.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_Chemistry_Reports.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLASSIFICATION_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLASSIFICATION_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLASSIFICATION_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLASSIFICATION_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLASSIFY_SUFFIX.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CLUSTER_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_COMPANY_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_COMPETITION_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_COMPETITION_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CROP_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CROP_TRANS_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CROP_TRANS_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CROP_TRANS_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_CROP_TRANS_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_DAILYSTOCK_BACKUP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FACTORY_DISPATCH_GRADE_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_CROP_HISTORY.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_FATHERS_NAME.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_FREIGHT_CHARGE_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_FREIGHT_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_LOAN_TRANSACTION.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_LOAN_TRANSACTIONS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_MASTER_backup.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_MASTER_NEW.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_PURCHASE_TRANSACTIONS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_PURCHS_REMARKS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FARMER_VILLAGE_FREIGHT_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FINANCIAL_YEAR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FUMIGATION_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FUMIGATION_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FUMIGATION_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_FUMIGATION_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_GRADING_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_GRADING_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_GRADING_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_GRADING_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_GRADING_NONSUFFIX_ITEM.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_ITEM_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_LOG.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_MAX_MIN_VALUE.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_OPERATION_RECIPE.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_ORGN_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_PPGRD_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_PROCESS_ORDER_CAPTURE.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_PROJECT_FORMS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_RATE_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_REJECTION_TYPE.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_REMARKS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SERVICE_CHARGE_CHART.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SERVICE_CHARGE_INFO.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SERVICE_CHARGE_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SHIPMENT_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SHIPMENT_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SHIPMENT_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SHIPMENT_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SHIP_MISS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SOIL_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SO_RESERVATION_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SO_RESERVATION_DTLS_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SO_RESERVATION_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SO_RESERVATION_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SP_FUMIGATION_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SP_GET_USER_PERMISSION_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_STACK_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_STOCK.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SUBINVENTORY.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_Subsidue_Master.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SUPPLIER_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SUPP_PURCHS_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_SUPP_PURCHS_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_TAP_FARM_PURCHS_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_TAP_FARM_PURCHS_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_DTLS_1.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_DTLS_1_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_DTLS_2.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_DTLS_2_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_HDR.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_HDR_TEMP.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_THRESH_RECON_ISSUE_GRADE_DTLS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_USER_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_USER_PERMISSION.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_USER_RIGHTS.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_VARIETY_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_VARIETY_SEASON_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GPIL_VILLAGE_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HS_TRANSACTION_LOG.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ITEM_MASTER.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\mCas.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mChemicalDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mCountry.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mCropYear.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mDownloadTable.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mGrade.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mJobType.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mLocation.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mRate.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mStack.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mSupplier.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mTransporter.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mUser.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mVariety.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mWebSetting.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_DownloadData_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ERPInterface_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetMasterDetails_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_GetStockStatus_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetUserDetails_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_mChemicalDetails_Sel_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_mCropYears_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_mUser_UpdPwd_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tBarcodeDetails_CaseBarcode_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tBarcodeDetails_Chk_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_CaseBarcode_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_Fum_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_Ins_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_LP5No_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_PickListNo_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tCaseDetails_Sel_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_UpAndDownRpt_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tBarcodeDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tCaseDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tDispatchDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tDispatchNote.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\temp1.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\temp2.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tempUploading.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tFactoryDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tMaxLP5.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tPrintAllocation.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tVersionDetail.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WSP_Validate_User_Result.cs">
+      <DependentUpon>GPILDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\ExcelUpload\VillageExcel.cs" />
+    <Content Include="CrystalReport\WebForms\ChemistryReport.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\GLTLaminaMoisture.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\LaminaMoistureReport.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\ScrapDegradationReport.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\ScrapMoistureReport.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\StemMoistureReport.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\ThreshingBatchLiveBlendRatio.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\ThreshingBlendRatio.aspx" />
+    <Content Include="CrystalReport\WebForms\GLT\ThreshingProcessChart.aspx" />
+    <Content Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipDatewise.aspx" />
+    <Content Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWeb.aspx" />
+    <Content Include="CrystalReport\WebForms\LD\FarmerPurchaseSlipWebFinal.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\BGTransactionReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\BuyerClassificationReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\BuyerClassMinMaxReportWithTransport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\CompetetionConsolitate.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\CompetitionHighBidLowBidInfo.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\CompetitionReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\PPGRDReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\TapPurchaseInfo.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\TapWisePurchaseReport.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\TapWiseQuantityMarketed.aspx" />
+    <Content Include="CrystalReport\WebForms\LPD\TapWiseStockSummaryReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\BatchwiseClassificationRpt.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\BuyerClassGradeReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassCumuWithGradeTransferFrightReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassificationCumulativeReportVKBU.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassificationCumulativeTodayVSTodateReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassificationCumulativeWithGradeTransferReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClassificationReportForTAP.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\ClOrgWiseClassificationReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\GradingIssueOutTurnSheet.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\GradingOperationReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\GradingReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\GreenStockReport.aspx" />
+    <Content Include="CrystalReport\WebForms\PPD\SupplierPurchaseInfoReports.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\AuctionDispatchReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\BaleTrack.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\CropTransferReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\DispatchReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\FactoryDispatchLP5Print.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\GradeTransferReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\IntransitReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\LotWiseStock.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\LP4PrintReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\LP5DocumentAuction.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\ReceiptReport.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseAllStock.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\ReportGradeWiseStock.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\ReportLotWiseStock.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\SalesOrderPrint.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\WeeklyReconcilation.aspx" />
+    <Content Include="CrystalReport\WebForms\REPORTS\WeightLossReport.aspx" />
+    <Content Include="CrystalReport\WebForms\ThreshingHourBasedBlendRatio.aspx" />
+    <Content Include="CrystalReport\WebForms\WMS\WmsPrintAllocation.aspx" />
+    <Content Include="CrystalReport\WebForms\WMS\WmsViewPrintAllocation.aspx" />
+    <Content Include="FarmerBankDetailsLoader.aspx" />
+    <Content Include="FarmerLoanLoader.aspx" />
+    <Content Include="FarmerMaster.aspx" />
+    <Content Include="FarmerPurchase.aspx" />
+    <Content Include="Images\Add.png" />
+    <Content Include="Images\Cross.jfif" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\Edit.png" />
+    <Content Include="Images\Loading.gif" />
+    <Content Include="Images\Minus.png" />
+    <Content Include="Images\save.jfif" />
+    <Content Include="JesCrop.aspx" />
+    <Content Include="Master.Master" />
+    <Content Include="REPORTS\AuctionDispatchLP5Print.aspx" />
+    <Content Include="REPORTS\FactoryDispatchLP5print.aspx" />
+    <Content Include="REPORTS\ReportGradeTransfer.aspx" />
+    <Content Include="REPORTS\ReportGradeWiseAllStock.aspx" />
+    <Content Include="REPORTS\ReportGradeWiseStock.aspx" />
+    <Content Include="REPORTS\ReportLotWiseStock.aspx" />
+    <Content Include="REPORTS\ReportLP4Print.aspx" />
+    <Content Include="REPORTS\ReportLP5Print.aspx" />
+    <Content Include="SupplierPurchase.aspx" />
+    <Content Include="TAPPurchase.aspx" />
+    <Content Include="UserMaster.aspx" />
+    <Content Include="Views\LPD\BGInformation.cshtml" />
+    <Content Include="Views\VERIFICATION_NEW\FarmerPurchaseBaleWiseIndex.cshtml" />
+    <Content Include="WMSDataStatus.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\ace-ie.min.css" />
+    <Content Include="assets\css\ace-part2.min.css" />
+    <Content Include="assets\css\ace-rtl.min.css" />
+    <Content Include="assets\css\ace-skins.min.css" />
+    <Content Include="assets\css\ace.min.css" />
+    <Content Include="assets\css\bootstrap-colorpicker.min.css" />
+    <Content Include="assets\css\bootstrap-datepicker3.min.css" />
+    <Content Include="assets\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="assets\css\bootstrap-duallistbox.min.css" />
+    <Content Include="assets\css\bootstrap-editable.min.css" />
+    <Content Include="assets\css\bootstrap-multiselect.min.css" />
+    <Content Include="assets\css\bootstrap-timepicker.min.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\chosen.min.css" />
+    <Content Include="assets\css\colorbox.min.css" />
+    <Content Include="assets\css\daterangepicker.min.css" />
+    <Content Include="assets\css\dropzone.min.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\fonts.googleapis.com.css" />
+    <Content Include="assets\css\fullcalendar.min.css" />
+    <Content Include="assets\css\images\meteorshower2.jpg" />
+    <Content Include="assets\css\images\pattern.jpg" />
+    <Content Include="assets\css\jquery-ui.custom.min.css" />
+    <Content Include="assets\css\jquery-ui.min.css" />
+    <Content Include="assets\css\jquery.gritter.min.css" />
+    <Content Include="assets\css\prettify.min.css" />
+    <Content Include="assets\css\select2.min.css" />
+    <Content Include="assets\css\ui.jqgrid.min.css" />
+    <Content Include="assets\font-awesome\4.5.0\css\font-awesome.min.css" />
+    <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\images\avatars\avatar.png" />
+    <Content Include="assets\images\avatars\avatar1.png" />
+    <Content Include="assets\images\avatars\avatar2.png" />
+    <Content Include="assets\images\avatars\avatar3.png" />
+    <Content Include="assets\images\avatars\avatar4.png" />
+    <Content Include="assets\images\avatars\avatar5.png" />
+    <Content Include="assets\images\avatars\Excel-download-icon.png" />
+    <Content Include="assets\images\avatars\godfrey-phillips-india-squarelogo-1424264964001.png" />
+    <Content Include="assets\images\avatars\Godfrey_phillips_logo.png" />
+    <Content Include="assets\images\avatars\GPIL_logo.png" />
+    <Content Include="assets\images\avatars\pdf-download.png" />
+    <Content Include="assets\images\avatars\profile-pic.jpg" />
+    <Content Include="assets\images\avatars\Teamliftsslogo.png" />
+    <Content Include="assets\images\avatars\user.jpg" />
+    <Content Include="assets\images\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="assets\images\bootstrap-colorpicker\alpha.png" />
+    <Content Include="assets\images\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="assets\images\bootstrap-colorpicker\hue.png" />
+    <Content Include="assets\images\bootstrap-colorpicker\saturation.png" />
+    <Content Include="assets\images\email\email1.png" />
+    <Content Include="assets\images\email\email2.png" />
+    <Content Include="assets\images\email\email3.png" />
+    <Content Include="assets\images\email\email4.png" />
+    <Content Include="assets\images\gallery\image-1.jpg" />
+    <Content Include="assets\images\gallery\image-2.jpg" />
+    <Content Include="assets\images\gallery\image-3.jpg" />
+    <Content Include="assets\images\gallery\image-4.jpg" />
+    <Content Include="assets\images\gallery\image-5.jpg" />
+    <Content Include="assets\images\gallery\image-6.jpg" />
+    <Content Include="assets\images\gallery\thumb-1.jpg" />
+    <Content Include="assets\images\gallery\thumb-2.jpg" />
+    <Content Include="assets\images\gallery\thumb-3.jpg" />
+    <Content Include="assets\images\gallery\thumb-4.jpg" />
+    <Content Include="assets\images\gallery\thumb-5.jpg" />
+    <Content Include="assets\images\gallery\thumb-6.jpg" />
+    <Content Include="assets\images\placeholder\165x90.png" />
+    <Content Include="assets\images\placeholder\255x150.png" />
+    <Content Include="assets\images\placeholder\530x270.png" />
+    <Content Include="assets\images\placeholder\550x280.png" />
+    <Content Include="assets\js\ace-editable.min.js" />
+    <Content Include="assets\js\ace-elements.min.js" />
+    <Content Include="assets\js\ace-extra.min.js" />
+    <Content Include="assets\js\ace.min.js" />
+    <Content Include="assets\js\autosize.min.js" />
+    <Content Include="assets\js\bootbox.js" />
+    <Content Include="assets\js\bootstrap-colorpicker.min.js" />
+    <Content Include="assets\js\bootstrap-datepicker.min.js" />
+    <Content Include="assets\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="assets\js\bootstrap-editable.min.js" />
+    <Content Include="assets\js\bootstrap-markdown.min.js" />
+    <Content Include="assets\js\bootstrap-multiselect.min.js" />
+    <Content Include="assets\js\bootstrap-tag.min.js" />
+    <Content Include="assets\js\bootstrap-timepicker.min.js" />
+    <Content Include="assets\js\bootstrap-wysiwyg.min.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\buttons.colVis.min.js" />
+    <Content Include="assets\js\buttons.flash.min.js" />
+    <Content Include="assets\js\buttons.html5.min.js" />
+    <Content Include="assets\js\buttons.print.min.js" />
+    <Content Include="assets\js\chosen.jquery.min.js" />
+    <Content Include="assets\js\dataTables.buttons.min.js" />
+    <Content Include="assets\js\dataTables.select.min.js" />
+    <Content Include="assets\js\daterangepicker.min.js" />
+    <Content Include="assets\js\dropzone.min.js" />
+    <Content Include="assets\js\excanvas.min.js" />
+    <Content Include="assets\js\fullcalendar.min.js" />
+    <Content Include="assets\js\grid.locale-en.js" />
+    <Content Include="assets\js\holder.min.js" />
+    <Content Include="assets\js\html5shiv.min.js" />
+    <Content Include="assets\js\jquery-1.11.3.min.js" />
+    <Content Include="assets\js\jquery-2.1.4.min.js" />
+    <Content Include="assets\js\jquery-additional-methods.min.js" />
+    <Content Include="assets\js\jquery-typeahead.js" />
+    <Content Include="assets\js\jquery-ui.custom.min.js" />
+    <Content Include="assets\js\jquery-ui.min.js" />
+    <Content Include="assets\js\jquery.bootstrap-duallistbox.min.js" />
+    <Content Include="assets\js\jquery.colorbox.min.js" />
+    <Content Include="assets\js\jquery.dataTables.bootstrap.min.js" />
+    <Content Include="assets\js\jquery.dataTables.min.js" />
+    <Content Include="assets\js\jquery.easypiechart.min.js" />
+    <Content Include="assets\js\jquery.flot.min.js" />
+    <Content Include="assets\js\jquery.flot.pie.min.js" />
+    <Content Include="assets\js\jquery.flot.resize.min.js" />
+    <Content Include="assets\js\jquery.gritter.min.js" />
+    <Content Include="assets\js\jquery.hotkeys.index.min.js" />
+    <Content Include="assets\js\jquery.inputlimiter.min.js" />
+    <Content Include="assets\js\jquery.jqGrid.min.js" />
+    <Content Include="assets\js\jquery.knob.min.js" />
+    <Content Include="assets\js\jquery.maskedinput.min.js" />
+    <Content Include="assets\js\jquery.mobile.custom.min.js" />
+    <Content Include="assets\js\jquery.nestable.min.js" />
+    <Content Include="assets\js\jquery.raty.min.js" />
+    <Content Include="assets\js\jquery.sparkline.index.min.js" />
+    <Content Include="assets\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="assets\js\jquery.validate.min.js" />
+    <Content Include="assets\js\markdown.min.js" />
+    <Content Include="assets\js\moment.min.js" />
+    <Content Include="assets\js\prettify.min.js" />
+    <Content Include="assets\js\respond.min.js" />
+    <Content Include="assets\js\select2.min.js" />
+    <Content Include="assets\js\spin.js" />
+    <Content Include="assets\js\spinbox.min.js" />
+    <Content Include="assets\js\tree.min.js" />
+    <Content Include="assets\js\wizard.min.js" />
+    <Content Include="assets\swf\flashExport.swf" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\CrystalDecisions.CrystalReports.Engine.dll" />
+    <Content Include="bin\CrystalDecisions.Data.AdoDotNetInterop.dll" />
+    <Content Include="bin\CrystalDecisions.ReportSource.dll" />
+    <Content Include="bin\CrystalDecisions.Shared.dll" />
+    <Content Include="bin\CrystalDecisions.Web.dll" />
+    <Content Include="bin\DataTables-Editor-Server.dll" />
+    <Content Include="bin\DataTables-Editor-Server.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\GPILWebApp.dll" />
+    <Content Include="bin\GPILWebApp.pdb" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.ReportViewer.Common.dll" />
+    <Content Include="bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL" />
+    <Content Include="bin\Microsoft.ReportViewer.WebForms.dll" />
+    <Content Include="bin\Microsoft.SqlServer.Types.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\ReportViewerForMvc.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\SqlServerTypes\x64\msvcr120.dll" />
+    <Content Include="bin\SqlServerTypes\x64\SqlServerSpatial140.dll" />
+    <Content Include="bin\SqlServerTypes\x86\msvcr120.dll" />
+    <Content Include="bin\SqlServerTypes\x86\SqlServerSpatial140.dll" />
+    <Content Include="bin\stdole.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="ChemistryDataLoader.aspx" />
+    <Content Include="ChemistryReports.aspx" />
+    <Content Include="ClassificationReport.aspx" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CropMaster.aspx" />
+    <Content Include="CrystalReport\WebForms\FarmerBankDetailsLoader.aspx" />
+    <Content Include="CrystalReport\WebForms\FarmerPurchaseLoanLoader.aspx" />
+    <Content Include="CrystalReport\WebForms\LP5DocumentGSTWEB.aspx" />
+    <Content Include="CrystalReport\WebForms\LP5Printing.aspx" />
+    <Content Include="CrystalReport\WebForms\TAPPurchaseLoader.aspx" />
+    <Content Include="CrystalReport\WebForms\WebForm1.aspx" />
+    <Content Include="FactoryDispatchComplete.aspx" />
+    <Content Include="FarmerAuthorisedQtyReport.aspx" />
+    <Content Include="FarmerPurchaseCRRRBalesDetails.aspx" />
+    <Content Include="FarmerWisePurchaseSummary.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="FPSlip.aspx" />
+    <Content Include="FumigatedCaseDetails.aspx" />
+    <Content Include="FumigationPartialClose.aspx" />
+    <Content Include="FumigationReceipt.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="GradingBatchDetails.aspx" />
+    <Content Include="GradingBatchTempDetails.aspx" />
+    <Content Include="Home.aspx" />
+    <Content Include="Models\GPILDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GPILDataModel.edmx</DependentUpon>
+      <LastGenOutput>GPILDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GPILDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GPILDataModel.edmx</DependentUpon>
+      <LastGenOutput>GPILDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="MyScript.js" />
+    <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <EntityDeploy Include="Models\GPILDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GPILDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GPILDataModel.edmx.diagram">
+      <DependentUpon>GPILDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="OperationReceipeMaster.aspx" />
+    <Content Include="OrganizationMaster.aspx" />
+    <Content Include="PackedCaseTrack.aspx" />
+    <Content Include="PrintAllocation.aspx" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\index.js.flow" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="CrystalReport\DS_FARMERSLIP.xsc">
+      <DependentUpon>DS_FARMERSLIP.xsd</DependentUpon>
+    </Content>
+    <Content Include="bin\GPILWebApp.dll.config" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <None Include="CrystalReport\DS_FARMERSLIP.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_FARMERSLIP.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="CrystalReport\DS_FARMERSLIP.xss">
+      <DependentUpon>DS_FARMERSLIP.xsd</DependentUpon>
+    </Content>
+    <Content Include="CrystalReport\RptFarmerPurchaseSlipFinalByDate.rpt" />
+    <Content Include="CrystalReport\RptFarmerPurchaseSlipFinal.rpt" />
+    <Content Include="CrystalReport\rptCompetetionReport.rpt" />
+    <Content Include="CrystalReport\RptLP5_DC.rpt" />
+    <Content Include="CrystalReport\rptLP5_GST.rpt" />
+    <Content Include="CrystalReport\rptWeightList.rpt" />
+    <Content Include="CrystalReport\rptGpipurchaseSummary.rpt" />
+    <Content Include="CrystalReport\rptQunatityMarktedSummary.rpt" />
+    <Content Include="CrystalReport\RptTAPMonthEndValuesGST.rpt" />
+    <Content Include="CrystalReport\RptTAPInvoiceValues.rpt" />
+    <Content Include="CrystalReport\RptTAPInvoiceValuesGST.rpt" />
+    <Content Include="CrystalReport\RptTAPMonthEndValues.rpt" />
+    <Content Include="CrystalReport\RptBuyerClassReport.rpt" />
+    <Content Include="CrystalReport\RptBuyerClassReport_Summary.rpt" />
+    <Content Include="CrystalReport\RptBuyerClassmINmAXReport.rpt" />
+    <Content Include="CrystalReport\rptPPGRDreport.rpt" />
+    <Content Include="CrystalReport\rptStockSummaryrpt.rpt" />
+    <Content Include="CrystalReport\RptCompetitionHighAndLowBids.rpt" />
+    <Content Include="REPORTS\FarmerPurchaseDS.xsc">
+      <DependentUpon>FarmerPurchaseDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="CrystalReport\RptWeightLossReport.rpt" />
+    <None Include="REPORTS\FarmerPurchaseDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FarmerPurchaseDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="REPORTS\FarmerPurchaseDS.xss">
+      <DependentUpon>FarmerPurchaseDS.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Jquery-3.5.1.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ScrollableGridViewPlugin_ASP.NetAJAXmin.js" />
+    <Content Include="Scripts\src\index.js" />
+    <Content Include="Scripts\src\methods\defaults.js" />
+    <Content Include="Scripts\src\methods\destroy.js" />
+    <Content Include="Scripts\src\methods\disableEventListeners.js" />
+    <Content Include="Scripts\src\methods\enableEventListeners.js" />
+    <Content Include="Scripts\src\methods\placements.js" />
+    <Content Include="Scripts\src\methods\update.js" />
+    <Content Include="Scripts\src\modifiers\applyStyle.js" />
+    <Content Include="Scripts\src\modifiers\arrow.js" />
+    <Content Include="Scripts\src\modifiers\computeStyle.js" />
+    <Content Include="Scripts\src\modifiers\flip.js" />
+    <Content Include="Scripts\src\modifiers\hide.js" />
+    <Content Include="Scripts\src\modifiers\index.js" />
+    <Content Include="Scripts\src\modifiers\inner.js" />
+    <Content Include="Scripts\src\modifiers\keepTogether.js" />
+    <Content Include="Scripts\src\modifiers\offset.js" />
+    <Content Include="Scripts\src\modifiers\preventOverflow.js" />
+    <Content Include="Scripts\src\modifiers\shift.js" />
+    <Content Include="Scripts\src\utils\clockwise.js" />
+    <Content Include="Scripts\src\utils\computeAutoPlacement.js" />
+    <Content Include="Scripts\src\utils\debounce.js" />
+    <Content Include="Scripts\src\utils\find.js" />
+    <Content Include="Scripts\src\utils\findCommonOffsetParent.js" />
+    <Content Include="Scripts\src\utils\findIndex.js" />
+    <Content Include="Scripts\src\utils\getBordersSize.js" />
+    <Content Include="Scripts\src\utils\getBoundaries.js" />
+    <Content Include="Scripts\src\utils\getBoundingClientRect.js" />
+    <Content Include="Scripts\src\utils\getClientRect.js" />
+    <Content Include="Scripts\src\utils\getFixedPositionOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetRect.js" />
+    <Content Include="Scripts\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getOppositePlacement.js" />
+    <Content Include="Scripts\src\utils\getOppositeVariation.js" />
+    <Content Include="Scripts\src\utils\getOuterSizes.js" />
+    <Content Include="Scripts\src\utils\getParentNode.js" />
+    <Content Include="Scripts\src\utils\getPopperOffsets.js" />
+    <Content Include="Scripts\src\utils\getReferenceNode.js" />
+    <Content Include="Scripts\src\utils\getReferenceOffsets.js" />
+    <Content Include="Scripts\src\utils\getRoot.js" />
+    <Content Include="Scripts\src\utils\getRoundedOffsets.js" />
+    <Content Include="Scripts\src\utils\getScroll.js" />
+    <Content Include="Scripts\src\utils\getScrollParent.js" />
+    <Content Include="Scripts\src\utils\getStyleComputedProperty.js" />
+    <Content Include="Scripts\src\utils\getSupportedPropertyName.js" />
+    <Content Include="Scripts\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getWindow.js" />
+    <Content Include="Scripts\src\utils\getWindowSizes.js" />
+    <Content Include="Scripts\src\utils\includeScroll.js" />
+    <Content Include="Scripts\src\utils\index.js" />
+    <Content Include="Scripts\src\utils\isBrowser.js" />
+    <Content Include="Scripts\src\utils\isFixed.js" />
+    <Content Include="Scripts\src\utils\isFunction.js" />
+    <Content Include="Scripts\src\utils\isIE.js" />
+    <Content Include="Scripts\src\utils\isModifierEnabled.js" />
+    <Content Include="Scripts\src\utils\isModifierRequired.js" />
+    <Content Include="Scripts\src\utils\isNumeric.js" />
+    <Content Include="Scripts\src\utils\isOffsetContainer.js" />
+    <Content Include="Scripts\src\utils\removeEventListeners.js" />
+    <Content Include="Scripts\src\utils\runModifiers.js" />
+    <Content Include="Scripts\src\utils\setAttributes.js" />
+    <Content Include="Scripts\src\utils\setStyles.js" />
+    <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SubInventoryMaster.aspx" />
+    <Content Include="TAPCompetitionReports.aspx" />
+    <Content Include="ThreshingBatchComplete.aspx" />
+    <Content Include="ThreshingBatchDetails.aspx" />
+    <Content Include="ThreshingBatchLiveBlendRatios.aspx" />
+    <Content Include="ThreshingBatchTempDetails.aspx" />
+    <Content Include="ThreshingBlendRatios.aspx" />
+    <Content Include="ThreshingHourlyBaseBlendRatios.aspx" />
+    <Content Include="ThreshingProcessChart.aspx" />
+    <Content Include="TodateCRRRReports.aspx" />
+    <Content Include="UnderFumigationDetails.aspx" />
+    <Content Include="UpAndDownClassificationReport.aspx" />
+    <Content Include="UpAndDownGradeMapping.aspx" />
+    <Content Include="UpAndDownGradeMappingNew.aspx" />
+    <Content Include="VarietyMaster.aspx" />
+    <Content Include="ViewPrintAllocation.aspx" />
+    <Content Include="VillageMaster.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Item\ItemList.cshtml" />
+    <Content Include="Views\Item\GetItems.cshtml" />
+    <Content Include="Views\LD\Index.cshtml" />
+    <Content Include="Views\Item\Index.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper.js.flow" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Crop\Index.cshtml" />
+    <Content Include="Views\Variety\Index.cshtml" />
+    <Content Include="Views\Village\Create.cshtml" />
+    <Content Include="Views\Village\Delete.cshtml" />
+    <Content Include="Views\Village\Details.cshtml" />
+    <Content Include="Views\Village\Edit.cshtml" />
+    <Content Include="Views\Village\Index.cshtml" />
+    <Content Include="Views\Farmer\Create.cshtml" />
+    <Content Include="Views\Farmer\Delete.cshtml" />
+    <Content Include="Views\Farmer\Details.cshtml" />
+    <Content Include="Views\Farmer\Edit.cshtml" />
+    <Content Include="Views\Farmer\Index.cshtml" />
+    <Content Include="Views\Cluster\Create.cshtml" />
+    <Content Include="Views\Cluster\Delete.cshtml" />
+    <Content Include="Views\Cluster\Details.cshtml" />
+    <Content Include="Views\Cluster\Edit.cshtml" />
+    <Content Include="Views\Cluster\Index.cshtml" />
+    <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Organization\Delete.cshtml" />
+    <Content Include="Views\Organization\Details.cshtml" />
+    <Content Include="Views\Organization\Edit.cshtml" />
+    <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\Supplier\Details.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Village\ImportExcelData.cshtml" />
+    <Content Include="Views\Item\ImportExcelData.cshtml" />
+    <Content Include="Views\Item\ExcelIndex.cshtml" />
+    <Content Include="Views\LD\OrgnCode.cshtml" />
+    <Content Include="Views\LD\ReportBales.cshtml" />
+    <Content Include="Views\LD\FarmerwisePurchaseSummary.cshtml" />
+    <Content Include="Views\LD\FPCRRRBalesDetails.cshtml" />
+    <Content Include="Views\FarmerLoanStatus\Index.cshtml" />
+    <Content Include="Views\LD\PendingBales.cshtml" />
+    <Content Include="Views\Farmer\FarmerAuthorizedQuantity.cshtml" />
+    <Content Include="Views\Farmer\FarmerPurchaseVerifySummary.cshtml" />
+    <Content Include="Views\Farmer\FarmerPurchaseSummaryDetails.cshtml" />
+    <Content Include="Views\PPD\GradingDetails.cshtml" />
+    <Content Include="Views\PPD\GradingTempDetails.cshtml" />
+    <Content Include="ViewModel\FPCRRRBalesDetails.cshtml" />
+    <Content Include="ViewModel\TTDCRRRDetails.cshtml" />
+    <Content Include="Views\LD\TTDCRRRDetails.cshtml" />
+    <Content Include="Views\LD\FarmerPurchaseSlip.cshtml" />
+    <Content Include="Views\LD\FarmerPurchaseSlipwithDate.cshtml" />
+    <Content Include="Views\LD\FarmerPurchaseSlipFinal.cshtml" />
+    <Content Include="Views\LPD\CompetitionReport.cshtml" />
+    <Content Include="Views\Reports\LP5Print.cshtml" />
+    <Content Include="Views\Reports\LP5DocumentGST.cshtml" />
+    <Content Include="Views\LPD\BGTransactionReport.cshtml" />
+    <Content Include="Views\LPD\TapPurchase.cshtml" />
+    <Content Include="Views\LPD\TapQuantityMarketed.cshtml" />
+    <Content Include="Views\LPD\BuyerClassification.cshtml" />
+    <Content Include="Views\LPD\TapPurchaseInfo.cshtml" />
+    <Content Include="Views\DataLoader\TapPurchase.cshtml" />
+    <Content Include="Views\LPD\MinMaxreport.cshtml" />
+    <Content Include="Views\LPD\PPGRDreport.cshtml" />
+    <Content Include="Views\LPD\TapStockRecon.cshtml" />
+    <Content Include="Views\LPD\HighLowBidCompetition.cshtml" />
+    <Content Include="Views\LPD\CompetitionConsolitateReport.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\Index.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\Index.cshtml" />
+    <Content Include="Views\Validation\Index.cshtml" />
+    <Content Include="Views\Verification\FarmerPurchaseIndex.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_CLUSTER_MASTER\EditExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_FARMER_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_ORGN_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_RATE_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_SOIL_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_SUPPLIER_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_USER_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_VARIETY_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_VILLAGE_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_COMPANY_MASTER\ExcelDataBase.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\Create.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\Delete.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\Details.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\Edit.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\ExcelGrid.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_CROP_MASTER\Index.cshtml" />
+    <Content Include="Views\Verify\FarmerPurchaseIndex.cshtml" />
+    <Content Include="Views\Verification\FarmerPurchaseBaleWiseIndex.cshtml" />
+    <Content Include="Views\VERIFICATION_NEW\Index.cshtml" />
+    <Content Include="Views\InvoiceVerification\Index.cshtml" />
+    <Content Include="Views\Verification\Create.cshtml" />
+    <Content Include="Views\InvoiceVerification\InvoiceVerifyIndex.cshtml" />
+    <Content Include="Views\InvoiceVerification\Create.cshtml" />
+    <Content Include="Views\Report\LP5Print.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchasePendingBalesIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseSummaryDetailsIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseVerificationSummaryDetailsIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerLoanStatusIndex.cshtml" />
+    <Content Include="Views\LDD\FPCRRRBalesDetailsIndex.cshtml" />
+    <Content Include="Views\LDD\TTDCRRRDetailsIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerwisePurchaseSummaryIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerAuthorizedQuantityIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseSlipIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseVerificationSlipByDateIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseVerificationBySlipIndex.cshtml" />
+    <Content Include="Views\PPD\GradingBatchDetailsIndex.cshtml" />
+    <Content Include="Views\DataLoader\TapPurchaseLoaderButtonIndex.cshtml" />
+    <Content Include="Views\DataLoader\TapPurchaseLoaderIndex.cshtml" />
+    <Content Include="Views\PPD\GradingBatchTempDetailsIndex.cshtml" />
+    <Content Include="Views\PPD\UnClassifiedDetailsIndex.cshtml" />
+    <Content Include="Views\DataLoader\FarmerpPurchaseLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\FarmerLoanLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\FarmerBankDetailsLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\SupplierPurchaseLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\DispatchLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\ReceiptLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\SalesTransactionLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\ClassificationLoaderIndex.cshtml" />
+    <Content Include="Views\VreificationNew\SupplierPurchaseVerificationIndex.cshtml" />
+    <Content Include="Views\Report\FactoryLP5PrintIndex.cshtml" />
+    <Content Include="Views\DataLoader\GradingIssueLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\GradingOutturnLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\GradeTransferLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\CropTransferLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\ThreshingIssueLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\ThreshingOutturnLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\PackedCaseDispatchLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\PackedCaseReceiptLoaderIndex.cshtml" />
+    <Content Include="Views\DataLoader\FumigationReportLoaderIndex.cshtml" />
+    <Content Include="Views\VreificationNew\BaleTrackWithUpdationIndex.cshtml" />
+    <Content Include="Views\DataLoader\FactoryDispatchLoaderIndex.cshtml" />
+    <Content Include="Views\SupplierVerification\SupplierVerificationIndex.cshtml" />
+    <Content Include="Views\SupplierVerification\SupplierVerifyIndex.cshtml" />
+    <Content Include="Views\FumigationDetails\FumigationDetailsIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingBatchIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingBatchTempIndex.cshtml" />
+    <Content Include="Views\WMS\FumigationReceiptIndex.cshtml" />
+    <Content Include="Views\LDD\FarmerPurchaseSlipTempIndex.cshtml" />
+    <Content Include="Views\BatchWiseClosingVerification\BatchwiseClosingIndex.cshtml" />
+    <Content Include="Views\ConnectOra\ConnectOraIndex.cshtml" />
+    <Content Include="Views\BaleTrackWithUpdation\BaleTrackWithUpdationIndex.cshtml" />
+    <Content Include="Views\OldPackedCaseStockLoaderVerification\OldPackedCaseStockLoaderIndex.cshtml" />
+    <Content Include="Views\FumigationDetailsLoader\FumigationDetailsLoaderIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingHourBasedBlendIndex.cshtml" />
+    <Content Include="Views\GLT\PackedCaseTrackIndex.cshtml" />
+    <Content Include="Views\Report\DispatchReport.cshtml" />
+    <Content Include="Views\Report\ReceiptReport.cshtml" />
+    <Content Include="Views\FarmerWisePurchaseSummaryLDD\Index.cshtml" />
+    <Content Include="Views\WMS\FumigationPartialCompleteIndex.cshtml" />
+    <Content Include="Views\WMS\UnderFumigationDetailsIndex.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\Create.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\Delete.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\Details.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\Edit.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_OPERATION_RECIPE\Index.cshtml" />
+    <Content Include="Views\WMS\FumigationCaseDetailsIndex.cshtml" />
+    <Content Include="Views\WMS\FactoryDispatchCompleteIndex.cshtml" />
+    <Content Include="Views\WMS\WmsDataStatusIndex.cshtml" />
+    <Content Include="Views\WMS\ViewPrintAllocationIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingBatchLiveBlendRatioIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingBlendRatioIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingProcessChartIndex.cshtml" />
+    <Content Include="Views\GLT\ThreshingBatchCompleteIndex.cshtml" />
+    <Content Include="Views\QualityLab\ManualIndex.cshtml" />
+    <Content Include="Views\QualityLab\ExcelIndex.cshtml" />
+    <Content Include="Views\QualityLab\ChemistryDataIndex.cshtml" />
+    <Content Include="Views\QualityLab\Create.cshtml" />
+    <Content Include="Views\GPIL_Chemistry_Reports\Create.cshtml" />
+    <Content Include="Views\GPIL_Chemistry_Reports\Delete.cshtml" />
+    <Content Include="Views\GPIL_Chemistry_Reports\Details.cshtml" />
+    <Content Include="Views\GPIL_Chemistry_Reports\Edit.cshtml" />
+    <Content Include="Views\GPIL_Chemistry_Reports\Index.cshtml" />
+    <Content Include="Views\ChemistryTarget\Index.cshtml" />
+    <Content Include="Views\ChemistryTarget\Create.cshtml" />
+    <Content Include="Views\ChemistryTarget\ExcelIndex.cshtml" />
+    <Content Include="Views\ChemistryReport\Index.cshtml" />
+    <Content Include="Views\InvoiceVerification\InvoiceAuctionVerifyIndex.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\Create.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\Delete.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\Details.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\Edit.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\ExcelIndex.cshtml" />
+    <Content Include="Views\GPIL_SUBINVENTORY\Index.cshtml" />
+    <Content Include="Views\AddOldStockMaster\AddOldStockIndex.cshtml" />
+    <Content Include="Views\AuthorisedQtyMaster\AuthorisedQtyMasterIndex.cshtml" />
+    <Content Include="Views\UpAndDownGradeMapping\UpAndDownGradeMappingIndex.cshtml" />
+    <Content Include="Views\UpAndDownGradeMappingNew\UpAndDownGradeMappingNewIndex.cshtml" />
+    <Content Include="Views\UpAndDownGradeMappingUpload\UpAndDownGradeMappingUploadIndex.cshtml" />
+    <Content Include="Views\LDD\ItemMasterIndex.cshtml" />
+    <Content Include="Views\LDD\ItemMasterExcelIndex.cshtml" />
+    <Content Include="Views\LDD\SubsidyMasterIndex.cshtml" />
+    <Content Include="Views\LDD\SubsidyMasterExcelIndex.cshtml" />
+    <Content Include="Views\LDD\PoReceiptIndex.cshtml" />
+    <Content Include="Views\LDD\PoReceiptExcelIndex.cshtml" />
+    <Content Include="Views\LDPoReceipt\Create.cshtml" />
+    <Content Include="Views\LDLoanDownload\Index.cshtml" />
+    <Content Include="Views\LDStockReconsilation\Index.cshtml" />
+    <Content Include="Views\LDMonthlyReconsilation\Index.cshtml" />
+    <Content Include="Views\DateWiseIssue\Index.cshtml" />
+    <Content Include="Views\LDDateWiseIssueReport\Index.cshtml" />
+    <Content Include="Views\Report\FreightChargeReport.cshtml" />
+    <Content Include="Views\Report\GradingChartReport.cshtml" />
+    <Content Include="Views\GLTLaminaMoisture\Index.cshtml" />
+    <Content Include="Views\VerificationFarmerPurchaseCrossCheck\Index.cshtml" />
+    <Content Include="Views\VerificationSkipRemnant\Index.cshtml" />
+    <Content Include="Views\VerificationFactoryDispatchDataCheck\Index.cshtml" />
+    <Content Include="Views\VerificationExportData\Index.cshtml" />
+    <Content Include="Views\VerificationBaleNetWtTrack\Index.cshtml" />
+    <Content Include="Views\ProfilePrintAllocationUpdate\Index.cshtml" />
+    <Content Include="Views\ProfileBackendProcess\Index.cshtml" />
+    <Content Include="Views\VerificationFreightChargeReportDCNumber\Index.cshtml" />
+    <Content Include="Views\VerificationCompleteDispatch\Index.cshtml" />
+    <Content Include="Views\VerificationFreightUpdate\Index.cshtml" />
+    <Content Include="Views\GPIL_ITEM_MASTER\ExcelIndex.cshtml" />
+    <Content Include="Views\GLTStemDegradation\Index.cshtml" />
+    <Content Include="Views\GLTLaminaDegradationReport\Index.cshtml" />
+    <Content Include="Views\GLTScrapMoisture\Index.cshtml" />
+    <Content Include="Views\GLTScrapMoisture\ExcelIndex.cshtml" />
+    <Content Include="Views\PPD\ClassificationFeedBackReport.cshtml" />
+    <Content Include="Views\PPD\ClassificationReportForTAPIndex.cshtml" />
+    <Content Include="Views\PPD\ClassificationCumuReportIndex.cshtml" />
+    <Content Include="Views\PPD\ClassificationCumuReportVKBUIndex.cshtml" />
+    <Content Include="Views\PPD\ClassificationCumuReportTodayTodateIndex.cshtml" />
+    <Content Include="Views\PPD\ClassificationCumulativeWithGradeTransferReportIndex.cshtml" />
+    <Content Include="Views\PPD\ClassCumuWithGradeTransferFrightReportIndex.cshtml" />
+    <Content Include="Views\PPD\UpAndDownClassificationReportIndex.cshtml" />
+    <Content Include="Views\PPD\GradingReportIndex.cshtml" />
+    <Content Include="Views\PPD\GradingOperationReportIndex.cshtml" />
+    <Content Include="Views\PPD\GreenStockReportIndex.cshtml" />
+    <Content Include="Views\PPD\ClOrgWiseClassificationReportIndex.cshtml" />
+    <Content Include="Views\PPD\BatchwiseClassificationRptIndex.cshtml" />
+    <Content Include="Views\PPD\SupplierPurchaseInfoReportsIndex.cshtml" />
+    <Content Include="Views\PPD\BuyerClassGradeReportIndex.cshtml" />
+    <Content Include="Views\GLTLaminaMoisture\ExcelIndex.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\GLTStemMoisture\ExcelIndex.cshtml" />
+    <Content Include="Views\GLTStemMoisture\Index.cshtml" />
+    <Content Include="Views\LPD\BCMAxMinTransChrReport.cshtml" />
+    <Content Include="Views\GLTLaminaMoistureReport\Index.cshtml" />
+    <Content Include="Views\GLTScrapDegradationReport\Index.cshtml" />
+    <Content Include="Views\GLTScrapMoistureReport\Index.cshtml" />
+    <Content Include="Views\GLTStemMoistureReport\Index.cshtml" />
+    <Content Include="Views\InvoiceVerify\Index.cshtml" />
+    <Content Include="Views\InvoiceVerify\InvoiceVerifyIndex.cshtml" />
+    <Content Include="Views\InvoiceVerify\Create.cshtml" />
+    <Content Include="Views\Report\LP5AuctionDocument.cshtml" />
+    <Content Include="Views\Report\LotWiseStockReport.cshtml" />
+    <Content Include="Views\Report\BaleTrackIndex.cshtml" />
+    <Content Include="Views\Report\SalesOrderPrintIndex.cshtml" />
+    <Content Include="Views\Report\IntransitReportIndex.cshtml" />
+    <Content Include="Views\Report\LotWiseStockIndex.cshtml" />
+    <Content Include="Views\Report\LP4PrintIndex.cshtml" />
+    <Content Include="Views\Report\WeeklyReconcilationIndex.cshtml" />
+    <Content Include="Views\Report\WeightLossReport.cshtml" />
+    <Content Include="Views\Report\GradeTransferReport.cshtml" />
+    <Content Include="Views\Report\CropTransferReport.cshtml" />
+    <Content Include="Views\Report\LP4Print.cshtml" />
+    <Content Include="Views\WmsPrintAllocations\Index.cshtml" />
+    <Content Include="Views\Grading\GradingTempDetails.cshtml" />
+    <Content Include="Views\PPD\GradingIssueIndex.cshtml" />
+    <Content Include="Views\ChemistryReport\ChemistryReportsIndex.cshtml" />
+    <Content Include="Views\Report\GradewiseStock.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="bin\de\" />
+    <Folder Include="bin\es\" />
+    <Folder Include="bin\fr\" />
+    <Folder Include="bin\it\" />
+    <Folder Include="bin\ja\" />
+    <Folder Include="bin\ko\" />
+    <Folder Include="bin\pt\" />
+    <Folder Include="bin\ru\" />
+    <Folder Include="bin\zh-Hans\" />
+    <Folder Include="bin\zh-Hant\" />
+    <Folder Include="crystalreportviewers13\" />
+    <Folder Include="ExcelUploads\" />
+    <Folder Include="TempFiles\" />
+    <Folder Include="Views\PurchaseSummaryDetails\" />
+    <Folder Include="Views\TapPurchaseLoader\" />
+    <Folder Include="Views\Testing\" />
+    <Folder Include="Views\USERMASTER\" />
+    <Folder Include="Views\WmsViewPrintAllocation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CrystalReport\PurchaseSlip.rdlc" />
+    <EmbeddedResource Include="CrystalReport\rptBaleTrack.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBaleTrack.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptBalewiseSTK.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBalewiseSTK.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptBGreport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBGreport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RPTChemistryReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPTChemistryReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptClassificationCumulativeTAPWiseReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptClassificationCumulativeTAPWiseReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptClassificationReportforTAP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptClassificationReportforTAP.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptClassificationReportforTAP_Summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptClassificationReportforTAP_Summary.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptCompetetionReport_111.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCompetetionReport_111.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptCompetitonConsilidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCompetitonConsilidate.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptCompetitonConsilidate1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCompetitonConsilidate1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptCropTransferReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptCropTransferReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptDispatchreprort.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDispatchreprort.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptFarmerPurchaseSlip_New.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptFarmerPurchaseSlip_New.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptGradeTransfer.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptGradeTransfer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptGradeTransferReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptGradeTransferReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptGradeWiseSTK.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptGradeWiseSTK.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptGradeWiseSTKCLS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptGradeWiseSTKCLS.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptGradingOperation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptGradingOperation.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptGradingReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptGradingReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptLP5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLP5.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptLP5_Auction.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLP5_Auction.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\rptLP5_Invoice_SO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLP5_Invoice_SO.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptOrgwiseGradewiseStock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptOrgwiseGradewiseStock.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptRecepitreprort.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptRecepitreprort.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptThreshingBlendRatio.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptThreshingBlendRatio.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptThreshingBlendRatioWtPerc.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptThreshingBlendRatioWtPerc.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptThreshingChartIssueDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptThreshingChartIssueDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptThreshingHourlyBlendRatio.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptThreshingHourlyBlendRatio.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptUpandDownClassificationReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptUpandDownClassificationReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\RptWeeklyRecon.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptWeeklyRecon.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\GLT\RptLamia.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptLamia.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\GLT\RptScrapDegradation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptScrapDegradation.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\GLT\RptScrapMoisture.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptScrapMoisture.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\GLT\RptStemMoisture.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptStemMoisture.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlipFinal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptFarmerPurchaseSlipFinal.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlipFinalByDate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptFarmerPurchaseSlipFinalByDate.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport\WebForms\LD\RptFarmerPurchaseSlip_New.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptFarmerPurchaseSlip_New.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="REPORTS\ListOfFarmerPurchase.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>34023</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:10215/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

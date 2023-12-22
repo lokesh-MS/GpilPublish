@@ -1,0 +1,419 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "PackedCaseTrackIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Packed Case To Bale Trace</h2>
+<hr/>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+            <label class="control-label">Select Crop</label>
+            <div>
+                @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCropMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+            <label class="control-label">Select Variety</label>
+            <div>
+                @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVarietyMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+            <label class="control-label">Packed Grade</label>
+            <select class="form-control" id="ddlPackedGrade">
+                <option value="0">SELECT PACKED GRADE</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+            <label class="control-label">Threshing Batch</label>
+            <select class="form-control" id="ddlThreshingBatch">
+                <option value="0">SELECT THRESHING BATCH</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div><label></label></div>
+        <div class="form-control-sm">
+            <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+                View
+            </button>
+            <button type="reset" class="btn btn-sm btn-default">
+                Clear
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-control-sm">
+           
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-control-sm">
+            <div><label></label></div>
+            <div id="PackedCaseCount"></div>
+        </div>
+
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="header smaller lighter blue">PACKED GRADE TRACK DETAILS</h3>
+                <div class="clearfix">
+                    <div class="pull-right tableTools-container"></div>
+                </div>
+                <div class="table-header">
+                    Results for "PACKED GRADE"
+                </div>
+                <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+                    <table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                        <thead>
+
+                            <tr>
+                                <th>SNO</th>
+                                <th>GPIL_BALE_NUMBER</th>
+                                <th>STEP1</th>
+                                <th>STEP2</th>
+                                <th>STEP3</th>
+                                <th>STEP4</th>
+                                <th>STEP5</th>
+                                <th>STEP6</th>
+                                <th>STEP7</th>
+                                <th>STEP8</th>
+                                <th>STEP9</th>
+                                <th>STEP10</th>
+                                <th>STEP11</th>
+                                <th>STEP12</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+        <script>
+
+
+            $(document).ready(function () {
+
+                $("#ddlVarietyMaster").on('change', function (event) {
+                    $('#ddlPackedGrade').empty();
+                    var cropList = $('#ddlCropMaster').val();
+                    var varietyList = $('#ddlVarietyMaster').val();
+                    GetPackedGrade(cropList, varietyList);
+                });
+
+
+
+                function GetPackedGrade(Crop, Variety) {
+                    $('#ddlPackedGrade').empty();
+                    debugger;
+                    var tblContent = '';
+                    tblContent = tblContent + '<option value="0">SELECT PACKED GRADE</option>';
+                    $.ajax({
+                        type: 'GET',
+                        url: '/GLT/GetPacedCaseGrade',
+                        data: { strCrop: Crop, strVariety: Variety },
+                        success: function (msg) {
+                            var data = JSON.parse(msg);
+                            for (var i = 0; i < data.length; i++) {
+                                tblContent = tblContent + '<option value="' + data[i].PACKED_GRADE + '">' + data[i].ITEM_DESC + '</option>';
+                            }
+                            $('#ddlPackedGrade').append(tblContent);
+                        },
+                        error: function (msg) {
+                            //alert(0); alert(msg);
+                        }
+                    });
+                }
+
+                $("#ddlPackedGrade").on('change', function (event) {
+                    $('#ddlThreshingBatch').empty();
+                    var cropList = $('#ddlCropMaster').val();
+                    var varietyList = $('#ddlVarietyMaster').val();
+                    var gradeList = $('#ddlPackedGrade').val();
+                    GetThreshingBatch(cropList, varietyList, gradeList);
+                });
+
+
+                function GetThreshingBatch(Crop, Variety, Grade) {
+                    $('#ddlThreshingBatch').empty();
+                    debugger;
+                    var tblContent = '';
+                    tblContent = tblContent + '<option value="0">SELECT THRESHING BATCH</option>';
+                    $.ajax({
+                        type: 'GET',
+                        url: '/GLT/GetThreshingBatch',
+                        data: { strCrop: Crop, strVariety: Variety, strGrade: Grade },
+                        success: function (msg) {
+                            var data = JSON.parse(msg);
+                            for (var i = 0; i < data.length; i++) {
+                                tblContent = tblContent + '<option>' + data[i].BATCH_NO + '</option>';
+                            }
+                            $('#ddlThreshingBatch').append(tblContent);
+                        },
+                        error: function (msg) {
+                            //alert(0); alert(msg);
+                        }
+                    });
+                }
+
+
+                $('#btnSubmit').on('click', function (event) {
+                    var threshingBatch = $('#ddlThreshingBatch').val();
+                    GetPackedCaseTrack(threshingBatch);
+                });
+
+
+
+
+
+
+                function GetPackedCaseTrack(ThreshingBatch) {
+
+                    var tblContent = '';
+                    var tblContentLnDet = '<table id="dynamic-tabl13" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+                    $.ajax({
+                        type: 'GET',
+                        url: '/GLT/GetPackedCaseTrack',
+                        data: { threshingBatch: ThreshingBatch },
+                        success: function (msg) {
+                            let data = $.parseJSON(msg);
+                            for (var i = 0; i < data.length; i++) {
+
+                                var j = i + 1;
+                                var IndexID = "" + j;
+                                tblContent = tblContent + '<tr>'
+                                    + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                    + '<td class="trBg">' + data[i].GPIL_BALE_NUMBER + '</td>'
+                                    + '<td class="trBg" style="text-align:center;">' + data[i].STEP1 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP2 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP3 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP4 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP5 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP6 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP7 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP8 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP9 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP10 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP11 + '</td>'
+                                    + '<td class="trBg">' + data[i].STEP12 + '</td>'
+                                    + '</tr >';
+                            }
+                            var dt1 = $('#dynamic-tabl1').DataTable();
+                            dt1.destroy();
+                            $('#dynamic-tabl1 tbody').empty();
+                            $('#dynamic-tabl1 tbody').append(tblContent);
+
+
+                            tblContentLnDet = tblContentLnDet + '<tr>'
+                                    + '<td class="trBg" style="text-align:center;" ><label style="text-align:center; color:red">PackedCase/BaleTrack : ' + data.length + '  </label></td >'
+
+                                    + '</tr ></table>';
+                            $('#PackedCaseCount').empty();
+                            $('#PackedCaseCount').append(tblContentLnDet);
+
+
+
+                            var myTable =
+               $('#dynamic-tabl1')
+               //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+             .DataTable({
+                 "bLengthChange": true,
+                 "paging": true,
+                 "jQueryUI": true,
+                 bAutoWidth: false,
+                 'order': [[0, 'desc']],
+                 "aoColumns": [
+                      null, null, null, null, null, null, null, null, null, null, null, null, null,
+                     { "bSortable": false },
+
+                    // { "bSortable": false }
+                 ],
+                 "aaSorting": [],
+
+                 //"bProcessing": true,
+                 //"bServerSide": true,
+                 //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                 //,
+                 //"sScrollY": "200px",
+                 // "bPaginate": true,
+
+                 //"sScrollX": "100%",
+                 //"sScrollXInner": "120%",
+                 //"bScrollCollapse": true,
+                 //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                 //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                 //"iDisplayLength": 50,
+
+
+                 select: {
+                     style: 'multi'
+                 }
+             });
+
+
+
+                            $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                            new $.fn.dataTable.Buttons(myTable, {
+                                buttons: [
+                                  {
+                                      "extend": "colvis",
+                                      "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                      "className": "btn btn-white btn-primary btn-bold",
+                                      columns: ':not(:first):not(:last)'
+                                  },
+                                  {
+                                      "extend": "copy",
+                                      "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                      "className": "btn btn-white btn-primary btn-bold"
+                                  },
+                                  {
+                                      "extend": "csv",
+                                      "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                      "className": "btn btn-white btn-primary btn-bold"
+                                  },
+                                  {
+                                      "extend": "excel",
+                                      "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                      "className": "btn btn-white btn-primary btn-bold"
+                                  },
+                                  {
+                                      "extend": "pdf",
+                                      "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                      "className": "btn btn-white btn-primary btn-bold"
+                                  },
+                                  {
+                                      "extend": "print",
+                                      "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                      "className": "btn btn-white btn-primary btn-bold",
+                                      autoPrint: false,
+                                      message: 'This print was produced using the Print button for DataTables'
+                                  }
+                                ]
+                            });
+                            myTable.buttons().container().appendTo($('.tableTools-container1'));
+
+                            //style the message box
+                            var defaultCopyAction = myTable.button(1).action();
+                            myTable.button(1).action(function (e, dt, button, config) {
+                                defaultCopyAction(e, dt, button, config);
+                                $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                            });
+
+
+                            var defaultColvisAction = myTable.button(0).action();
+                            myTable.button(0).action(function (e, dt, button, config) {
+
+                                defaultColvisAction(e, dt, button, config);
+
+
+                                if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                                    $('.dt-button-collection')
+                                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                                    .find('a').attr('href', '#').wrap("<li />")
+                                }
+                                $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                            });
+
+                            ////
+
+                            setTimeout(function () {
+                                $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                                    var div = $(this).find(' > div').first();
+                                    if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                                    else $(this).tooltip({ container: 'body', title: $(this).text() });
+                                });
+                            }, 2000);
+
+
+
+
+
+                            myTable.on('select', function (e, dt, type, index) {
+                                if (type === 'row') {
+                                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                                }
+                            });
+                            myTable.on('deselect', function (e, dt, type, index) {
+                                if (type === 'row') {
+                                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                                }
+                            });
+
+
+
+
+                            /////////////////////////////////
+                            //table checkboxes
+                            $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                            //select/deselect all rows according to table header checkbox
+                            $('#dynamic-tabl1 > thead > tr > th input[type=checkbox], #dynamic-tabl1_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                                var th_checked = this.checked;//checkbox inside "TH" table header
+
+                                $('#dynamic-tabl1').find('tbody > tr').each(function () {
+                                    var row = this;
+                                    if (th_checked) myTable.row(row).select();
+                                    else myTable.row(row).deselect();
+                                });
+                            });
+
+                            //select/deselect a row when the checkbox is checked/unchecked
+                            $('#dynamic-tabl1').on('click', 'td input[type=checkbox]', function () {
+                                var row = $(this).closest('tr').get(0);
+                                if (this.checked) myTable.row(row).deselect();
+                                else myTable.row(row).select();
+                            });
+
+
+
+                            $(document).on('click', '#dynamic-tabl1.dropdown-toggle', function (e) {
+                                e.stopImmediatePropagation();
+                                e.stopPropagation();
+                                e.preventDefault();
+                            });
+
+
+                        },
+                        error: function (msg) {
+                            alert(0); alert(msg);
+                        }
+                    });
+                }
+
+
+
+
+            });
+
+
+        </script>
+

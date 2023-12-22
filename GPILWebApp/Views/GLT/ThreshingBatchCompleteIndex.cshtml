@@ -1,0 +1,388 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "ThreshingBatchCompleteIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Threshing Batch Complete</h2>
+<hr />
+
+<div class="row">
+
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+            <label class="control-label">Batch Ref. Number</label>
+            <select class="form-control" id="ddlBatchRef">
+                <option value="0">SELECT BATCH REF. NUMBER</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-sm-3-md-3">
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div><label></label></div>
+        <div class="form-control-sm">
+            <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+                View
+            </button>
+            <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+                Clear
+            </button>
+            
+           
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-control-sm">
+
+        </div>
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Farmer Purchase Pending Bales"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <
+                    <tr>
+                        <th style="text-align:center;">
+                            SNO
+                        </th>
+
+                        <th style="text-align:center;">
+                            Organization Code
+                        </th>
+
+                        <th style="text-align:center;">
+                            Batch Number
+                        </th>
+
+                        <th style="text-align:center;">
+                            Product Type
+                        </th>
+
+                        <th style="text-align:center;">
+                            Bales
+                        </th>
+
+                        <th style="text-align:center;">
+                            Quantity
+                        </th>
+
+                        
+                    </tr>
+
+
+                </thead>
+
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="FarmerPurchaseSummary">
+
+
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div><label></label></div>
+        <div class="form-control-sm">
+           
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="form-control-sm">
+            <button type="submit" value="Submit" id="btnComplete" class="btn btn-sm btn-success">
+                COMPLETE
+            </button>
+            <button type="submit" value="Submit" id="btnClose" class="btn btn-sm btn-primary">
+                CLOSE
+            </button>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+    $(document).ready(function () {
+        $('.alert').hide();
+        GetThreshingRefNumberList();
+
+        function GetThreshingRefNumberList() {
+            $('#ddlBatchRef').empty();
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT BATCH REF. NUMBER</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/GLT/GetBatchRefNumber',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].BATCH_NO + '">' + data[i].BATCH_NO + '</option>';
+                    }
+                    $('#ddlBatchRef').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        $('#btnSubmit').on('click', function (event) {
+            var BatchNumberList = $('#ddlBatchRef').val();
+            BatchNumberList = (BatchNumberList == "0") ? "" : BatchNumberList;
+            GetBatchNumberDetails(BatchNumberList);
+        });
+
+
+        $('#btnClear').on('click', function (event) {
+            window.location = "/GLT/ThreshingBatchCompleteIndex";
+        });
+
+        $('#btnClose').on('click', function (event) {
+            window.location = "/Home/Index";
+        });
+        function GetBatchNumberDetails(BatchNumber) {
+
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/GLT/GetThreshingBatchComplete',
+                data: { batchNumber: BatchNumber },
+                success: function (msg) {
+                    let data = JSON.parse(msg);
+
+
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].ORGN_CODE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BATCH_NO + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].PRODUCT_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BALES + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].QTY + '</td>'
+                            + '</tr >';
+                    }
+                    //dt1.destroy();
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+
+
+
+
+
+                    if (data.length > 0) {
+                        var batchRefNumber = "";
+                        var orgnCode = "";
+                        var productType = "";
+                        var bales = "";
+                        var quantity = "";
+
+                        var OrganizationCode = "";
+                        var BatchReferenceNumber = "";
+                        var issuedQuantity = "";
+                        var productQuantity = "";
+                        var byProductQuantity = "";
+                        var eliminationQuantity = "";
+                        var gtElQuantity = "";
+                        var storageLoss = "";
+                        var processLoss = "";
+                        var totalOutturnQuantity = "";
+
+
+                        var intBales = "0";
+                        var dblOutturnQty = "0";
+
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            batchRefNumber = (data[i].BATCH_NO == null) ? "0" : data[i].BATCH_NO;
+                            orgnCode = (data[i].ORGN_CODE == null) ? "0" : data[i].ORGN_CODE;
+                            productType = (data[i].PRODUCT_TYPE == null) ? "0" : data[i].PRODUCT_TYPE;
+                            bales = (data[i].BALES == null) ? "0" : data[i].BALES;
+                            quantity = (data[i].QTY == null) ? "0" : data[i].QTY;
+
+
+                            if (i == 0) {
+                                OrganizationCode = data[i].ORGN_CODE;
+                                BatchReferenceNumber = data[i].BATCH_NO;
+                            }
+                            if (data[i].PRODUCT_TYPE == "ISSUE") {
+                                issuedQuantity = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+
+                            }
+                            else if (data[i].PRODUCT_TYPE == "PROD") {
+                                productQuantity = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+
+                            }
+                            else if (data[i].PRODUCT_TYPE == "BP") {
+                                byProductQuantity = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+                            }
+                            else if (data[i].PRODUCT_TYPE == "EB") {
+                                eliminationQuantity = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+                            }
+                            else if (data[i].PRODUCT_TYPE == "GT") {
+                                gtElQuantity = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+                            }
+                            else if (data[i].PRODUCT_TYPE == "SLOSS") {
+                                storageLoss = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+                            }
+                            else if (data[i].PRODUCT_TYPE == "LOSS") {
+                                processLoss = data[i].BALES + " No's - " + data[i].QTY + " kgs.";
+                                intBales = parseFloat(intBales) + parseFloat(bales);
+                                dblOutturnQty = parseFloat(dblOutturnQty) + parseFloat(quantity);
+                            }
+                            //eliminationQuantity = (data[i].TOTAL_VALUE == null) ? "0" : data[i].TOTAL_VALUE;
+                            //gtElQuantity = (data[i].BALE_COUNT == null) ? "0" : data[i].BALE_COUNT;
+                            //storageLoss = (data[i].QUANTITY == null) ? "0" : data[i].QUANTITY;
+                            //processLoss = (data[i].TOTAL_VALUE == null) ? "0" : data[i].TOTAL_VALUE;
+                            //totalOutturnQuantity = (data[i].BALE_COUNT == null) ? "0" : data[i].BALE_COUNT;
+
+
+                            //dblAmountBalToPay = (data[i].LOAN_BAL == null) ? "0" : data[i].LOAN_BAL;
+
+                            //ToTintBaleCount = parseFloat(ToTintBaleCount) + parseFloat(intBaleCount);
+                            //ToTdblQuantity = parseFloat(ToTdblQuantity) + parseFloat(dblQuantity);
+                            //ToTdblValue = parseFloat(ToTdblValue) + parseFloat(dblValue);
+                            //ToTdblAmountBalToPay = parseFloat(ToTdblAmountBalToPay) + parseFloat(dblAmountBalToPay);
+                        }
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            //+ '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Total No. of Farmers : ' + data.length + '  </label></td >'
+
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Batch Ref. Number : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' + BatchReferenceNumber + '  </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>Organization Code : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' + OrganizationCode + '   </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>Issued Quantity : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp' + issuedQuantity + '  </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Product Quantity : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp' + productQuantity + '  </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>By-Product Quantity : ' + byProductQuantity + '   </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>Elimination Quantity :' + eliminationQuantity + '  </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">GT-EL Quantity : ' + gtElQuantity + '  </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>Storage Loss : ' + storageLoss + '   </label></td >'
+                        tblContentLnDet = tblContentLnDet + '</tr>'
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label>Total Out-turn Quantity : ' + processLoss + '  </label></td >'
+                            //+ '<td class="trBg" style="text-align:center;" ><label>Total Net Pay Amount : Rs. ' + ToTdblAmountBalToPay + ' </label></td >'
+                            + '</tr ></table>';
+                    }
+                    $('#FarmerPurchaseSummary').empty();
+                    $('#FarmerPurchaseSummary').append(tblContentLnDet);
+
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+
+
+
+
+
+            });
+
+
+
+
+        }
+
+
+        $('#btnComplete').on('click', function (event) {
+            var BatchNumberList = $('#ddlBatchRef').val();
+            BatchNumberList = (BatchNumberList == "0") ? "" : BatchNumberList;
+            GetThreshingBatchComplete(BatchNumberList);
+        });
+
+
+        function GetThreshingBatchComplete(BatchNumber) {
+            var tblContent = '';
+            $.ajax({
+                type: 'GET',
+                url: '/GLT/GetThreshingBatchCompleteButton',
+                data: { batchNumber: BatchNumber },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+
+    });
+
+</script>

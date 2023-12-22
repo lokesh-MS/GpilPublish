@@ -1,0 +1,2690 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="UTF-8">
+    @*<title>GPIL - Home</title>*@
+    <title>@ViewBag.Root @ViewBag.Title</title>
+    <!--FavIcon Link-->
+
+    <link rel="shortcut icon" href="~/assets/images/avatars/Godfrey_phillips_logo.png" type="image/x-icon" />
+
+    <meta name="description" content="and Validation" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+
+    <link rel="stylesheet" href="~/assets/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="~/assets/css/chosen.min.css" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap-timepicker.min.css" />
+    <link rel="stylesheet" href="~/assets/css/daterangepicker.min.css" />
+
+    <link href="~/assets/css/bootstrap-editable.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap-colorpicker.min.css" />
+    <link rel="stylesheet" href="~/assets/css/jquery-ui.min.css" />
+    <link href="~/assets/css/ui.jqgrid.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="~/assets/css/fonts.googleapis.com.css" />
+    <link rel="stylesheet" href="~/assets/css/select2.min.css" />
+    <link rel="stylesheet" href="~/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="~/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/assets/css/ace-rtl.min.css" />
+    <script src="~/assets/js/ace-extra.min.js"></script>
+
+
+</head>
+
+<body class="no-skin">
+    <div id="navbar" class="navbar navbar-default          ace-save-state">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                <a href="index.html" class="navbar-brand">
+                    <small>
+                        <i class="fa fa-green fa-leaf green"></i>
+                        Green Leaf Traceabilty System
+                    </small>
+                </a>
+            </div>
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="grey dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-tasks"></i>
+                            <span class="badge badge-grey">4</span>
+                        </a>
+                        <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-check"></i>
+                                4 Tasks to complete
+                            </li>
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Software Update</span>
+                                                <span class="pull-right">65%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:65%" class="progress-bar"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Hardware Upgrade</span>
+                                                <span class="pull-right">35%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:35%" class="progress-bar progress-bar-danger"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Unit Testing</span>
+                                                <span class="pull-right">15%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:15%" class="progress-bar progress-bar-warning"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Bug Fixes</span>
+                                                <span class="pull-right">90%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini progress-striped active">
+                                                <div style="width:90%" class="progress-bar progress-bar-success"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="#">
+                                    See tasks with details
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="purple dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                            <span class="badge badge-important">8</span>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                8 Notifications
+                            </li>
+
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                                    New Comments
+                                                </span>
+                                                <span class="pull-right badge badge-info">+12</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="btn btn-xs btn-primary fa fa-user"></i>
+                                            Bob just signed up as an editor ...
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                                    New Orders
+                                                </span>
+                                                <span class="pull-right badge badge-success">+8</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                                    Followers
+                                                </span>
+                                                <span class="pull-right badge badge-info">+11</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="#">
+                                    See all notifications
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="green dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                            <span class="badge badge-success">5</span>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-envelope-o"></i>
+                                5 Messages
+                            </li>
+
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Alex:</span>
+                                                    Ciao sociis natoque penatibus et auctor ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>a moment ago</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Susan:</span>
+                                                    Vestibulum id ligula porta felis euismod ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>20 minutes ago</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Bob:</span>
+                                                    Nullam quis risus eget urna mollis ornare ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>3:15 pm</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Kate:</span>
+                                                    Ciao sociis natoque eget urna mollis ornare ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>1:33 pm</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Fred:</span>
+                                                    Vestibulum id penatibus et auctor  ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>10:09 am</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="inbox.html">
+                                    See all messages
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="light-blue dropdown-modal">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img class="nav-user-photo" src="~/assets/images/avatars/profile-pic.jpg" alt="User's Photo" />
+                            <span class="user-info">
+                                <small>Welcome,</small>
+
+                                @if (!string.IsNullOrEmpty(Session["userName"] as string))
+                                {
+                                    <small>  @Session["userName"]</small>
+                                }
+                                else
+                                {
+                                    HttpContext.Current.Response.Redirect("~/Login/Login");
+                                }
+                            </span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li>
+                                <a href="#">
+                                    <i class="ace-icon fa fa-cog"></i>
+                                    Settings
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="profile.html">
+                                    <i class="ace-icon fa fa-user"></i>
+                                    Profile
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+
+                                <a href="@Url.Action("Logout","Login")">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+
+        <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+            <script type="text/javascript">
+                try { ace.settings.loadState('sidebar') } catch (e) { }
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <button class="btn btn-success">
+                        <i class="ace-icon fa fa-signal"></i>
+                    </button>
+
+                    <button class="btn btn-info">
+                        <i class="ace-icon fa fa-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-warning">
+                        <i class="ace-icon fa fa-users"></i>
+                    </button>
+
+                    <button class="btn btn-danger">
+                        <i class="ace-icon fa fa-cogs"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- /.sidebar-shortcuts -->
+            @*@Html.Partial("_Menu", ViewBag.menu)*@
+
+        <ul class="nav nav-list">
+            <li class="">
+                <a href="index.html">
+                    <i class="menu-icon fa fa-tachometer"></i>
+                    <span class="menu-text"> Dashboard </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-leaf green"></i>
+                    <span class="menu-text">
+                        LD
+                    </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseSlipIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Slip
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchasePendingBalesIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Pending Bales
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseVerificationSlipByDateIndex", "LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Verification Slip
+                            by Date
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseVerificationBySlipIndex", "LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Verification by Slip
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseSummaryDetailsIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Summary Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseVerificationSummaryDetailsIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Verification Summary
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerLoanStatusIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Loan Status Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FPCRRRBalesDetailsIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase CR-RR Bales Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("TTDCRRRDetailsIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase Today-Todate CR-RR Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerwisePurchaseSummaryIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmerwise - Purchase Summary Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerAuthorizedQuantityIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Authorised Quantity Report Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ItemMasterIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Item Master
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("SubsidyMasterIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Subsidy Master
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("PoReceiptIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            PO Receipt
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","LDLoanDownload")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Loan Download
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","LDStockReconsilation")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Stock Reconsilation
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","LDMonthlyReconsilation")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Monthly Reconsilation
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","LDDateWiseIssueReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Date Wise Issue Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    @*<li class="">
+                    <a href="buttons.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Farmer-Wise Purchase Summary
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="treeview.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Treeview
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="jquery-ui.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        jQuery UI
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="nestable-list.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Nestable Lists
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-caret-right"></i>
+
+                        Three Level Menu
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-leaf green"></i>
+                                Item #1
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-pencil orange"></i>
+
+                                4th level
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="#">
+                                        <i class="menu-icon fa fa-plus purple"></i>
+                                        Add Product
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="#">
+                                        <i class="menu-icon fa fa-eye pink"></i>
+                                        View Products
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>*@
+                </ul>
+            </li>
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list"></i>
+                    <span class="menu-text"> LPD </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("CompetitionReport","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Wise Competetion Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("CompetitionConsolitateReport","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Competetion Consolidated Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("TapPurchase","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Wise Purchase Info
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("TapQuantityMarketed","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Wise Quantity Marketed
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BuyerClassification","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Buyer Classification Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("MinMaxreport","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Min Max Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("MiniMaxReportForVKBU","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Min Max Report For VKBU
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("PPGRDreport","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            PPGRD Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("TapStockRecon", "LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Wise Stock Recon.
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("TapPurchaseInfo","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Purchase Info
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("HighLowBidCompetition","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            High-Low Bids / Others
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BGTransactionReport","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            BG Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("BGInformation","LPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            BG Information
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+
+            @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-list"></i>
+                <span class="menu-text"> LPD </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("CompetitionReport","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TAP Wise Competetion Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("CompetitionConsolitateReport","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Competetion Consolidated Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("TapPurchase","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TAP Wise Purchase Info
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("TapQuantityMarketed","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TAP Wise Quantity Marketed
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("BuyerClassification","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Buyer Classification Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("MinMaxreport","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Min Max Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("PPGRDreport","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        PPGRD Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("TapStockRecon", "LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TAP Wise Stock Recon.
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("TapPurchaseInfo","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TAP Purchase Info
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="@Url.Action("HighLowBidCompetition","LPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        High-Low Bids / Others
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="jqgrid.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        BG Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="jqgrid.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        BG Information
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+
+            @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-pencil-square-o blue"></i>
+                <span class="menu-text"> PPD </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="form-elements.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Classification Report(T/G)
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="form-elements-2.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Form Elements 2
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="active">
+                    <a href="form-wizard.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Classification Cumulative
+                        Today Vs Todate Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="wysiwyg.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Classification Cumulative with Grade
+                        Transfer Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Up &amp; Down Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grading Issue/OutTurn Sheet
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grading/Daily Operation Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grading Operation APH Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Green Stock Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("GradingDetails","PPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grading Batch Details
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="@Url.Action("GradingTempDetails","PPD")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grading Batch Temp Details
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CL Org Wise Classification Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Batch Wise Classification Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Supplier Purchase Print
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Buyer Vs Classifier Grade Report
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="dropzone.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Un-Classified Details
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+
+
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list-alt green"></i>
+                    <span class="menu-text"> PPD </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("ClassificationReportForTAPIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Report(T/G)
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ClassificationCumuReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Cumulative Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("ClassificationCumuReportVKBUIndex","PPD")">
+                                
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            VKBU Buyer Classification
+                            Cumulative Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("ClassificationCumuReportTodayTodateIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Cumulative
+                            Today Vs Todate Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li class="">
+                        <a href="@Url.Action("ClassificationCumulativeWithGradeTransferReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Cumulative with Grade
+                            Transfer Report
+                        </a>*@
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("ClassCumuWithGradeTransferFrightReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Cumulative with Grade
+                            Transfer Report With Freight
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("ClassificationFeedBackReport","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification Feedback Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("UpAndDownClassificationReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Up &amp; Down Report
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradingIssueIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Issue/OutTurn Sheet
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradingReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading/Daily Operation Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradingOperationReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Operation APH Report
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("GreenStockReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Green Stock Report
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradingBatchDetailsIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Batch Details
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradingBatchTempDetailsIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Batch Temp Details
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("ClOrgWiseClassificationReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CL Org Wise Classification Report
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BatchwiseClassificationRptIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Batch Wise Classification Report
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("SupplierPurchaseInfoReportsIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Supplier Purchase Print
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("BuyerClassGradeReportIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Buyer Vs Classifier Grade Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("UnClassifiedDetailsIndex","PPD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Un-Classified Details
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list-alt green"></i>
+                    <span class="menu-text"> WMS </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("Index","WmsPrintAllocations")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Print Allocation
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ViewPrintAllocationIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            View Print Allocation
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li class="">
+                    <a href="@Url.Action("ViewPrintAllocationIndex","WMS")">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ViewPrintAllocation
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+                    <li class="">
+                        <a href="@Url.Action("FumigationReceiptIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Fumigation Receipt
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FumigationPartialCompleteIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Fumigation Partial Complete
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("UnderFumigationDetailsIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Under Fumigation Details
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FumigationCaseDetailsIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Fumigated Case Details
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("factorydispatch","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Factory Dispatch Complete
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("WmsDataStatusIndex","WMS")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            WMS Data Status
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="">
+
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list-alt green"></i>
+                    <span class="menu-text"> REPORTS </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+
+
+                    <li class="">
+                        <a href="@Url.Action("LP5old1","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LP5 Print OLD
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("LP5Print","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LP5 Print
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("LotWiseStockReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Lot Wise Stock
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("AuctionInvoiceRpt","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Auction Invoice Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("AuctionDispatchRpt","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Auction Floor Dispatch Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("DailyTapDispatchNew","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            DailyTAP Dispatch Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("FactoryLP5PrintIndex","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FACTORY LP5 PRINT Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradewiseStockReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grade Wise Stock Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("GradewiseStockAllReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grade wise Stock All Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("BaleWeightLoss","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Bale Weight Loss
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("DispatchReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Dispatch Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ReceiptReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Receipt Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ReconciliationReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Reconciliation Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("CropTransferReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Crop Transfer Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("GradeTransferReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grade Transfer Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("WeeklyReconcilationIndex","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Weekly Reconcilation Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("LP5AuctionDocument","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Auction LP5 Print
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BaleTrackIndex","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Bale Track Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("SalesOrderPrintIndex","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Sales Order Print Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FreightChargeReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Freight Charge Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("IntransitReportIndex","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Intransit Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("GradingChart","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Chart Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("WeightLossReport","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Weight Loss Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("LP4Print","Report")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LP4 Print
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+
+
+            </li>
+
+            <li class="">
+
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list-alt green"></i>
+                    <span class="menu-text"> GLT </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+
+
+
+                <ul class="submenu">
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingProcessChartIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING PROCESS CHART
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingBlendRatioIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESING BLEND RATIO'S
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingBatchLiveBlendRatioIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING BATCH LIVE BLEND RATIO'S
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingHourBasedBlendIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING BATCH HOURLY BLEND RATIO'S
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingBatchIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING BATCH DETAILS
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingBatchTempIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING BATCH TEMP DETAILS
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingBatchCompleteIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            THRESHING BATCH COMPLETE
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("PackedCaseTrackIndex","GLT")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            PACKED CASE TRACK
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTLaminaMoisture")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LAMINA MOISTURE
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTLaminaMoistureReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LAMINA MOISTURE REPORT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("gltlaminadegradation","GLTLaminaDegradationReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LAMINA DEGRADATION
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTLaminaDegradationReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            LAMINA DEGRADATION REPORT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTScrapDegradationReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SCRAP  REPORT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("scrapdegradtion","GLTScrapDegradationReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SCRAP DEGRADATION
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTScrapMoisture")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SCRAP MOISTURE 
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTScrapMoistureReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SCRAP MOISTURE 
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("stemindex","GLTStemDegradation")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            STEM DEGRADATION
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTStemDegradation")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            STEM DEGRADATION REPORT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+
+
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTStemMoisture")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Stem Moisture
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GLTStemMoistureReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Stem Moisture Report
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                </ul>
+            </li>
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-tasks green"></i>
+                    <span class="menu-text">
+                        Data Loader
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("TapPurchaseLoaderIndex", "DataLoader")">
+
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TAP Purchase
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerpPurchaseLoaderIndex", "DataLoader")">
+
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Purchase
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerLoanLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Loan Loader
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("FarmerBankDetailsLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Farmer Bank Details Loader
+                        </a>
+
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("SupplierPurchaseLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Supplier Purchase
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("DispatchLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Dispatch
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("ReceiptLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Receipt
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("SalesTransactionLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Sales
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("ClassificationLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classification
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("GradingIssueLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Issue
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("GradingOutturnLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grading Outturn
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("GradeTransferLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Grade Transfer
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("CropTransferLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Crop Transfer
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingIssueLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Threshing Issue
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ThreshingOutturnLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Threshing Outturn
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("PackedCaseDispatchLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Packed Case Dispatch Loader
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("PackedCaseReceiptLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Packed Case Receipt Loader
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("FumigationReportLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Fumigation Loader
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FactoryDispatchLoaderIndex", "DataLoader")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Factory Dispatch Loader
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-rss-square green"></i>
+                    <span class="menu-text"> Master </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_ITEM_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            ITEM MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("SubsidyMasterIndex","LDD")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Subsidy Master
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_COMPANY_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            COMPANY MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_VARIETY_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            VARIETY MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_CLUSTER_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CLUSTER MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_SUPPLIER_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SUPPLIER MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_CROP_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CROP MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_ORGN_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            ORGANIZATION MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_OPERATION_RECIPE")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            OPERATION RECEIPE
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_SUBINVENTORY")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SUBINVENTORY MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_FARMER_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FARMER MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_VILLAGE_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            VILLAGE MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_FARMER_FREIGHT_CHARGE_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FREIGHT MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_USER_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            USER MASTER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","GPIL_RATE_MASTER")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            RATE MASTER LOADER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("AuthorisedQtyMasterIndex","AuthorisedQtyMaster")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Authorized quantity master
+
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("AddOldStockIndex","AddOldStockMaster")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            ADD OLD STOCK
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+
+                    <li class="">
+                        <a href="@Url.Action("UpAndDownGradeMappingUploadIndex","UpAndDownGradeMappingUpload")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Up &amp; Down Grade Mapping
+                            Upload
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("UpDownGradeMapping","UpAndDownGradeMappingNew")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Upand & Down Grade Mapping
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-tachometer green"></i>
+                    <span class="menu-text">
+                        Quality Lab
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("Index","ChemistryTarget")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CHEMISTRY TARGETS
+                        </a>
+
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ChemistryDataIndex","QualityLab")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CHEMISTRY DATA LOADER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","ChemistryReport")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CHEMISTRY REPORT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li class="">
+                    <a href="grid.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Grid
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="blank.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Blank Page
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>*@
+                </ul>
+            </li>
+
+
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-tachometer green"></i>
+                    <span class="menu-text">
+                        Profile
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","ProfilePrintAllocationUpdate")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Print allocation update
+
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","Permission")">
+                           
+                            User Access Permission 
+
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+                <ul class="submenu">
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","ProfileBackendProcess")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Backend Process
+
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+
+
+
+            
+
+
+
+
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-tachometer green"></i>
+                    <span class="menu-text">
+                        VERIFICATION
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="@Url.Action("Index","InvoiceVerify")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Invoice Verification
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FarmerPurchaseIndex","Verification")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FARMER PURCHASE
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("SupplierVerificationIndex","SupplierVerification")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SUPPLIER PURCHASE VERIFICATION
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BatchwiseClosingIndex","BatchWiseClosingVerification")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            BATCH WISE CLOSING
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("ConnectOraIndex","ConnectOra")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            CONNECT ORA
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("BaleTrackWithUpdationIndex","BaleTrackWithUpdation")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            BALE TRACK WITH UPDATION
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationBaleNetWtTrack")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            BALE NET WT TRACK
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("OldPackedCaseStockLoaderIndex","OldPackedCaseStockLoaderVerification")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            OLD PACKED CASE STOCK LOADER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("FumigationDetailsIndex","FumigationDetails")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FUMIGATION DETALS LOADER
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationFactoryDispatchDataCheck")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FACTORY DISPATCH DATA CHECK
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationExportData")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            EXPORT DATA
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationSkipRemnant")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            SKIP REMNANT
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationFreightUpdate")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Freight Update
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationFreightChargeReportDCNumber")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Freight Charge Report With DC No
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationFarmerPurchaseCrossCheck")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            FARMER PURCHASE CROSS CHECK
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","VerificationCompleteDispatch")">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            COMPLETE DISPATCH(NFLAG)
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+                </ul>
+            </li>
+
+        </ul><!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">@ViewBag.Root</a>
+                        </li>
+                        <li>
+                            <a href="#">@ViewBag.Title </a>
+                        </li>
+                    </ul><!-- /.breadcrumb -->
+
+                    <div class="nav-search" id="nav-search">
+                        <form class="form-search">
+                            <span class="input-icon">
+                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                                <i class="ace-icon fa fa-search nav-search-icon"></i>
+                            </span>
+                        </form>
+                    </div><!-- /.nav-search -->
+                </div>
+
+                <div class="page-content">
+                    <div class="ace-settings-container" id="ace-settings-container">
+                        <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                            <i class="ace-icon fa fa-cog bigger-130"></i>
+                        </div>
+
+                        <div class="ace-settings-box clearfix" id="ace-settings-box">
+                            <div class="pull-left width-50">
+                                <div class="ace-settings-item">
+                                    <div class="pull-left">
+                                        <select id="skin-colorpicker" class="hide">
+                                            <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                            <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                            <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                            <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                        </select>
+                                    </div>
+                                    <span>&nbsp; Choose Skin</span>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-add-container">
+                                        Inside
+                                        <b>.container</b>
+                                    </label>
+                                </div>
+                            </div><!-- /.pull-left -->
+
+                            <div class="pull-left width-50">
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                                    <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                                </div>
+                            </div><!-- /.pull-left -->
+                        </div><!-- /.ace-settings-box -->
+                    </div><!-- /.ace-settings-container -->
+                    @*<div class="page-header">
+                            <h1>
+                                Home
+                                <small>
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+
+                                </small>
+                            </h1>
+                        </div>*@<!-- /.page-header -->
+
+
+                    @RenderSection("scripts", required: false)
+                    @RenderBody()
+
+                    <!-- /.row -->
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+
+
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="footer-content">
+                    <span class="bigger-120">
+                        <span class="blue bolder">Godfrey Phillips India Limited</span>
+                        @DateTime.Now.Year - Green Leaf Traceabilty System
+                    </span>
+
+                    &nbsp; &nbsp;
+                    <span class="action-buttons">
+                        <a href="#">
+                            <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+
+
+    @*@RenderSection("scripts", required: false)*@
+
+    <script rel="javascript" src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='~/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/wizard.min.js"></script>
+    <script src="~/assets/js/jquery.validate.min.js"></script>
+    <script src="~/assets/js/jquery-additional-methods.min.js"></script>
+    <script src="~/assets/js/bootbox.js"></script>
+    <script src="~/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="~/assets/js/select2.min.js"></script>
+
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/js/buttons.flash.min.js"></script>
+    <script src="~/assets/js/buttons.html5.min.js"></script>
+    <script src="~/assets/js/buttons.print.min.js"></script>
+    <script src="~/assets/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/js/dataTables.select.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/js/jquery.jqGrid.min.js"></script>
+    <script src="~/assets/js/grid.locale-en.js"></script>
+
+
+    <script src="~/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="~/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/assets/js/chosen.jquery.min.js"></script>
+    <script src="~/assets/js/spinbox.min.js"></script>
+    <script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.min.js"></script>
+    <script src="~/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/js/bootstrap-colorpicker.min.js"></script>
+    <script src="~/assets/js/jquery.knob.min.js"></script>
+    <script src="~/assets/js/autosize.min.js"></script>
+    <script src="~/assets/js/jquery.inputlimiter.min.js"></script>
+    <script src="~/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="~/assets/js/bootstrap-tag.min.js"></script>
+
+    <script src="~/assets/js/jquery.easypiechart.min.js"></script>
+    <script src="~/assets/js/jquery.sparkline.index.min.js"></script>
+    <script src="~/assets/js/jquery.flot.min.js"></script>
+    <script src="~/assets/js/jquery.flot.pie.min.js"></script>
+    <script src="~/assets/js/jquery.flot.resize.min.js"></script>
+
+
+    <!-- page specific plugin scripts -->
+    <script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/js/jquery.jqGrid.min.js"></script>
+    <script src="~/assets/js/grid.locale-en.js"></script>
+
+
+
+
+
+    <!-- ace scripts -->
+    <script src="~/assets/js/ace-elements.min.js"></script>
+    <script src="~/assets/js/ace.min.js"></script>
+    @*<script src="~/MyScript.js"></script>*@
+
+
+</body>
+</html>
+

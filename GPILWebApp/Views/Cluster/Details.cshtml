@@ -1,0 +1,155 @@
+﻿@model GPILWebApp.Models.GPIL_CLUSTER_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Cluster Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CLUSTER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CLUSTER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FLAG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FLAG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LASTUPDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LASTUPDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER1.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_USER_MASTER1.USER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER2.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_USER_MASTER2.USER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER3.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_USER_MASTER3.USER_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CLUSTER_CODE }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

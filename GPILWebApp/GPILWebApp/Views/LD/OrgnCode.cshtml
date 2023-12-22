@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "Farmer Purchase Slip";
+}
+
+<div  class="row mb-0">
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Select Orgn Name </label>
+            <div>
+                <select class="form-control" id="ddlOrgnMaster">
+                    <option value="0">SELECT ORGN CODE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Farmer Code</label>
+            <div class="form-control-sm">
+                <select class="form-control" id="ddlFarmerCode">
+                    <option value="0">SELECT FAMER CODE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="header green">Farmer Purchase Slip</h4>
+</div>
+<div class="row mb-0">
+    <div class="form-sm-12">
+        <div class="form-control-sm">
+            <iframe src="~/CrystalReport/WebForms/FarmerPurchaseSlipWeb.aspx" frameBorder="0" style="width:1320px;height:900px;"></iframe>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        GetDDList();
+        function GetDDList() {
+            $('#ddlOrgnMaster').empty();
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ORGN CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LD/ORGNMASTER',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].ORGN_CODE + '">' + data[i].ORGN_CODE1 + '</option>';
+                    }
+                    $('#ddlOrgnMaster').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+        //datepicker plugin
+        //link
+        $('.date-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        })
+        //show datepicker when clicking on the icon
+        .next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        debugger;
+        today = '20170609';// yyyy + mm + dd;
+        $("#ddlOrgnMaster").change(function () {
+            $('#ddlFarmerCode').empty();
+            var OrgnNo = $('#ddlOrgnMaster').val() + today;
+            GetFarmerDetails(OrgnNo);
+        });
+        function GetFarmerDetails(OrgnCode) {
+            $('#ddlFarmerCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT FARMER CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LD/FarmerCode',
+                data: { headerid: OrgnCode },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].FARMER_CODE + '">' + data[i].FARMER_LOT + '</option>';
+                    }
+                    $('#ddlFarmerCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+        $("#ddlFarmerCode").change(function () {
+            debugger;
+            var FarmerCode = $('#ddlFarmerCode').val();
+            var OrgnNo = $('#ddlOrgnMaster').val() + today;
+            getPurchaseSlip(OrgnNo, FarmerCode);
+        });
+        function getPurchaseSlip(OrgnNo, FarmerCode) {
+            debugger;
+            var tblContent = '';
+            $.ajax({
+                type: 'GET',
+                url: '/LD/ReportBales',
+                data: { orgnCode: OrgnNo, farmerCode: FarmerCode },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    debugger;
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        }
+    })
+</script>

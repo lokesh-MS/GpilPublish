@@ -1,0 +1,734 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+<h2 style="text-align:center; color:#438EB9">INVOICE VERIFICATION</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+
+        @*<label>Purchase DOC NO</label>
+
+            @Html.DropDownList("PURCH_DOC_NO", new SelectList(ViewBag.GPIL_TAP_FARM_PURCHS_HDR, "PURCH_DOC_NO", "PURCH_DOC_NO"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })*@
+    </div>
+    <div class="col-md-3">
+
+        <label>Purchase DOC NO</label>
+
+        @Html.DropDownList("PURCH_DOC_NO", new SelectList(ViewBag.GPIL_TAP_FARM_PURCHS_HDR, "PURCH_DOC_NO", "PURCH_DOC_NO"), "Please select", new { @id = "ddlPoNumber", @class = "form-control" })
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div></div>
+        @*<button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+                View
+
+            </button>
+            <button type="reset" class="btn btn-sm btn-default">
+                Clear
+
+            </button>*@
+    </div>
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+        <button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>
+    </div>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Invoice Verification List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "INVOICE VERIFICATION"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" id="ckbCheckAll" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>SNO</th>
+                        <th>ORGN_CODE</th>
+                        <th>TOTAL_BALES</th>
+                        <th>TOTAL_QTY</th>
+                        <th>TOTAL_PURC_VAL</th>
+                        <th>SERVICE_TB_TAX_VAL</th>
+                        <th>SERVICE_CHARGE_VAL</th>
+                        <th>PATTA_CHARGE</th>
+                        <th>INVOICE_VAL</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Invoice Verification List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "AUCTION"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" id="ckbCheckAll1" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>SNO</th>
+
+                        <th>ORGN_CODE</th>
+                        <th>TOTAL_BALES</th>
+                        <th>TOTAL_QTY</th>
+                        <th>TOTAL_PURC_VAL</th>
+                        <th>SERVICE_TB_TAX_VAL</th>
+                        <th>SERVICE_CHARGE_VAL</th>
+                        <th>PATTA_CHARGE</th>
+                        <th>INVOICE_VAL</th>
+                        <th>Invoice_No</th>
+                        <th>Invoice_Date</th>
+                        <th>VERIFY</th>
+                        <th>ADD/UPDATE/CANCEL</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+    $(document).ready(function () {
+
+
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+
+
+
+
+
+
+        //////////////////////////  ADD/UPDATE/DELETE/ ///////////////////////////////////
+
+        //Edit event handler.
+        $("#dynamic-tabl1").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            var FarmerPurchase = {};
+            FarmerPurchase.SNO = row.find("td:eq(0)")[0].innerText;
+            $("#ddlRejSta" + FarmerPurchase.SNO).show();
+            $("#lblRejSta" + FarmerPurchase.SNO).hide();
+
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl1").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //////////////////////////////////////////////////////////////////////////////////
+
+        //$("input[type=checkbox]").click(function () {
+        //    if (!$(this).prop("checked")) {
+        //        $("#CheckBox1").prop("checked", false);
+        //    }
+        //});
+        //$("#ckbCheckAll").click(function () {
+        //    $("#CheckBox1").attr('checked', this.checked);
+        //});
+
+        $('#ckbCheckAll').on('click', function () {
+            if (this.checked) {
+                $('.checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $('#ckbCheckAll1').on('click', function () {
+            if (this.checked) {
+                $('.checkbox1').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.checkbox1').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $('#btnVerified').on('click', function (event) {
+
+            var LFR = {};
+            var InvoiceVerifications = new Array();
+
+
+          
+            //$("#dynamic-tabl1 input.CheckBox2:checkbox").each(function (index) {
+            //        if (source.checked) {
+            //            if (this.checked) {
+            //                let thirdVal = $(this).parent().parent().find('td:eq(2)').text();
+            //                //console.log(thirdVal);
+            //                //var row = $(this).closest("tr")[0];
+            //                //var InvoiceVerification = {};
+            //                //InvoiceVerification.SNO = row.cells[1].innerHTML;
+            //                InvoiceVerification.ORGN_CODE = thirdVal;
+            //                //InvoiceVerifications.push(InvoiceVerification);
+            //            }
+            //        }
+            //    });
+            
+
+            $("[id*=dynamic-tabl] input[type=checkbox]:checked").each(function () {
+
+                var row = $(this).closest("tr")[0];
+                var InvoiceVerification = {};
+                InvoiceVerification.SNO = row.cells[1].innerHTML;
+                InvoiceVerification.ORGN_CODE = row.cells[2].innerHTML;
+
+
+                InvoiceVerifications.push(InvoiceVerification);
+            });
+
+            //$("[id*=dynamic-tabl1] input[class=checkox]:checked").each(function () {
+
+            //    var row = $(this).closest("tr")[0];
+            //    var InvoiceVerification = {};
+            //    InvoiceVerification.SNO = row.cells[1].innerHTML;
+            //    InvoiceVerification.ORGN_CODE = row.cells[2].innerHTML;
+            //    InvoiceVerifications.push(InvoiceVerification);
+            //});
+            
+            LFR.InvoiceVerifications = InvoiceVerifications;
+            // get the current row
+            var currentRow = $(this).closest("tr");
+
+            //var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+            //var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+            var col4 = currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+            var OrgnCodeList = col4;
+
+            var PoNumberList = $('#ddlPoNumber').val();
+            if (PoNumberList == "") {
+                alert("Please select Purchse Doc No!");
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/InvoiceVerify/InvoiceVerificationVerified',
+                data: JSON.stringify({ LFR: LFR, poNumber: PoNumberList }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                //data: { poNumber: PoNumberList },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                        // spinner.hide();
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        window.location = "/InvoiceVerify/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+
+
+        });
+
+        $('#btnSubmit').on('click', function (event) {
+            var PoNumberList = $('#ddlPoNumber').val();
+            GetInvoiceVerification(PoNumberList);
+        });
+        function GetInvoiceVerification(PoNumber) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'GET',
+                url: '/InvoiceVerify/InvoiceVerification',
+                data: { poNumber: PoNumber },
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    if (data == "Error: NO RECORD FOUND IN 1ST GRID!!") {
+
+                        spinner.hide();
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+
+                            var j = i + 1;
+                            var IndexID = "" + j;
+                            tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" ><label class="pos-rel"> <input type="checkbox" id="CheckBox1" class="checkbox" /> <span class="lbl"></span></td >'
+                                //+ '<td class="trBg" style="text-align:center;" ><label class="pos-rel"> <input type="checkbox" id="CheckBox1' + j + '" class="ace" /> <span class="lbl"></span></td >'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg">' + data[i].ORGN_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TOTAL_BALES + '</td>'
+                                + '<td class="trBg">' + data[i].TOTAL_QTY + '</td>'
+                                + '<td class="trBg">' + data[i].TOTAL_PURC_VAL + '</td>'
+                                + '<td class="trBg">' + data[i].SERVICE_TB_TAX_VAL + '</td>'
+                                + '<td class="trBg">' + data[i].SERVICE_CHARGE_VAL + '</td>'
+                                + '<td class="trBg">' + data[i].PATTA_CHARGE + '</td>'
+                                + '<td class="trBg">' + data[i].INVOICE_VAL + '</td>'
+                                //<a href="link.html"> <button id="btnVerify" type="button""> Click </button>  </a>
+                                //<a class="btn btn-primary" href="FarmerPurchaseBaleWise?poNumber=' + $('#ddlPoNumber').val() + '&orgnCode=' + data.Table[i].ORGN_CODE + '"></a>
+                                + '<td class="trBg">  <button class="btnSelect">Verify</button></td>'
+                                + '</tr >';
+                        }
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                        Clear();
+                    }
+                },
+                error: function (msg) {
+                    // alert(0); alert(msg);
+                }
+            });
+        }
+
+
+        $("#dynamic-tabl").on('click', '.btnSelect', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+
+            //var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+            //var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+            var col2 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
+            var OrgnCodeList = col2;
+            var PoNumberList = $('#ddlPoNumber').val();
+
+            $.ajax({
+                url: '@Url.Action("InvoiceVerifyInd", "InvoiceVerify")',
+                type: 'POST',
+                dataType: 'json',
+                data: { orgnCodeList: OrgnCodeList, poNumberList: PoNumberList },
+                success: function (data) {
+                    if (data.result == 'Redirect') {
+                        window.location = data.url;
+                    }
+                },
+                error: function (err) {
+
+                }
+
+            });
+        });
+
+
+
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var PoNumberList = $('#ddlPoNumber').val();
+            GetInvoiceVerificationAuction(PoNumberList);
+        });
+        function GetInvoiceVerificationAuction(PoNumber) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            $.ajax({
+                type: 'GET',
+                url: '/InvoiceVerify/InvoiceVerificationAuction',
+                data: { poNumber: PoNumber },
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.length; i++) {
+
+                        var j = i + 1;
+
+
+                        var ORGN_CODE = (data[i].ORGN_CODE == null) ? "" : data[i].ORGN_CODE;
+                        var TOTAL_BALES = (data[i].TOTAL_BALES == null) ? "" : data[i].TOTAL_BALES;
+                        // gethdnHEADER_ID = HEADER_ID; // this gives textbox value
+                        var TOTAL_QTY = (data[i].TOTAL_QTY == null) ? "" : data[i].TOTAL_QTY;
+                        var TOTAL_PURC_VAL = (data[i].TOTAL_PURC_VAL == null) ? "" : data[i].TOTAL_PURC_VAL;
+                        var SERVICE_TB_TAX_VAL = (data[i].SERVICE_TB_TAX_VAL == null) ? "" : data[i].SERVICE_TB_TAX_VAL;
+                        var SERVICE_CHARGE_VAL = (data[i].SERVICE_CHARGE_VAL == null) ? "" : data[i].SERVICE_CHARGE_VAL;
+                        var PATTA_CHARGE = (data[i].PATTA_CHARGE == null) ? "" : data[i].PATTA_CHARGE;
+                        var INVOICE_VAL = (data[i].INVOICE_VAL == null) ? "" : data[i].INVOICE_VAL;
+                        var Invoice_No = (data[i].Invoice_No == null) ? "" : data[i].Invoice_No;
+                        var Invoice_Date = (data[i].Invoice_Date == null) ? "" : data[i].Invoice_Date;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label class="pos-rel"> <input type="checkbox" id="CheckBox2" class="checkbox1" /></td >'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg">' + ORGN_CODE + '</td>'
+                            + '<td class="trBg"><span class="trBg1">' + TOTAL_BALES + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + TOTAL_QTY + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + TOTAL_PURC_VAL + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + SERVICE_TB_TAX_VAL + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + SERVICE_CHARGE_VAL + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + PATTA_CHARGE + '</span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + INVOICE_VAL + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Invoice_No + '</span><input class="text" value="' + Invoice_No + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Invoice_Date + '</span><input class="text" value="' + Invoice_Date + '" style="display:none"/></span></td>'
+                            //<a href="link.html"> <button id="btnVerify" type="button""> Click </button>  </a>
+                            //<a class="btn btn-primary" href="FarmerPurchaseBaleWise?poNumber=' + $('#ddlPoNumber').val() + '&orgnCode=' + data.Table[i].ORGN_CODE + '"></a>
+                            + '<td class="trBg">  <button class="btnSelectt">Verify</button></td>'
+                            + '<td class="trBg"><button class="btnEdit">Edit</button><button style="display:none" class="btnUpdate">Update</button><button class="btnDelete">Delete</button><button style="display:none" class="btnCancel">Cancel</button></td>'
+                            + '</tr >';
+                    }
+                    var dt1 = $('#dynamic-tabl1').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl1 tbody').empty();
+                    $('#dynamic-tabl1 tbody').append(tblContent);
+
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                        Clear();
+                    }
+
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+        $("#dynamic-tabl1").on('click', '.btnSelectt', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+
+            //var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+            //var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+            var col2 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
+            var OrgnCodeList = col2;
+            var PoNumberList = $('#ddlPoNumber').val();
+
+            $.ajax({
+                url: '@Url.Action("InvoiceAuctionVerify", "InvoiceVerify")',
+                type: 'POST',
+                dataType: 'json',
+                data: { orgnCodeList: OrgnCodeList, poNumberList: PoNumberList },
+                success: function (data) {
+                    if (data.result == 'Redirect') {
+                        window.location = data.url;
+                    }
+                },
+                error: function (err) {
+
+                }
+
+            });
+        });
+
+
+        $("#dynamic-tabl1").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                //if ($(this).find("#ddlrejtype").select > 0) {
+                //    var span = $(this).find("span");
+                //    var select = $(this).find("#ddlrejtype");
+                //    span.html("select".val());
+                //    span.show();
+                //    select.hide();
+                //}
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+
+                }
+
+            });
+
+            var row = $(this).closest("tr");
+            var TapPurchase = {};
+
+
+
+            TapPurchase.SNO = row.find("td:eq(1)")[0].innerText;
+            TapPurchase.ORGN_CODE = row.find("td:eq(2)")[0].innerText;
+            TapPurchase.TOTAL_BALES = row.find("td:eq(3)")[0].innerText;
+            TapPurchase.TOTAL_QTY = row.find("td:eq(4)")[0].innerText;
+            TapPurchase.TOTAL_PURC_VAL = row.find("td:eq(5)")[0].innerText;
+            TapPurchase.SERVICE_TB_TAX_VAL = row.find("td:eq(6)")[0].innerText;
+            TapPurchase.SERVICE_CHARGE_VAL = row.find("td:eq(7)")[0].innerText;
+            TapPurchase.PATTA_CHARGE = row.find("td:eq(8)")[0].innerText;
+            TapPurchase.INVOICE_VAL = row.find("td:eq(9)")[0].innerText;
+            TapPurchase.Invoice_No = row.find("td:eq(10)")[0].innerText;
+            TapPurchase.Invoice_Date = row.find("td:eq(11)")[0].innerText;
+
+
+                var PoNumberList = $('#ddlPoNumber').val();
+                if (PoNumberList == "") {
+                    alert("Please select Purchse Doc No!");
+                    return false;
+                }
+
+            $.ajax({
+                type: "POST",
+                url: "/InvoiceVerify/UpdateInvoiceVerificationAuction",
+                data: JSON.stringify({ LIV: TapPurchase, poNumber: PoNumberList }),
+                //data: '{LIV:' + JSON.stringify(TapPurchase) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning(msg, "success");
+
+                    }
+                }
+
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            row.find("#CheckBox2").show();
+            $(this).hide();
+        });
+
+
+
+        //$("#dynamic-tabl1").on('click', '.btnUpdate', function () {
+
+        //    var LIV = {};
+        //    var InvoiceVerificationAuctions = new Array();
+        //    //var isMarkedWeight = $("[name=radio]:checked").val();
+          
+        //    var PoNumberList = $('#ddlPoNumber').val();
+        //    if (PoNumberList == "") {
+        //        alert("Please select Purchse Doc No!");
+        //        return false;
+        //    }
+
+
+           
+
+        //    //$("#dynamic-tabl1 tbody tr").each(function () {
+                
+        //    //    var row = $(this).closest("tr");
+        //    //    $("td", row).each(function () {
+        //    //        if ($(this).find("input").length > 0) {
+        //    //            var span = $(this).find("span");
+        //    //            var input = $(this).find("input");
+        //    //            span.html(input.val());
+        //    //            span.show();
+        //    //            input.hide();
+        //    //        }
+        //    //    });
+        //    //    row.find(".btnEdit").show();
+        //    //    row.find(".btnDelete").show();
+        //    //    row.find(".btnCancel").hide();
+        //    //    row.find(".btnUpdate").hide();
+               
+        //    //    var InvoiceVerificationAuction = {};
+
+
+               
+
+
+        //    //    InvoiceVerificationAuction.SNO = row.find("td:eq(1)")[0].innerText;
+        //    //    InvoiceVerificationAuction.ORGN_CODE = row.find("td:eq(2)")[0].innerText;
+        //    //    InvoiceVerificationAuction.TOTAL_BALES = row.find("td:eq(3)")[0].innerText;
+        //    //    InvoiceVerificationAuction.TOTAL_QTY = row.find("td:eq(4)")[0].innerText;
+        //    //    InvoiceVerificationAuction.TOTAL_PURC_VAL = row.find("td:eq(5)")[0].innerText;
+        //    //    InvoiceVerificationAuction.SERVICE_TB_TAX_VAL = row.find("td:eq(6)")[0].innerText;
+        //    //    InvoiceVerificationAuction.SERVICE_CHARGE_VAL = row.find("td:eq(7)")[0].innerText;
+        //    //    InvoiceVerificationAuction.PATTA_CHARGE = row.find("td:eq(8)")[0].innerText;
+        //    //    InvoiceVerificationAuction.INVOICE_VAL = row.find("td:eq(9)")[0].innerText;;
+        //    //    InvoiceVerificationAuction.Invoice_No = row.find("td:eq(10)")[0].innerText;
+        //    //    InvoiceVerificationAuction.Invoice_Date = row.find("td:eq(11)")[0].innerText;
+        //    //    InvoiceVerificationAuctions.push(InvoiceVerificationAuction);
+        //    //    // i++;
+        //    //});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //    //if (InvoiceVerificationAuctions.length > 0) {
+        //        //LIV.InvoiceVerificationAuctions = InvoiceVerificationAuctions;
+               
+        //        ////Send the JSON array to Controller using AJAX.
+
+        //        //$.ajax({
+        //        //    type: "POST",
+        //        //    url: "/InvoiceVerify/UpdateInvoiceVerificationAuction",
+        //        //    //url: "/InoviceVerify/UpdateInvoiceVerificationAuction",
+
+        //        //    data: JSON.stringify({ LIV: LIV, poNumber: PoNumberList }),
+
+        //        //    contentType: "application/json; charset=utf-8",
+        //        //    dataType: "json",
+        //        //    success: function (msg) {
+        //        //        if (msg.startsWith("Error", 1)) {
+        //        //            bootstrap_alert.warning(msg, "error");
+        //        //            // spinner.hide();
+        //        //        }
+        //        //        else if (msg.startsWith("Success", 1)) {
+
+        //        //            //window.location = "/VerificationBaleNetWtTrack/Index";
+        //        //            bootstrap_alert.warning('Successful ' + msg, "success");
+        //        //        }
+        //        //        // spinner.hide();
+        //        //    },
+        //        //    error: function (msg) {
+        //        //        bootstrap_alert.warning(msg.responseText, "error");
+        //        //    }
+        //        //});
+
+
+
+        //    //} else {
+        //    //    bootstrap_alert.warning('THERE IS NO DATA IN GRID!!', "error");
+        //    //}
+
+
+
+        //});
+
+
+    });
+
+
+</script>

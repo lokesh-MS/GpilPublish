@@ -1,0 +1,205 @@
+@model IEnumerable<GPILWebApp.Models.GPIL_FARMER_FREIGHT_CHARGE_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "FARMER_FREIGHT_CHARGE_MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">FREIGHTCHARGE MASTER</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "GPIL_FARMER_FREIGHT_CHARGE_MASTER") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GPIL_FARMER_FREIGHT_CHARGE_MASTER") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+    @*<button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Excel Upload </button>*@
+</p>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Item List</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "FREIGHT CHARGE MASTER"
+        </div>
+
+
+        <div class="form-horizondal" id="frmdetl">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SNO)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FREIGHT_ID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FREIGHT_CHARGE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VILLAGE_CODE)
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.LAST_FREIGHT_CHARGE)
+                        </th>*@
+                        @*<th>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </th>*@
+                        @*<th>
+            @Html.DisplayNameFor(model => model.FLAG)
+        </th>*@
+                        @*<th>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_BY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LASTUPDATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE5)
+        </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.CROP)
+                        </th>
+                        @*<th>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_CODE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VARIETY)
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.GPIL_VILLAGE_MASTER.VILLAGE_NAME)
+                        </th>*@
+                        <th>Edit/Delete</th>
+                    </tr>
+
+
+                </thead>
+
+                <tbody id="tbody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SNO)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FREIGHT_ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FREIGHT_CHARGE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VILLAGE_CODE)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.LAST_FREIGHT_CHARGE)
+                            </td>*@
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.STATUS)
+        </td>*@
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.FLAG)
+        </td>*@
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.CREATED_DATE)
+        </td>*@
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.LAST_UPDATED_BY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LAST_UPDATED_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LASTUPDATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATTRIBUTE1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATTRIBUTE2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATTRIBUTE3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATTRIBUTE4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATTRIBUTE5)
+        </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GPIL_CROP_MASTER.CROP_YEAR)
+                            </td>
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.GPIL_USER_MASTER.USER_NAME)
+        </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VARIETY)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.GPIL_VILLAGE_MASTER.VILLAGE_NAME)
+                            </td>*@
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.FREIGHT_ID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.FREIGHT_ID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.FREIGHT_ID })
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+                  
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>$(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+           );
+    });</script>
+
+
+

@@ -1,0 +1,175 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_RATE_MASTER>
+@{
+    ViewBag.root = "RateMaster";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ExcelIndex</h2>
+
+
+<div>
+
+    @using (Html.BeginForm("ImportFromExcel", "GPIL_RATE_MASTER", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary();
+        @*<input type="file" name="postedFile" />*@
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    @*control-label*@
+                    <label class="label info">Excel File</label>
+                    <input type="file" name="postedFile" class="form-control" />
+                    <br />
+                    <input type="submit" value="Import" style="width:95px" class="btn btn-success btn-sm" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<h2>Rate Details</h2>
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Rate List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "RATE DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl">
+
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Loc_Code</th>
+                        <th>Item_Code</th>
+                        <th>Rate</th>
+                        <th>Last_Updated_Date</th>
+                        @*<th>CREATED_BY</th>
+                            <th>CREATED_DATE</th>
+                            <th>STATUS</th>*@
+                        @*<th>PASSWORD</th>
+                            <th>SYNC_ID</th>
+                            <th>SYNC_PASSWORD</th>*@
+                        <th></th>
+
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tbody>
+                        <tr>
+                            @*, typeof(DateTime)*@
+                            <td>@Html.DisplayFor(modelItem => item.Loc_Code, new { @id = "LocCode", @class = "form-control" })</td>
+                            <td>@Html.DisplayFor(modelItem => item.Item_Code, new { @id = "ItemCode", @class = "form-control" })</td>
+                            <td>@Html.DisplayFor(modelItem => item.Rate, new { @id = "Rate", @class = "form-control" })</td>
+                            <td>@Html.DisplayFor(modelItem => item.Last_Updated_Date, new { @id = "LastUpdatedDate", @class = "form-control" })</td>
+
+                            @*<td>@Html.DisplayFor(modelItem => item.PASSWORD, new { @id = "Pwd", @class = "form-control" })</td>
+                                <td>@Html.DisplayFor(modelItem => item.SYNC_ID, new { @id = "SyncID", @class = "form-control" })</td>
+                                <td>@Html.DisplayFor(modelItem => item.SYNC_PASSWORD, new { @id = "SyncPwd", @class = "form-control" })</td>*@
+
+                            <td>
+                                @Html.ActionLink("Create New", "Create")
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Loc_Code }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Loc_Code }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Loc_Code })
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section scripts{
+
+    @*<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                $('#dynamic-tabl').dataTable(
+                   );
+
+                $("#upload").click(function () {
+                    debugger;
+                    if (window.FormData == undefined)
+                        alert("Error: FormData is undefined");
+
+                    else {
+                        var fileUpload = $("#postedFile").get(0);
+                        var files = fileUpload.files;
+
+                        var fileData = new FormData();
+
+                        fileData.append(files[0].name, files[0]);
+
+                        $.ajax({
+                            url: '/GPIL_RATE_MASTER/ImportFromExcel',
+                            type: 'post',
+                            datatype: 'json',
+                            contentType: false,
+                            processData: false,
+                            async: false,
+                            data: fileData,
+                            success: function (response) {
+                                alert(response);
+                            }
+                        });
+                    }
+
+                });
+            });
+
+
+        </script>*@
+
+    <script src="~/assets/js/jquery-2.1.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dynamic-tabl').dataTable();
+
+            $("#upload").click(function () {
+                debugger;
+                if (window.FormData === undefined) {
+                    alert("Error: FormData is undefined");
+                } else {
+                    var fileUpload = $("#postedFile").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+                    fileData.append(files[0].name, files[0]);
+
+                    $.ajax({
+                        url: '/GPIL_RATE_MASTER/ImportFromExcel',
+                        type: 'post',
+                        dataType: 'json', // Note the correct spelling
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        success: function (response) {
+                            alert(response);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+}

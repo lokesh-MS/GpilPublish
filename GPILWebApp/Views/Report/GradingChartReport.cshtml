@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Root = "Report";
+    ViewBag.Title = "GradingChartReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Grading Chart Report</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">From Date</label>
+            <div class="input-group">
+                <input class="form-control date-picker" id="txtFromDate" type="date" data-date-format="dd-mm-yyyy" />
+                <span class="input-group-addon">
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">To Date</label>
+            <div class="input-group">
+                <input class="form-control date-picker" id="txtToDate" type="date" data-date-format="dd-mm-yyyy" />
+                <span class="input-group-addon">
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Select Crop</label>
+            <div>
+                @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Select Variety</label>
+            <div>
+                @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Orgn Code</label>
+            <div>
+                @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlFromOrgnCode", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Recipe Code</label>
+            <div>
+                @Html.DropDownList("RECIPE_CODE", new SelectList(ViewBag.GPIL_OPERATION_RECIPE, "RECIPE_CODE", "OPERATION_RECIPE"), "Please select", new { @id = "ddlToOrgnCode", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label"></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2">
+        <div class="form-sm-3">
+          
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-sm-3">
+            <input type="radio" name="radio" value="rdoQuantity" /> Quantity (kgs) Only
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-sm-3">
+            <input type="radio" name="radio" value="rdoShare" /> Share (%) Only
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-sm-3">
+            <input type="radio" name="radio" value="rdoBoth" /> Both Quantity (kgs) &amp; Share (%) <br />
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-md-3">
+    <div><label class="control-label"></label></div>
+    <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+        View
+    </button>
+    <button type="reset" class="btn btn-sm btn-default">
+        Clear
+    </button>
+</div>

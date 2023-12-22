@@ -1,0 +1,271 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.DataLoader.TapPurchaseLoader>
+@{
+    ViewBag.Root = "Loader";
+    ViewBag.Title = "TapPurchaseLoaderIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Tap Purchase Loader</h2>
+<div>
+
+    @*@using (Html.BeginForm("ImportFromExcel", "DataLoader", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary();*@
+    @*<input type="file" name="postedFile" />*@
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                @*control-label*@
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+    @*}*@
+</div>
+ 
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">TAP PURCHASE LOADER</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "TAP PURCHASE DETAILS"
+        </div>  
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>GPIL_BALE_NUMBER</th>
+                        <th>TB_LOT_NO</th>
+                        <th>TBGR_NO </th>
+                        <th>TB_GRADE</th>
+                        <th>NET_WT</th>
+                        <th>RATE</th>
+                        <th>BUYER_GRADE</th>
+                        <th>REJE_TYPE</th>
+                        <th>PATTA_CHARGE</th>
+                        <th>ORGN_CODE</th>
+                        <th>BUYER_CODE</th>
+                        <th>PURCH_DOC_NO</th>
+                        <th>PURCHASE_DATE</th>
+                        <th>CROP</th>
+                        <th>VARIETY</th>
+                        <th>INSERT_STS</th>
+                        <th>Add/Edit/Update/Delete </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    $(document).ready(function () { 
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide(); 
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show(); 
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            }); 
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");  
+                row.remove();
+            }
+        }); 
+
+        $('#btnSubmit').on('click', function (event) {
+            var TapDataList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            formData.append('postedFile', TapDataList[0]);
+            GetTapPurchase(formData);
+        });
+        function GetTapPurchase(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/TapPurchaseLoader/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+
+                    var gethdnGPIL_BALE_NUMBER = "";
+                    for (var i = 0; i < data.length; i++) { 
+                        var j = i + 1;  
+                        var GPIL_BALE_NUMBER = (data[i].GPIL_BALE_NUMBER == null) ? "" : data[i].GPIL_BALE_NUMBER;
+                        gethdnGPIL_BALE_NUMBER = GPIL_BALE_NUMBER; // this gives textbox value
+                        var TB_LOT_NO = (data[i].TB_LOT_NO == null) ? "" : data[i].TB_LOT_NO;
+                        var TBGR_NO = (data[i].TBGR_NO == null) ? "" : data[i].TBGR_NO;
+                        var TB_GRADE = (data[i].TB_GRADE == null) ? "" : data[i].TB_GRADE;
+                        var NET_WT = (data[i].NET_WT == null) ? "" : data[i].NET_WT;
+                        var RATE = (data[i].RATE == null) ? "" : data[i].RATE;
+                        var BUYER_GRADE = (data[i].BUYER_GRADE == null) ? "" : data[i].BUYER_GRADE;
+                        var REJE_TYPE = (data[i].REJE_TYPE == null) ? "" : data[i].REJE_TYPE;
+                        var PATTA_CHARGE = (data[i].PATTA_CHARGE == null) ? "" : data[i].PATTA_CHARGE;
+                        var ORGN_CODE = (data[i].ORGN_CODE == null) ? "" : data[i].ORGN_CODE;
+                        var BUYER_CODE = (data[i].BUYER_CODE == null) ? "" : data[i].BUYER_CODE;
+                        var PURCH_DOC_NO = (data[i].PURCH_DOC_NO == null) ? "" : data[i].PURCH_DOC_NO;
+                        var PURCHASE_DATE = (data[i].PURCHASE_DATE == null) ? "" : data[i].PURCHASE_DATE;
+                        var CROP = (data[i].CROP == null) ? "" : data[i].CROP;
+                        var VARIETY = (data[i].VARIETY == null) ? "" : data[i].VARIETY;
+                        var INS_STS = (data[i].INS_STS == null) ? "" : data[i].INS_STS;
+
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TB_LOT_NO + '</span><input class="text" value="' + TB_LOT_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TBGR_NO + '</span><input class="text" value="' + TBGR_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TB_GRADE + '</span><input class="text" value="' + TB_GRADE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + NET_WT + '</span><input class="text" value="' + NET_WT + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + RATE + '</span><input class="text" value="' + RATE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + BUYER_GRADE + '</span><input class="text" value="' + BUYER_GRADE + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + REJE_TYPE + '</span><input class="text" value="' + REJE_TYPE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + PATTA_CHARGE + '</span><input class="text" value="' + PATTA_CHARGE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ORGN_CODE + '</span><input class="text" value="' + ORGN_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + BUYER_CODE + '</span><input class="text" value="' + BUYER_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + PURCH_DOC_NO + '</span><input class="text" value="' + PURCH_DOC_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + PURCHASE_DATE + '</span><input class="text" value="' + PURCHASE_DATE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + CROP + '</span><input class="text" value="' + CROP + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + VARIETY + '</span><input class="text" value="' + VARIETY + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><input class="text1" type="hidden" value="' + GPIL_BALE_NUMBER + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                    } 
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent); 
+                }, 
+            });
+        } 
+
+        $('#btnComplete').on('click', function () {
+            var generation = {};
+            var TapPurchases = new Array();
+            $("#dynamic-tabl tbody tr").each(function () {
+                var row = $(this);
+                var TapPurchase = {};
+                TapPurchase.SNO = row.find("td:eq(0)")[0].innerText;
+                TapPurchase.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+                TapPurchase.TB_LOT_NO = row.find("td:eq(2)")[0].innerText;
+                TapPurchase.TBGR_NO = row.find("td:eq(3)")[0].innerText;
+                TapPurchase.TB_GRADE = row.find("td:eq(4)")[0].innerText;
+                TapPurchase.NET_WT = row.find("td:eq(5)")[0].innerText;
+                TapPurchase.RATE = row.find("td:eq(6)")[0].innerText;
+                TapPurchase.BUYER_GRADE = row.find("td:eq(7)")[0].innerText;
+                TapPurchase.REJE_TYPE = row.find("td:eq(8)")[0].innerText;
+                TapPurchase.PATTA_CHARGE = row.find("td:eq(9)")[0].innerText;
+                TapPurchase.ORGN_CODE = row.find("td:eq(10)")[0].innerText;
+                TapPurchase.BUYER_CODE = row.find("td:eq(11)")[0].innerText;
+                TapPurchase.PURCH_DOC_NO = row.find("td:eq(12)")[0].innerText;
+                TapPurchase.PURCHASE_DATE = row.find("td:eq(13)")[0].innerText;
+                TapPurchase.CROP = row.find("td:eq(14)")[0].innerText;
+                TapPurchase.VARIETY = row.find("td:eq(15)")[0].innerText;
+                TapPurchase.INS_STS = row.find("td:eq(16)")[0].innerText;
+                TapPurchases.push(TapPurchase);
+            });
+
+            generation.TapPurchases = TapPurchases;
+
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/TapPurchaseLoader/TapPurchaseComplete",
+                data: JSON.stringify(generation),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#postedFile').val() = "";
+                    alert(0); alert("Successfully");
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                } 
+            });
+        });
+    }); 
+</script>

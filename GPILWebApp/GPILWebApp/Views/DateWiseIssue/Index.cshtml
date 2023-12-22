@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Loan Amount Download</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Entry Date</label>
+            <div class="input-group">
+                <input class="form-control date-picker" id="txtFromDate" type="date" data-date-format="dd-mm-yyyy" />
+                <span class="input-group-addon">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div><label class="control-label"></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+        </button>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Date Wise Issue"
+        </div>
+
+        @*<div class="table-responsive">*@
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SNO
+                        </th>
+
+                        <th>
+                            PONo
+                        </th>
+
+                        <th>
+                            ItemCode
+                        </th>
+
+                        <th>
+                            ItemName
+                        </th>
+
+                        <th>
+                            Supplier
+                        </th>
+                        <th>
+                            PoQty
+                        </th>
+                        <th>
+                            PoValue
+                        </th>
+                        <th>
+                            SubsidyQty
+                        </th>
+                        <th>
+                            Subsidyvalue
+                        </th>
+                        <th>
+                            ExStock
+                        </th>
+                        <th>
+                            ExAmount
+                        </th>
+
+
+                    </tr>
+                </thead>
+
+
+            </table>
+        </div>
+        @*</div>*@
+
+    </div>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+

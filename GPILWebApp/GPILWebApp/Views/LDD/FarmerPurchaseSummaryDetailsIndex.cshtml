@@ -1,0 +1,339 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "FarmerPurchaseSummaryDetailsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">Farmer Purchase Summary Details</h2>
+@*//style="border-color:aqua"*@
+<hr />
+
+<div class="row">
+    <div class="col-md-2">
+
+        <label style="color:#438EB9">Purchase Reference</label>
+
+        <div class="input-group">
+            <input class="form-control " id="txtBatchNumber" type="text"  maxlength="20"/>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div><label style="color:#438EB9">Select Report Type</label></div>
+
+        <input type="radio" name="radio" checked="checked" value="Accountable_Farmer" /> Accountable_Farmer
+        <input type="radio" name="radio" value="Non-Accountable_Farmer" /> Non-Accountable_Farmer
+        <input type="radio" name="radio" value="All_Farmer" /> All_Farmer <br />
+
+    </div>
+
+    <div class="col-md-2">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+            Clear
+
+        </button>
+    </div>
+
+
+
+
+</div>
+
+@*<div class="row">
+
+
+</div>*@
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Farmer Purchase Summary Details"
+        </div>
+
+        <!-- div.table-responsive -->
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">
+                            SNO
+                        </th>
+
+                        <th style="text-align:center;">
+                            FARMER_CODE
+                        </th>
+
+                        <th style="text-align:center;">
+                            FARM_NAME
+                        </th>
+
+                        <th style="text-align:center;">
+                            FATHER_NAME
+                        </th>
+
+                        <th style="text-align:center;">
+                            BANK_DETAILS
+                        </th>
+
+                        <th style="text-align:center;">
+                            BANK_ACCOUNT_NO
+                        </th>
+
+                        <th style="text-align:center;">
+                            IFSC_CODE
+                        </th>
+
+                        <th style="text-align:center;">
+                            BALE_COUNT
+                        </th>
+
+                        <th style="text-align:center;">
+                            QUANTITY
+                        </th>
+
+                        <th style="text-align:center;">
+                            AVE_PRICE
+                        </th>
+
+                        <th style="text-align:center;">
+                            FREIGHT_CHARGE
+                        </th>
+
+                        <th style="text-align:center;">
+                            TOTAL_VALUE
+                        </th>
+
+
+
+                    </tr>
+                </thead>
+
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+<div id="FarmerPurchaseSummary"></div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var spinner = $('#loader');
+        var PurchaseReference = $('#txtBatchNumber').val();
+
+        $('#btnSubmit').on('click', function (event) {
+            var PurchaseReference = $('#txtBatchNumber').val();
+            var Status = $("[name=radio]:checked").val();
+            GetFarmerPurchasePendingDetails(PurchaseReference, Status);
+        });
+
+        $('#btnClear').on('click', function (event) {
+            $('#txtBatchNumber').val('');
+            var dt1 = $('#dynamic-tabl').DataTable();
+            dt1.destroy();
+            var tblContent = '';
+            $('#dynamic-tabl tbody').empty();
+            $('#dynamic-tabl tbody').append(tblContent)
+            $("input:radio[name=radio]:checked")[0].checked = true;
+            $('#FarmerPurchaseSummary').empty();
+        });
+
+
+        function GetFarmerPurchasePendingDetails(PurchaseRef, Status) {
+
+            //if (Status == '') {
+            //    alert('Please Select Type');
+            //}
+            spinner.show();
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/FarmerPurchaseSummary',
+                data: { PurchaseNO: PurchaseRef, ReportType: Status },
+                success: function (msg) {
+                    //$('#ddlOrgnMaster').val() = "";
+                    let data = JSON.parse(msg);
+                    //alert(0); alert("Successfully");
+                    if (data == null) {
+                        bootstrap_alert.warning(msg, "error");
+                        spinner.hide();
+                    }
+                    else {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            var IndexID = "" + j;
+                            tblContent = tblContent + '<tr ' + data[i].FARMER_CODE + '" >'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FARMER_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FARM_NAME + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FATHER_NAME + '</td>'
+                                + '<td class="trBg" style="width:100%">' + data[i].BANK_DETAILS + '</td>'
+                                + '<td class="trBg" style="width:100%">' + data[i].BANK_ACCOUNT_NO + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].IFSC_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].BALE_COUNT + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].QUANTITY + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].AVE_PRICE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FREIGHT_CHARGE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TOTAL_VALUE + '</td>'
+                                + '</tr >';
+                        }
+                    }
+                    //dt1.destroy();
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+
+
+
+                    if (data.length > 0) {
+                        var intBaleCount = ""; //lblFarmerCount
+                        var dblQuantity = "";  //lblPurchase
+                        var dblValue = "";  //lblBalanceLoan
+                        var ToTintBaleCount = "0";
+                        var ToTdblQuantity = "0";
+                        var ToTdblValue = "0";
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            intBaleCount = (data[i].BALE_COUNT == null) ? "0" : data[i].BALE_COUNT;
+                            dblQuantity = (data[i].QUANTITY == null) ? "0" : data[i].QUANTITY;
+                            dblValue = (data[i].TOTAL_VALUE == null) ? "0" : data[i].TOTAL_VALUE;
+                            //dblAmountBalToPay = (data[i].LOAN_BAL == null) ? "0" : data[i].LOAN_BAL;
+
+                            ToTintBaleCount = parseFloat(ToTintBaleCount) + parseFloat(intBaleCount);
+                            ToTdblQuantity = parseFloat(ToTdblQuantity) + parseFloat(dblQuantity);
+                            ToTdblValue = parseFloat(ToTdblValue) + parseFloat(dblValue);
+                            //ToTdblAmountBalToPay = parseFloat(ToTdblAmountBalToPay) + parseFloat(dblAmountBalToPay);
+                        }
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total No. of Farmers : ' + data.length + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total No. of Bales Purchase : ' + ToTintBaleCount + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total Purchase Quantity : ' + ToTdblQuantity + ' kgs  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total Net Purchase Amount : Rs. ' + ToTdblValue + '  </label></td >'
+                            //+ '<td class="trBg" style="text-align:center;" ><label>Total Net Pay Amount : Rs. ' + ToTdblAmountBalToPay + ' </label></td >'
+                            + '</tr ></table>';
+                    }
+                    $('#FarmerPurchaseSummary').empty();
+                    $('#FarmerPurchaseSummary').append(tblContentLnDet);
+
+
+
+
+
+
+                    var myTable = $('#dynamic-tabl')
+                      .DataTable({
+                          //paging: false,
+                          paging: true,
+                          scrollY: 400,
+                          //scrollX: true,
+                          'order': [[0, 'asc']],
+                      });
+
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                                {
+                                    "extend": "colvis",
+                                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+
+                                },
+                                {
+                                    "extend": "copy",
+                                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "csv",
+                                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "excel",
+                                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "pdf",
+                                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "print",
+                                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    autoPrint: false,
+                                    message: 'This print was produced using the Print button for DataTables'
+                                }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container'));
+
+         
+
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+
+
+
+
+
+            });
+
+
+
+
+        }
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            //var OrgnNo = $('#ddlOrgnMaster').val('');  //$('#ddlOrgnMaster').val() + today;'A3220150525'
+
+            if ($.trim($('#txtBatchNumber').val()) == '') {
+                alert('Please Enter Your Batch Number');
+            }
+        });
+
+    });
+
+
+
+</script>

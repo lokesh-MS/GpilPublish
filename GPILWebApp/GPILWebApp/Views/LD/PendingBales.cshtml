@@ -1,0 +1,158 @@
+﻿@*@model IEnumerable<GPILWebApp.Models.GPIL_TAP_FARM_PURCHS_DTLS>*@
+@*@using GPILWebApp.Models*@
+@using (Html.BeginForm("PendingBales", "LD"))
+{
+    <div class="col-md-3">  
+        <label>Select Orgn Name</label>
+        @*@Html.DropDownList("OrgnList", (IEnumerable
+        <SelectListItem>)ViewBag.OrgnList)*@
+        
+        @*@Html.DropDownListFor("GPIL_ORGN_MASTER", ViewBag. as SelectList, "SELECT ORGN", new { @class = "form-control sm" })*@
+        @*@Html.DropDownListFor(m=> m.ToList(),ViewBag.OrgnList as SelectList, "SELECT ORGN",new { @class="form-control" })*@
+
+        @Html.DropDownList("GPIL_ORGN_MASTER", ViewBag.GPIL_ORGN_MASTER as SelectList, "SELECT ORGN", new { @class = "form-control" })
+        
+    </div>
+
+    <div class="col-md-4">
+        <div><label>Select Report Type</label></div>
+        <input name="form-field-radio" type="radio" value="1" class="ace" />
+        <span class="lbl">Un Weighment</span>
+        <input name="form-field-radio" type="radio" value="2" class="ace" />
+        <span class="lbl"> Non-Purchaseable</span>
+        <input name="form-field-radio" type="radio" value="3" class="ace" />
+        <span class="lbl">Rejection </span>
+    </div>
+
+
+
+
+
+
+    <div class="col-md-3">
+        <div>.</div>
+        <button type="submit" class="btn btn-sm btn-success">
+            View
+            @*<i class="ace-icon fa fa-arrow-right icon-on-left bigger-110"></i>*@
+        </button>
+        <button type="button" class="btn btn-sm btn-default">
+            Clear
+            @*<i class="ace-icon fa fa-arrow-right icon-on-left bigger-110"></i>*@
+        </button>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="header smaller lighter blue"></h3>
+
+            <div class="clearfix">
+                <div class="pull-right tableTools-container"></div>
+            </div>
+            <div class="table-header">
+                Results for "Farmer Purchase Pending Bales"
+            </div>
+
+            <!-- div.table-responsive -->
+            <!-- div.dataTables_borderWrap -->
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                SNO
+                            </th>
+
+                            <th>
+                                BALE_NUMBER
+                            </th>
+
+                            <th>
+                                REJE_STATUS
+                            </th>
+
+                            <th>
+                                TB_LOT_NO
+                            </th>
+
+                            <th>
+                                SERIAL_NO
+                            </th>
+
+                            <th>
+                                FARMER_CODE
+                            </th>
+
+                            <th>
+                                NET_WT
+                            </th>
+
+                            <th>
+                                RATE
+                            </th>
+
+                            <th>
+                                RATE_WITH_FREIGHT
+                            </th>
+
+                            <th>
+                                BUYER_GRADE
+                            </th>
+
+                            <th>
+                                CLASSIFICATION_GRADE
+                            </th>
+
+                            <th>CROP</th>
+                            <th>VARIETY</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.SNO
+                                    </td>
+                                    <td>
+                                        @item.GPIL_BALE_NUMBER
+                                    </td>
+                                    <td>
+                                        @item.REJE_STATUS
+                                    </td>
+                                    <td>
+                                        @item.TB_LOT_NO
+                                    </td>
+                                    <td>
+                                        @item.ATTRIBUTE3
+                                    </td>
+                                    <td>
+                                        @item.FARMER_CODE
+                                    </td>
+                                    <td>
+                                          @item.NET_WT
+                                    </td>
+                                    <td>
+                                        @item.RATE
+                                    </td>
+                                    <td>
+                                        @item.ATTRIBUTE4
+                                    </td>
+                                    <td>
+                                        @item.BUYER_GRADE
+                                    </td>
+                                    <td>
+                                        @item.ATTRIBUTE2
+                                    </td>
+                                    <td>@item.CROP</td>
+                                    <td>@item.VARIETY</td>
+                                </tr>
+                            }
+                        }
+                    <tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

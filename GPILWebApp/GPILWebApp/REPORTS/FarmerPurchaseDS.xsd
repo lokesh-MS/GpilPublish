@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="FarmerPurchaseDS" targetNamespace="http://tempuri.org/FarmerPurchaseDS.xsd" xmlns:mstns="http://tempuri.org/FarmerPurchaseDS.xsd" xmlns="http://tempuri.org/FarmerPurchaseDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="FarmerPurchaseDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="FarmerPurchaseDS" msprop:Generator_UserDSName="FarmerPurchaseDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsData" msprop:Generator_TableClassName="dsDataDataTable" msprop:Generator_TableVarName="tabledsData" msprop:Generator_TablePropName="dsData" msprop:Generator_RowDeletingName="dsDataRowDeleting" msprop:Generator_RowChangingName="dsDataRowChanging" msprop:Generator_RowEvHandlerName="dsDataRowChangeEventHandler" msprop:Generator_RowDeletedName="dsDataRowDeleted" msprop:Generator_UserTableName="dsData" msprop:Generator_RowChangedName="dsDataRowChanged" msprop:Generator_RowEvArgName="dsDataRowChangeEvent" msprop:Generator_RowClassName="dsDataRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FARM_NAME" msprop:Generator_ColumnVarNameInTable="columnFARM_NAME" msprop:Generator_ColumnPropNameInRow="FARM_NAME" msprop:Generator_ColumnPropNameInTable="FARM_NAMEColumn" msprop:Generator_UserColumnName="FARM_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="HEADER_ID" msprop:Generator_ColumnVarNameInTable="columnHEADER_ID" msprop:Generator_ColumnPropNameInRow="HEADER_ID" msprop:Generator_ColumnPropNameInTable="HEADER_IDColumn" msprop:Generator_UserColumnName="HEADER_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="DATE_OF_PURCH" msprop:Generator_ColumnVarNameInTable="columnDATE_OF_PURCH" msprop:Generator_ColumnPropNameInRow="DATE_OF_PURCH" msprop:Generator_ColumnPropNameInTable="DATE_OF_PURCHColumn" msprop:Generator_UserColumnName="DATE_OF_PURCH" type="xs:string" minOccurs="0" />
+              <xs:element name="VILLAGE_NAME" msprop:Generator_ColumnVarNameInTable="columnVILLAGE_NAME" msprop:Generator_ColumnPropNameInRow="VILLAGE_NAME" msprop:Generator_ColumnPropNameInTable="VILLAGE_NAMEColumn" msprop:Generator_UserColumnName="VILLAGE_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="FARMER_CODE" msprop:Generator_ColumnVarNameInTable="columnFARMER_CODE" msprop:Generator_ColumnPropNameInRow="FARMER_CODE" msprop:Generator_ColumnPropNameInTable="FARMER_CODEColumn" msprop:Generator_UserColumnName="FARMER_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="TB_LOT_NO" msprop:Generator_ColumnVarNameInTable="columnTB_LOT_NO" msprop:Generator_ColumnPropNameInRow="TB_LOT_NO" msprop:Generator_ColumnPropNameInTable="TB_LOT_NOColumn" msprop:Generator_UserColumnName="TB_LOT_NO" type="xs:string" minOccurs="0" />
+              <xs:element name="GPIL_BALE_NUMBER" msprop:Generator_ColumnVarNameInTable="columnGPIL_BALE_NUMBER" msprop:Generator_ColumnPropNameInRow="GPIL_BALE_NUMBER" msprop:Generator_ColumnPropNameInTable="GPIL_BALE_NUMBERColumn" msprop:Generator_UserColumnName="GPIL_BALE_NUMBER" type="xs:string" minOccurs="0" />
+              <xs:element name="BANK_ACCOUNT_NO" msprop:Generator_ColumnVarNameInTable="columnBANK_ACCOUNT_NO" msprop:Generator_ColumnPropNameInRow="BANK_ACCOUNT_NO" msprop:Generator_ColumnPropNameInTable="BANK_ACCOUNT_NOColumn" msprop:Generator_UserColumnName="BANK_ACCOUNT_NO" type="xs:string" minOccurs="0" />
+              <xs:element name="IFSC_CODE" msprop:Generator_ColumnVarNameInTable="columnIFSC_CODE" msprop:Generator_ColumnPropNameInRow="IFSC_CODE" msprop:Generator_ColumnPropNameInTable="IFSC_CODEColumn" msprop:Generator_UserColumnName="IFSC_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="BANK_NAME" msprop:Generator_ColumnVarNameInTable="columnBANK_NAME" msprop:Generator_ColumnPropNameInRow="BANK_NAME" msprop:Generator_ColumnPropNameInTable="BANK_NAMEColumn" msprop:Generator_UserColumnName="BANK_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="BRANCH_NAME" msprop:Generator_ColumnVarNameInTable="columnBRANCH_NAME" msprop:Generator_ColumnPropNameInRow="BRANCH_NAME" msprop:Generator_ColumnPropNameInTable="BRANCH_NAMEColumn" msprop:Generator_UserColumnName="BRANCH_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="FREIGHT_CHARGE" msprop:Generator_ColumnVarNameInTable="columnFREIGHT_CHARGE" msprop:Generator_ColumnPropNameInRow="FREIGHT_CHARGE" msprop:Generator_ColumnPropNameInTable="FREIGHT_CHARGEColumn" msprop:Generator_UserColumnName="FREIGHT_CHARGE" type="xs:string" minOccurs="0" />
+              <xs:element name="LOAN_AMOUNT" msprop:Generator_ColumnVarNameInTable="columnLOAN_AMOUNT" msprop:Generator_ColumnPropNameInRow="LOAN_AMOUNT" msprop:Generator_ColumnPropNameInTable="LOAN_AMOUNTColumn" msprop:Generator_UserColumnName="LOAN_AMOUNT" type="xs:string" minOccurs="0" />
+              <xs:element name="ALERT_MSG" msprop:Generator_ColumnVarNameInTable="columnALERT_MSG" msprop:Generator_ColumnPropNameInRow="ALERT_MSG" msprop:Generator_ColumnPropNameInTable="ALERT_MSGColumn" msprop:Generator_UserColumnName="ALERT_MSG" type="xs:string" minOccurs="0" />
+              <xs:element name="ORGN_CODE" msprop:Generator_ColumnVarNameInTable="columnORGN_CODE" msprop:Generator_ColumnPropNameInRow="ORGN_CODE" msprop:Generator_ColumnPropNameInTable="ORGN_CODEColumn" msprop:Generator_UserColumnName="ORGN_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="CROP" msprop:Generator_ColumnVarNameInTable="columnCROP" msprop:Generator_ColumnPropNameInRow="CROP" msprop:Generator_ColumnPropNameInTable="CROPColumn" msprop:Generator_UserColumnName="CROP" type="xs:string" minOccurs="0" />
+              <xs:element name="VARIETY" msprop:Generator_ColumnVarNameInTable="columnVARIETY" msprop:Generator_ColumnPropNameInRow="VARIETY" msprop:Generator_ColumnPropNameInTable="VARIETYColumn" msprop:Generator_UserColumnName="VARIETY" type="xs:string" minOccurs="0" />
+              <xs:element name="FARM_FATHER_NAME" msprop:Generator_ColumnVarNameInTable="columnFARM_FATHER_NAME" msprop:Generator_ColumnPropNameInRow="FARM_FATHER_NAME" msprop:Generator_ColumnPropNameInTable="FARM_FATHER_NAMEColumn" msprop:Generator_UserColumnName="FARM_FATHER_NAME" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

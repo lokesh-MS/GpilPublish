@@ -1,0 +1,124 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_ORGN_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "OrganiZation List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Organization Index</h2>
+
+
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "GPIL_ORGN_MASTER") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GPIL_ORGN_MASTER") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+  
+</p>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Organization List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "ORGANIZATION DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_CODE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_NAME)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_TYPE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_ADDRESS1)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_ADDRESS2)
+                        </th>                        
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.STATUS)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.VARIETY)
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody id="tbody">
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_NAME)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_TYPE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_ADDRESS1)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_ADDRESS2)
+                            </td>                            
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.STATUS)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VARIETY)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ORGN_CODE }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ORGN_CODE }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ORGN_CODE })
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+           );
+    });
+
+</script>

@@ -1,0 +1,508 @@
+﻿@model GPILWebApp.Models.GPIL_BG_INFORMATION
+@{
+    ViewBag.Root = "LPD";
+    ViewBag.Title = "BGInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2 style="text-align:center; color:#438EB9">BG INFORMATION</h2>
+<hr />
+
+
+@*@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()*@
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+
+            <input id="rdbTransaction" type="radio" name="radio" value="Transaction" checked="true" />Transaction
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <input id="rdbStatus" type="radio" name="radio" value="Status" /> Status
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+
+
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <label>Corp Year</label>
+
+            <div>
+                @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <label> Variety</label>
+
+            <div>
+                @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <label>Organization</label>
+
+            <div>
+                <select class="form-control" id="ddlOrganization">
+                    <option value="0">SELECT ORGANIZATION</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <label></label>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <label id="transType">Transaction Type</label>
+
+            <div>
+                <select class="form-control" id="ddlTransactionType">
+                    <option value="0">SELECT TRANSACTION TYPE</option>
+                    <option id="ddlAddition" ,value="ADDITION">ADDITION</option>
+                    <option id="ddlTransfer" ,value="TRANSFER">TRANSFER</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <label id="lblBankName">Bank Name</label>
+
+            <div>
+                @Html.DropDownList("BANK_CODE", new SelectList(ViewBag.GPIL_BANK_NAME_LIST, "BANK_CODE", "BANK_CODE"), "Please select", new { @id = "ddlBankCode", @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <label id="amt">Amount</label>
+            <div>
+                <input class="form-control " id="txtAmount" />
+            </div>
+        </div>
+    </div>
+
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <label id="transtoOrgn">Transfer to (Orgn)</label>
+        <div>
+            <select class="form-control" id="ddlTransferToOrganization">
+                <option value="0">SELECT ORGANIZATION</option>
+            </select>
+        </div>
+        @*<div>
+            @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+        </div>*@
+    </div>
+
+    <div class="col-sm-4">
+        <label id="transtoBank"> Transfer to (Bank)</label>
+        
+        <div>
+            @Html.DropDownList("BANK_CODE", new SelectList(ViewBag.GPIL_BANK_NAME_LIST1, "BANK_CODE", "BANK_CODE"), "Please select", new { @id = "ddlTransferToBank", @class = "form-control" })
+        </div>
+    </div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div id="lblTotalBgAmount"></div>      
+    </div>
+    <div class="col-sm-4">
+        <div id="lblUtilizedAmount"></div>   
+    </div>
+    <div class="col-sm-4">
+        <div id="lblBalanceAmount"></div>       
+    </div>
+</div>
+
+
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+
+        <button type="button" role="button" id="btnCreate" class="btn btn-success btn-sm"> Save </button>
+        @*<input id="hdnINFO_ID" name="hdnINFO_ID" type="hidden" />*@
+        @*<button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>*@
+        <button type="button" role="button" id="btnClear" class="btn btn-success btn-sm">
+            Clear
+
+        </button>
+       
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+@*}*@
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+        $("#ddlVariety").on('change', function (event) {
+            $('#ddlOrganization').empty();
+            var VarietyList = $('#ddlVariety').val();
+            GetOrgnCode(VarietyList);
+        });
+
+
+        function GetOrgnCode(Variety) {
+            $('#ddlOrganization').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ORGN CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LPD/GetOrganizationCode',
+                data: { variety: Variety },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].ORGN_CODE + '">' + data[i].ORGN + '</option>';
+                       
+                    }
+                    $('#ddlOrganization').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+        $('#btnClear').on('click', function (event) {
+            $('#ddlCrop').val('');
+            $('#ddlVariety').val('');
+            $('#ddlOrganization').val('0');
+            $('#ddlTransactionType').val('0');
+            $('#ddlTransferToOrganization').val('0');
+            $('#ddlTransferToBank').val('');
+            $('#ddlBankCode').val('');
+            $('#txtAmount').val('');
+            dt1.destroy();
+            $("input:radio[name=radio]:checked")[0].checked = false;
+        });
+
+        $('#btnCreate').on('click', function (event) {
+            
+            var CropList = $('#ddlCrop').val();
+            if (CropList == "" || CropList == 0) {
+                alert("Please select Crop!");
+                return false;
+            }
+            var VarietyList = $('#ddlVariety').val();   
+           if (VarietyList == "" || VarietyList == 0) {
+                alert("Please select Variety!");
+                return false;
+            }
+            var OrganizationList =$('#ddlOrganization').val();
+            if (OrganizationList == "" || OrganizationList == 0) {
+                alert("Please select Organization Code!");
+                return false;
+            }
+            var TransactionTypeList = $('#ddlTransactionType').val();
+            var TransferTOOrgnList = $('#ddlTransferToOrganization').val();
+             var TransferToBankList = $('#ddlTransferToBank').val();
+            if (TransactionTypeList == "TRANSFER") {
+                //alert("Please select Transaction Type!");
+                //return false;
+                if (TransferTOOrgnList == "" || TransferTOOrgnList == 0) {
+
+                    alert("Please Select To Orginization!");
+                    return false;
+                }
+                if (TransferToBankList == "" || TransferToBankList == 0) {
+
+                    alert("Please Select To Bank ID!");
+                    return false;
+                }
+
+                if (TransferTOOrgnList == OrganizationList) {
+
+                    alert("From & To Organization shouldn't be same!");
+                    return false;
+                }
+            }
+
+
+            var BankNameList = $('#ddlBankCode').val();
+            if (BankNameList == "" || BankNameList == 0) {
+                alert("Please select BankName!");
+                return false;
+            }
+            var AmountList = $('#txtAmount').val();
+            if (AmountList == "" || AmountList == 0) {
+                alert("Please Enter The Amount!");
+                return false;
+            }
+            
+            //if (TransferTOOrgnList == "" || TransferTOOrgnList == 0) {
+            //    alert("Please Enter The Amount!");
+            //    return false;
+          //  }
+
+           
+            //if (AmountList == "" || AmountList == 0) {
+            //    alert("Please Enter The Amount!");
+            //    return false;
+            //}
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/LPD/TransactionSave',
+                data: { Crop: CropList, Variety: VarietyList, Organization: OrganizationList, TransactionType: TransactionTypeList, BankName: BankNameList, Amount: AmountList, transferTOOrgnList: TransferTOOrgnList, transferToBankList: TransferToBankList },
+                dataType: "json",
+                success: function (response) {
+
+                    if (response.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(response, "error");
+                        spinner.hide();
+                    }
+                    else {
+                        if (response.startsWith("Error", 1)) {
+                            bootstrap_alert.warning(response, "error");
+                        }
+                        else if (response.startsWith("Succuss", 1)) {
+                           
+                            window.location = "/LPD/BGInformation";
+                            bootstrap_alert.warning('Succussful', "success");
+                        }
+                        //spinner.hide();
+                    }
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        });
+
+
+
+
+       // $document.ready(function () {
+        $("#rdbStatus").click(function () {
+            $("#transType").hide();
+            $("#lblBankName").hide();
+            $("#amt").hide();
+                $("#ddlTransactionType").hide();
+                $("#ddlBankCode").hide();
+                $("#txtAmount").hide();
+                $("#btnCreate").hide();
+                $("#btnClear").hide();
+
+                $("#ddlCrop").show();
+                $("#ddlVariety").show();
+                $("#ddlOrganization").show();
+                $("#lblTotalBgAmount").show();
+                $("#lblUtilizedAmount").show();
+                $("#lblBalanceAmount").show();
+            });
+       // });
+        $("#rdbTransaction").click(function () {
+            $("#lblTotalBgAmount").hide();
+            $("#lblUtilizedAmount").hide();
+            $("#lblBalanceAmount").hide();
+           
+            $("#transType").show();
+            $("#lblBankName").show();
+            $("#amt").show();
+            $("#ddlTransactionType").show();
+            $("#ddlBankCode").show();
+            $("#txtAmount").show();
+            $("#btnCreate").show();
+            $("#btnClear").show();
+
+        });
+        $("#lblTotalBgAmount").hide();
+        $("#lblUtilizedAmount").hide();
+        $("#lblBalanceAmount").hide();
+        $("#ddlTransferToOrganization").hide();
+        $("#ddlTransferToBank").hide();
+        $("#transtoOrgn").hide();
+        $("#transtoBank").hide();
+
+        
+
+        $("#ddlAddition").click(function () {
+
+            //$("#ddlTransferToOrganization").hide();
+            $("#ddlTransferToBank").hide();
+            $("#transtoOrgn").hide();
+            $("#transtoBank").hide();
+
+        });
+
+        $("#ddlOrganization").on('change', function (event) {
+            $('#lblTotalBgAmount').empty();
+            $('#lblUtilizedAmount').empty();
+            $('#lblBalanceAmount').empty();
+
+            var CropList = $('#ddlCrop').val();
+            var VarietyList = $('#ddlVariety').val();
+            var OrganizationList = $('#ddlOrganization').val();
+
+            GetlblValue(CropList, VarietyList, OrganizationList);
+        });
+
+
+        function GetlblValue(Crop, Variety, Organization) {
+            debugger;
+            $('#lblTotalBgAmount').empty();
+            $('#lblUtilizedAmount').empty();
+            $('#lblBalanceAmount').empty();
+           
+            var tblContent = '';
+            var tblContent2 = '';
+            var tblContent3 = '';
+            
+            $.ajax({
+                type: 'GET',
+                url: '/LPD/GetlblValues',
+                data: { crop: Crop, variety: Variety, organization: Organization },
+                success: function (msg) {
+                   
+                    var data = JSON.parse(msg);
+                   
+                    for (var i = 0; i < data.length; i++) 
+                    {
+
+                    tblContent ='<label style="text-align:center; font-family:bold;color:red" >Total Bg Amount : ' + data[i].BG_AMOUNT + '</label>'
+                    tblContent2 = '<label style="text-align:center; font-family:bold;color:red" >Utilized Amount : ' + data[i].UTILIZED_AMOUNT + '</label>'
+                        
+                    tblContent3 = '<label style="text-align:center; font-family:bold;color:red">Balance Amount : ' + (data[i].BG_AMOUNT - data[i].UTILIZED_AMOUNT) + '</label>'
+                    }
+                    $('#lblTotalBgAmount').append(tblContent);
+                    $('#lblUtilizedAmount').append(tblContent2);
+                    
+                    $('#lblBalanceAmount').append(tblContent3);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+        $("#ddlTransactionType").on('change', function (event) {
+      
+            $('#ddlTransferToOrganization').empty();
+            var ddlTransferType = $('#ddlTransactionType').val();
+
+
+            if (ddlTransferType == "ADDITION") {
+                $("#ddlTransferToOrganization").hide();
+                $("#ddlTransferToBank").hide();
+                $("#transtoOrgn").hide();
+                $("#transtoBank").hide();
+            }
+
+            GetTransferOrgn(ddlTransferType);
+        });
+
+
+        function GetTransferOrgn(TransferType) {
+            $('#ddlTransferToOrganization').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ORGANIZATION</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LPD/GetTransferTypeOrgn',
+                data: { transferType: TransferType },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                      
+                        tblContent = tblContent + '<option value="' + data[i].ORGN_CODE + '">' + data[i].ORGN + '</option>';
+                       
+                    }
+                    //if (tblContent == 0 || tblContent == "") {
+                    if (tblContent.length > 0)
+                    {
+                        $('#ddlTransferToOrganization').append(tblContent);
+                        $("#ddlTransferToOrganization").show();
+                        $("#ddlTransferToBank").show();
+                        $("#transtoOrgn").show();
+                        $("#transtoBank").show();
+                    }
+                    else
+                    {
+                        $("#ddlTransferToOrganization").hide();
+                        $("#ddlTransferToBank").hide();
+                        $("#transtoOrgn").hide();
+                        $("#transtoBank").hide();
+                       
+                    }
+                    
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+         });
+
+
+
+</script>

@@ -1,0 +1,530 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_USER_MASTER>
+@{
+    ViewBag.root = "UserMaster";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+<h2 style="text-align:center; color:#438EB9">User Master Excel Upload</h2>
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                @*<input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />*@
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">User List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "USER DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SNO</th>
+                        <th>USER_ID</th>
+                        <th>USER_NAME</th>
+                        <th>USER_ERP_NAME</th>
+                        <th>EMP_CODE</th>
+                        <th>DESIGNATION</th>
+                        <th>DEPARTMENT</th>
+                        <th>USER_RIGHTS</th>
+                        <th>MOBILE_NO</th>
+                        <th>EMAIL_ID</th>
+                        @*<th>SYNC_ID</th>
+                            <th>SYNC_PASSWORD</th>*@
+                        <th>PASSWORD</th>
+                        <th>STATUS</th>
+
+
+                        <th>EDIT/Update/Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@*@section scripts{*@
+
+    <script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+
+    <script>
+        bootstrap_alert = function () { }
+        bootstrap_alert.warning = function (message, status) {
+            if (status == "success") {
+                $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+            }
+            else if (status == "error") {
+                $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+            }
+            $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+                $("#alert_placeholder").slideUp(500);
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('.alert').hide();
+            var spinner = $('#loader');
+            //Create event handler
+            $('#btnCreate').on('click', function (event) {
+
+                var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+                window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+
+            });
+
+            //Edit event handler.
+            $("#dynamic-tabl").on('click', '.btnEdit', function () {
+                var row = $(this).closest("tr");
+                $("td", row).each(function () {
+                    if ($(this).find(".text").length > 0) {
+                        $(this).find(".text").show();
+                        $(this).find(".trBg").hide();
+                    }
+                });
+                row.find(".btnUpdate").show();
+                row.find(".btnCancel").show();
+                row.find(".btnDelete").hide();
+                $(this).hide();
+            });
+
+            //Cancel event handler.
+            $("#dynamic-tabl").on('click', '.btnCancel', function () {
+                var row = $(this).closest("tr");
+                $("td", row).each(function () {
+                    if ($(this).find(".text").length > 0) {
+                        var span = $(this).find(".trBg");
+                        var input = $(this).find(".text");
+                        input.val(span.html());
+                        span.show();
+                        input.hide();
+                    }
+                });
+                row.find(".btnEdit").show();
+                row.find(".btnDelete").show();
+                row.find(".btnCancel").hide();
+                row.find(".btnUpdate").hide();
+                $(this).hide();
+            });
+
+            //Update event handler.
+            $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+                var row = $(this).closest("tr");
+                $("td", row).each(function () {
+                    if ($(this).find("input").length > 0) {
+                        var span = $(this).find("span");
+                        var input = $(this).find("input");
+                        span.html(input.val());
+                        span.show();
+                        input.hide();
+                    }
+                });
+
+                row.find(".btnEdit").show();
+                row.find(".btnDelete").show();
+                row.find(".btnCancel").hide();
+                row.find(".btnUpdate").hide();
+                $(this).hide();
+            });
+
+            //Delete event handler.
+            $("#dynamic-tabl").on('click', '.btnDelete', function () {
+                if (confirm("Do you want to delete this row?")) {
+                    var row = $(this).closest("tr");
+                    row.remove();
+                }
+            });
+
+
+
+
+            $('#btnSubmit').on('click', function (event) {
+                var ExcelIndexList = $("#txtExcelData").get(0).files;
+                var formData = new FormData();
+                if (ExcelIndexList.length > 0) {
+                formData.append('postedFile', ExcelIndexList[0]);
+                GetUserExcel(formData);
+                } else {
+                    bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+                }
+            });
+
+
+            function GetUserExcel(formData) {
+                //var dt01 = $('#dynamic-tabl').DataTable();
+                var tblContent = '';
+                spinner.show();
+                $.ajax({
+                    type: 'POST',
+                    url: '/GPIL_USER_MASTER/ImportFromExcel',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (msg) {
+                        let data = $.parseJSON(msg);
+                        var gethdnUSER_ID = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            var USER_ID = (data[i].USER_ID == null) ? "" : data[i].USER_ID;
+                            gethdnUSER_ID = USER_ID; // this gives textbox value
+                            var USER_NAME = (data[i].USER_NAME == null) ? "" : data[i].USER_NAME;
+                            var USER_ERP_NAME = (data[i].USER_ERP_NAME == null) ? "" : data[i].USER_ERP_NAME;
+                            var EMP_CODE = (data[i].EMP_CODE == null) ? "" : data[i].EMP_CODE;
+                            var DESIGNATION = (data[i].DESIGNATION == null) ? "" : data[i].DESIGNATION;
+                            var DEPARTMENT = (data[i].DEPARTMENT == null) ? "" : data[i].DEPARTMENT;
+                            var USER_RIGHTS = (data[i].USER_RIGHTS == null) ? "" : data[i].USER_RIGHTS;                                                       
+                            var MOBILE_NO = (data[i].MOBILE_NO == null) ? "" : data[i].MOBILE_NO;
+                            var EMAIL_ID = (data[i].EMAIL_ID == null) ? "" : data[i].EMAIL_ID;
+                           
+                            //var CREATED_BY = (data[i].CREATED_BY == null) ? "" : data[i].CREATED_BY;
+                            //var CREATED_DATE = (data[i].CREATED_DATE == null) ? "" : data[i].CREATED_DATE;
+                            //var SYNC_ID = (data[i].SYNC_ID == null) ? "" : data[i].SYNC_ID;
+                            //var SYNC_PASSWORD = (data[i].SYNC_PASSWORD == null) ? "" : data[i].SYNC_PASSWORD;
+                            var PASSWORD = (data[i].PASSWORD == null) ? "" : data[i].PASSWORD;
+                            var STATUS = (data[i].STATUS == null) ? "" : data[i].STATUS;
+
+                            if (USER_ID == "" || USER_ID.length > 20 || USER_NAME == "" || USER_NAME.length > 50 ||
+                            USER_ERP_NAME == "" || USER_ERP_NAME.length > 50 || EMP_CODE == "" || EMP_CODE.length > 10
+                                || DESIGNATION == "" || DESIGNATION.length > 50 || DEPARTMENT == "" || DEPARTMENT.length > 50
+                                || USER_RIGHTS == "" || USER_RIGHTS.length > 10 || MOBILE_NO == "" || MOBILE_NO.length > 11
+                                || EMAIL_ID == "" || EMAIL_ID.length > 50 || PASSWORD == "" || PASSWORD.length > 10 || STATUS == "" || STATUS.length > 5) {
+
+
+                                tblContent = tblContent + '<tr style="background-color:#F5405F">'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + USER_ID + '</span><input class="text" value="' + USER_ID + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_NAME + '</span><input class="text" value="' + USER_NAME + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_ERP_NAME + '</span><input class="text" value="' + USER_ERP_NAME + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + EMP_CODE + '</span><input class="text" value="' + EMP_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + DESIGNATION + '</span><input class="text" value="' + DESIGNATION + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + DEPARTMENT + '</span><input class="text" value="' + DEPARTMENT + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_RIGHTS + '</span><input class="text" value="' + USER_RIGHTS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><span class="trBg">' + MOBILE_NO + '</span><input class="text" value="' + MOBILE_NO + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + EMAIL_ID + '</span><input class="text" value="' + EMAIL_ID + '" style="display:none"/></span></td>'
+                                //+ '<td class="trBg"><span class="trBg">' + SYNC_ID + '</span><input class="text" value="' + SYNC_ID + '" style="display:none"/></span></td>'
+                                //+ '<td class="trBg"><span class="trBg">' + SYNC_PASSWORD + '</span><input class="text" value="' + SYNC_PASSWORD + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + PASSWORD + '</span><input class="text" value="' + PASSWORD + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STATUS + '</span><input class="text" value="' + STATUS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><input class="text1" type="hidden" value="' + USER_ID + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                + '</tr >';
+
+                            }
+                            else {
+                                tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg"><span class="trBg">' + USER_ID + '</span><input class="text" value="' + USER_ID + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_NAME + '</span><input class="text" value="' + USER_NAME + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_ERP_NAME + '</span><input class="text" value="' + USER_ERP_NAME + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + EMP_CODE + '</span><input class="text" value="' + EMP_CODE + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + DESIGNATION + '</span><input class="text" value="' + DESIGNATION + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + DEPARTMENT + '</span><input class="text" value="' + DEPARTMENT + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + USER_RIGHTS + '</span><input class="text" value="' + USER_RIGHTS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><span class="trBg">' + MOBILE_NO + '</span><input class="text" value="' + MOBILE_NO + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + EMAIL_ID + '</span><input class="text" value="' + EMAIL_ID + '" style="display:none"/></span></td>'
+                                //+ '<td class="trBg"><span class="trBg">' + SYNC_ID + '</span><input class="text" value="' + SYNC_ID + '" style="display:none"/></span></td>'
+                                //+ '<td class="trBg"><span class="trBg">' + SYNC_PASSWORD + '</span><input class="text" value="' + SYNC_PASSWORD + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + PASSWORD + '</span><input class="text" value="' + PASSWORD + '" style="display:none"/></span></td>'
+                                + '<td class="trBg"><span class="trBg">' + STATUS + '</span><input class="text" value="' + STATUS + '" style="display:none"/></span></td>'
+
+                                + '<td class="trBg"><input class="text1" type="hidden" value="' + USER_ID + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                + '</tr >';
+                            }
+                            
+                        }
+                        var dt1 = $('#dynamic-tabl').DataTable();
+                        dt1.destroy();
+                        $('#dynamic-tabl tbody').empty();
+                        $('#dynamic-tabl tbody').append(tblContent);
+                        spinner.hide();
+                        var myTable =
+                            $('#dynamic-tabl')
+                                //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                                .DataTable({
+                                    "bLengthChange": true,
+                                    "paging": false,
+                                    "jQueryUI": true,
+                                    bAutoWidth: false,
+                                    'order': [[0, 'asc']],
+                                    "aoColumns": [
+                                        null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                                        { "bSortable": false },
+
+                                        // { "bSortable": false }
+                                    ],
+                                    "aaSorting": [],
+
+                                    //"bProcessing": true,
+                                    //"bServerSide": true,
+                                    //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                                    //,
+                                    "sScrollY": "400px",
+                                    // "bPaginate": true,
+
+                                    "sScrollX": "100%",
+                                    //"sScrollXInner": "120%",
+                                    //"bScrollCollapse": true,
+                                    //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                                    //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                                    //"iDisplayLength": 50,
+
+
+                                    select: {
+                                        style: 'multi'
+                                    }
+                                });
+
+
+
+                        $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                        new $.fn.dataTable.Buttons(myTable, {
+                            buttons: [
+                                {
+                                    "extend": "colvis",
+                                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    columns: ':not(:first):not(:last)'
+                                },
+                                {
+                                    "extend": "copy",
+                                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "csv",
+                                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "excel",
+                                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "pdf",
+                                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "print",
+                                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    autoPrint: false,
+                                    message: 'This print was produced using the Print button for DataTables'
+                                }
+                            ]
+                        });
+                        myTable.buttons().container().appendTo($('.tableTools-container1'));
+
+                        //style the message box
+                        var defaultCopyAction = myTable.button(1).action();
+                        myTable.button(1).action(function (e, dt, button, config) {
+                            defaultCopyAction(e, dt, button, config);
+                            $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                        });
+
+
+                        var defaultColvisAction = myTable.button(0).action();
+                        myTable.button(0).action(function (e, dt, button, config) {
+
+                            defaultColvisAction(e, dt, button, config);
+
+
+                            if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                                $('.dt-button-collection')
+                                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                                    .find('a').attr('href', '#').wrap("<li />")
+                            }
+                            $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                        });
+
+                        ////
+
+                        setTimeout(function () {
+                            $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                                var div = $(this).find(' > div').first();
+                                if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                                else $(this).tooltip({ container: 'body', title: $(this).text() });
+                            });
+                        }, 2000);
+
+
+
+
+
+                        myTable.on('select', function (e, dt, type, index) {
+                            if (type === 'row') {
+                                $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                            }
+                        });
+                        myTable.on('deselect', function (e, dt, type, index) {
+                            if (type === 'row') {
+                                $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                            }
+                        });
+
+
+
+
+                        /////////////////////////////////
+                        //table checkboxes
+                        $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                        //select/deselect all rows according to table header checkbox
+                        $('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                            var th_checked = this.checked;//checkbox inside "TH" table header
+
+                            $('#dynamic-table').find('tbody > tr').each(function () {
+                                var row = this;
+                                if (th_checked) myTable.row(row).select();
+                                else myTable.row(row).deselect();
+                            });
+                        });
+
+                        //select/deselect a row when the checkbox is checked/unchecked
+                        $('#dynamic-table').on('click', 'td input[type=checkbox]', function () {
+                            var row = $(this).closest('tr').get(0);
+                            if (this.checked) myTable.row(row).deselect();
+                            else myTable.row(row).select();
+                        });
+
+
+
+                        $(document).on('click', '#dynamic-table.dropdown-toggle', function (e) {
+                            e.stopImmediatePropagation();
+                            e.stopPropagation();
+                            e.preventDefault();
+                        });
+
+                    },
+                    error: function (msg) {
+                        bootstrap_alert.warning(msg.responseText, "error");
+                    }
+                });
+            }
+
+
+
+            $('#btnComplete').on('click', function () {
+                var ExcelIndexList = $("#txtExcelData").get(0).files;
+                if (ExcelIndexList.length > 0) { 
+                var LUM = {};
+                var UserMasters = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+
+                    var row = $(this);
+                    var UserMaster = {};
+                    UserMaster.SNO = row.find("td:eq(0)")[0].innerText;
+                    UserMaster.USER_ID = row.find("td:eq(1)")[0].innerText;
+                    UserMaster.USER_NAME = row.find("td:eq(2)")[0].innerText;
+                    UserMaster.USER_ERP_NAME = row.find("td:eq(3)")[0].innerText;
+                    UserMaster.EMP_CODE = row.find("td:eq(4)")[0].innerText;
+                    UserMaster.DESIGNATION = row.find("td:eq(5)")[0].innerText;
+                    UserMaster.DEPARTMENT = row.find("td:eq(6)")[0].innerText;
+                    UserMaster.USER_RIGHTS = row.find("td:eq(7)")[0].innerText;
+                    UserMaster.MOBILE_NO = row.find("td:eq(8)")[0].innerText;
+                    UserMaster.EMAIL_ID = row.find("td:eq(9)")[0].innerText;                    
+                    //UserMaster.SYNC_ID = row.find("td:eq(10)")[0].innerText;
+                    //UserMaster.SYNC_PASSWORD = row.find("td:eq(11)")[0].innerText;
+                    UserMaster.PASSWORD = row.find("td:eq(10)")[0].innerText;
+                    UserMaster.STATUS = row.find("td:eq(11)")[0].innerText;
+
+
+                    UserMasters.push(UserMaster);
+                });
+                if (UserMasters.length > 0) {
+                LUM.UserMasters = UserMasters;
+                spinner.show();
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/GPIL_USER_MASTER/UserMasterComplete",
+                    data: JSON.stringify(LUM),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.startsWith("Error",1)) {
+                            bootstrap_alert.warning(response, "error");
+                        }
+                        else if (response.startsWith("Succuss",1)) {
+                                
+                            window.location = "/GPIL_USER_MASTER/Index";
+                            bootstrap_alert.warning('Succussful', "success");
+                        }
+                        spinner.hide();
+                    },
+                    error: function (response) {
+
+                        if (response.startsWith("Error")) {
+                            bootstrap_alert.warning(response, "error");
+                        }
+                        //bootstrap_alert.warning(response.responseText, "error"); 
+                    }
+                });
+            } else {
+                bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+            }
+        } else {
+            bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+        }
+            });
+
+        });
+
+
+    </script>
+@*}*@

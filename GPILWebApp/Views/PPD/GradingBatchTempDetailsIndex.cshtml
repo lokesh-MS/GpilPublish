@@ -1,0 +1,944 @@
+﻿
+@{
+    ViewBag.Root = "PPD";
+    ViewBag.Title = "GradingBatchTempDetailsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2 style="text-align:center; color: #326da8;">GradingBatchTempDetailsIndex</h2>*@
+
+<div class="header">
+    <h2 style="text-align: center; font-weight: bold; font-family: 'Times New Roman'; color: #438EB9">Grading  Issue & Out-Turn Details In Temp Storage</h2>
+</div>
+
+<div class="col-sm-3">
+    <div class="form-sm-3">
+        <label class="control-label">Batch Number</label>
+        <div class="input-group">
+            <input class="form-control " id="txtBatchNumber" type="text" />
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div>.</div>
+    <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+        View
+    </button>
+    <a href="@Url.Action("ExportListTempDetails", "PPD")">
+        <button type="submit" value="Export" id="btnExport" class="btn btn-sm btn-success">
+            Export
+        </button>
+    </a>
+    <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+        Clear
+    </button>
+
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container1"></div>
+        </div>
+        <div class="table-header">
+            Results for "GRADING ISSUE"
+        </div>
+
+        @*<div class="table-responsive">*@
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SNO
+                        </th>
+                        <th>
+                            Batch Number
+                        </th>
+                        <th>
+                            GPIL Bale Number
+                        </th>
+                        <th>
+                            Bale Type
+                        </th>
+                        <th>
+                            Product Type
+                        </th>
+                        <th>
+                            Grade
+                        </th>
+                        <th>
+                            Marked Weight
+                        </th>
+                        <th>
+                            Ascertain Weight
+                        </th>
+                        <th>
+                            Sub-Inventory Code
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+
+
+
+
+        </div>
+        @*</div>*@
+    </div>
+</div>
+
+
+<div id="IssueCount"></div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container2"></div>
+        </div>
+        <div class="table-header">
+            Results for "GRADING OUT-TURN PRODUCT"
+        </div>
+
+        @*<div class="table-responsive">*@
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SNO
+                        </th>
+                        <th>
+                            Batch Number
+                        </th>
+                        <th>
+                            GPIL Bale Number
+                        </th>
+                        <th>
+                            Bale Type
+                        </th>
+                        <th>
+                            Product Type
+                        </th>
+                        <th>
+                            Grade
+                        </th>
+                        <th>
+                            Marked Weight
+                        </th>
+                        <th>
+                            Ascertain Weight
+                        </th>
+                        <th>
+                            Sub-Inventory Code
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+
+
+
+
+        </div>
+        @*</div>*@
+
+
+    </div>
+</div>
+
+
+<div id="ProductCount"></div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container3"></div>
+        </div>
+        <div class="table-header">
+            Results for "GRADING OUT-TURN BY-PRODUCT"
+        </div>
+
+        @*<div class="table-responsive">*@
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl2" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SNO
+                        </th>
+                        <th>
+                            Batch Number
+                        </th>
+                        <th>
+                            GPIL Bale Number
+                        </th>
+                        <th>
+                            Bale Type
+                        </th>
+                        <th>
+                            Product Type
+                        </th>
+                        <th>
+                            Grade
+                        </th>
+                        <th>
+                            Marked Weight
+                        </th>
+                        <th>
+                            Ascertain Weight
+                        </th>
+                        <th>
+                            Sub-Inventory Code
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+
+
+
+
+        </div>
+        @*</div>*@
+    </div>
+</div>
+
+
+<div id="ByProductCount"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#btnSubmit').on('click', function (event) {
+
+            var BatchList = $('#txtBatchNumber').val();
+            GetGradingBatchDetails(BatchList);
+        });
+
+
+        $('#btnClear').on('click', function (event) {
+            window.location = "/PPD/GradingBatchTempDetailsIndex";
+        });
+
+        function GetGradingBatchDetails(BatchNumber) {
+            debugger;
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl3" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/PPD/GradingBatchTempIssueDetails',
+                data: { strBatchNumber: BatchNumber },
+                success: function (msg) {
+                    //$('#ddlOrgnMaster').val() = "";
+                    let data = JSON.parse(msg);
+                    //alert(0); alert("Successfully");
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BATCH_NO + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GPIL_BALE_NUMBER + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BALE_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].PRODUCT_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GRADE + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].MARKED_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].ASCERTAIN_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].SUBINVENTORY_CODE + '</td>'
+
+                            + '</tr >';
+                    }
+
+                    //dt1.destroy
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+
+
+
+                    tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Total CR Bales : ' + data.length + '  </label></td >'
+
+                            + '</tr ></table>';
+                    $('#IssueCount').empty();
+                    $('#IssueCount').append(tblContentLnDet);
+
+                    var myTable1 =
+       $('#dynamic-tabl')
+       //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+     .DataTable({
+         "bLengthChange": true,
+         "paging": true,
+         "jQueryUI": true,
+         bAutoWidth: false,
+         'order': [[0, 'desc']],
+         "aoColumns": [
+              null, null, null, null, null, null, null, null,
+             { "bSortable": false },
+
+            // { "bSortable": false }
+         ],
+         "aaSorting": [],
+
+         //"bProcessing": true,
+         //"bServerSide": true,
+         //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+         //,
+         //"sScrollY": "200px",
+         // "bPaginate": true,
+
+         //"sScrollX": "100%",
+         //"sScrollXInner": "120%",
+         //"bScrollCollapse": true,
+         //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+         //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+         //"iDisplayLength": 50,
+
+
+         select: {
+             style: 'multi'
+         }
+     });
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable1, {
+                        buttons: [
+                          {
+                              "extend": "colvis",
+                              "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              columns: ':not(:first):not(:last)'
+                          },
+                          {
+                              "extend": "copy",
+                              "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "csv",
+                              "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "excel",
+                              "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "pdf",
+                              "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "print",
+                              "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              autoPrint: false,
+                              message: 'This print was produced using the Print button for DataTables'
+                          }
+                        ]
+                    });
+                    myTable1.buttons().container().appendTo($('.tableTools-container1'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable1.button(1).action();
+                    myTable1.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable1.button(0).action();
+                    myTable1.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                            .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                            .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container1 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container1')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable1.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable1.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable1.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable1.row(row).select();
+                            else myTable1.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable1.row(row).deselect();
+                        else myTable1.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+            });
+
+
+
+        }
+
+
+        $('#btnSubmit').on('click', function (event) {
+
+            var BatchList = $('#txtBatchNumber').val();
+            GetGradingBatchProductDetails(BatchList);
+        });
+
+        function GetGradingBatchProductDetails(BatchNumber) {
+            debugger;
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl3" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/PPD/GradingBatchTempOutTurnProductDetails',
+                data: { strBatchNumber: BatchNumber },
+                success: function (msg) {
+                    //$('#ddlOrgnMaster').val() = "";
+                    let data = JSON.parse(msg);
+                    //alert(0); alert("Successfully");
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BATCH_NO + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GPIL_BALE_NUMBER + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BALE_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].PRODUCT_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GRADE + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].MARKED_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].ASCERTAIN_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].SUBINVENTORY_CODE + '</td>'
+
+                            + '</tr >';
+                    }
+
+                    //dt1.destroy
+                    var dt1 = $('#dynamic-tabl1').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl1 tbody').empty();
+                    $('#dynamic-tabl1 tbody').append(tblContent);
+
+
+
+                    tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Total CR Bales : ' + data.length + '  </label></td >'
+
+                            + '</tr ></table>';
+                    $('#ProductCount').empty();
+                    $('#ProductCount').append(tblContentLnDet);
+
+
+                    var myTable2 =
+  $('#dynamic-tabl1')
+  //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+.DataTable({
+    "bLengthChange": true,
+    "paging": true,
+    "jQueryUI": true,
+    bAutoWidth: false,
+    'order': [[0, 'desc']],
+    "aoColumns": [
+         null, null, null, null, null, null, null, null,
+        { "bSortable": false },
+
+       // { "bSortable": false }
+    ],
+    "aaSorting": [],
+
+    //"bProcessing": true,
+    //"bServerSide": true,
+    //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+    //,
+    //"sScrollY": "200px",
+    // "bPaginate": true,
+
+    //"sScrollX": "100%",
+    //"sScrollXInner": "120%",
+    //"bScrollCollapse": true,
+    //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+    //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+    //"iDisplayLength": 50,
+
+
+    select: {
+        style: 'multi'
+    }
+});
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable2, {
+                        buttons: [
+                          {
+                              "extend": "colvis",
+                              "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              columns: ':not(:first):not(:last)'
+                          },
+                          {
+                              "extend": "copy",
+                              "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "csv",
+                              "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "excel",
+                              "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "pdf",
+                              "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "print",
+                              "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              autoPrint: false,
+                              message: 'This print was produced using the Print button for DataTables'
+                          }
+                        ]
+                    });
+                    myTable2.buttons().container().appendTo($('.tableTools-container2'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable2.button(1).action();
+                    myTable2.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable2.button(0).action();
+                    myTable2.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                            .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                            .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container2 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container2')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable2.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable2.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable2.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable2.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl1 > thead > tr > th input[type=checkbox], #dynamic-tabl1_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl1').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable2.row(row).select();
+                            else myTable2.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl1').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable2.row(row).deselect();
+                        else myTable2.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl1.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+
+            var BatchList = $('#txtBatchNumber').val();
+            GetGradingBatchByProductDetails(BatchList);
+        });
+
+        function GetGradingBatchByProductDetails(BatchNumber) {
+            debugger;
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl3" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/PPD/GradingBatchTempOutTurnByProductDetails',
+                data: { strBatchNumber: BatchNumber },
+                success: function (msg) {
+                    //$('#ddlOrgnMaster').val() = "";
+                    let data = JSON.parse(msg);
+                    //alert(0); alert("Successfully");
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BATCH_NO + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GPIL_BALE_NUMBER + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].BALE_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].PRODUCT_TYPE + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data[i].GRADE + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].MARKED_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].ASCERTAIN_WT + '</td>'
+                            + '<td class="trBg" style="text-align:right;">' + data[i].SUBINVENTORY_CODE + '</td>'
+
+                            + '</tr >';
+                    }
+
+                    //dt1.destroy
+                    var dt1 = $('#dynamic-tabl2').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl2 tbody').empty();
+                    $('#dynamic-tabl2 tbody').append(tblContent);
+
+
+
+                    tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label stlye="color:red">Total CR Bales : ' + data.length + '  </label></td >'
+
+                            + '</tr ></table>';
+                    $('#ByProductCount').empty();
+                    $('#ByProductCount').append(tblContentLnDet);
+
+
+
+
+                    var myTable3 =
+  $('#dynamic-tabl2')
+  //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+.DataTable({
+    "bLengthChange": true,
+    "paging": true,
+    "jQueryUI": true,
+    bAutoWidth: false,
+    'order': [[0, 'desc']],
+    "aoColumns": [
+         null, null, null, null, null, null, null, null,
+        { "bSortable": false },
+
+       // { "bSortable": false }
+    ],
+    "aaSorting": [],
+
+    //"bProcessing": true,
+    //"bServerSide": true,
+    //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+    //,
+    //"sScrollY": "200px",
+    // "bPaginate": true,
+
+    //"sScrollX": "100%",
+    //"sScrollXInner": "120%",
+    //"bScrollCollapse": true,
+    //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+    //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+    //"iDisplayLength": 50,
+
+
+    select: {
+        style: 'multi'
+    }
+});
+
+
+
+                    $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+                    new $.fn.dataTable.Buttons(myTable3, {
+                        buttons: [
+                          {
+                              "extend": "colvis",
+                              "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              columns: ':not(:first):not(:last)'
+                          },
+                          {
+                              "extend": "copy",
+                              "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "csv",
+                              "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "excel",
+                              "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "pdf",
+                              "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                              "className": "btn btn-white btn-primary btn-bold"
+                          },
+                          {
+                              "extend": "print",
+                              "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                              "className": "btn btn-white btn-primary btn-bold",
+                              autoPrint: false,
+                              message: 'This print was produced using the Print button for DataTables'
+                          }
+                        ]
+                    });
+                    myTable3.buttons().container().appendTo($('.tableTools-container3'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable3.button(1).action();
+                    myTable3.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable3.button(0).action();
+                    myTable3.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                            .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                            .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container3 .dt-buttons')
+                    });
+
+                    ////
+
+                    setTimeout(function () {
+                        $($('.tableTools-container3')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable3.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable3.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable3.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable3.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl2 > thead > tr > th input[type=checkbox], #dynamic-tabl2_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl2').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable3.row(row).select();
+                            else myTable3.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl2').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable3.row(row).deselect();
+                        else myTable3.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl2.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+
+
+
+                }
+
+
+
+
+
+
+            });
+
+
+
+        }
+
+
+    });
+</script>

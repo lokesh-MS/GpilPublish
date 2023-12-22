@@ -1,0 +1,394 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "FarmerPurchasePendingBalesIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+
+
+
+<h2 style="text-align:center; color:#438EB9">Farmer Purchase Pending Bales</h2>
+
+<hr class="header smaller lighter blue" />
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <label style="color:#438EB9">Select Orgn Name</label>
+
+        @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })
+    </div>
+
+    <div class="col-md-4">
+        <div><label style="color:#438EB9">Select Report Type</label></div>
+
+        <input type="radio" name="radio" checked="checked" value="Un_Weighment" /> Un_Weighment
+        <input type="radio" name="radio" value="Non_Purchaseable" /> Non_Purchaseable
+        <input type="radio" name="radio" value="Rejection" /> Rejection <br />
+
+    </div>
+
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset"  id="btnClear" class="btn btn-sm btn-danger">
+            Clear
+
+        </button>
+    </div>
+
+
+
+
+</div>
+
+<div class="row">
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12" id="div123">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Farmer Purchase Pending Bales"
+        </div>
+
+        <!-- div.table-responsive -->
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">
+                            SNO
+                        </th>
+
+                        <th style="text-align:center;">
+                            BALE_NUMBER
+                        </th>
+
+                        <th style="text-align:center;">
+                            REJE_TYPE
+                        </th>
+
+                        <th style="text-align:center;">
+                            TB_LOT_NO
+                        </th>
+
+                        <th style="text-align:center;">
+                            SERIAL_NO
+                        </th>
+
+                        <th style="text-align:center;">
+                            FARMER_CODE
+                        </th>
+
+                        <th style="text-align:center;">
+                            NET_WT
+                        </th>
+
+                        <th style="text-align:center;">
+                            RATE
+                        </th>
+
+                        <th style="text-align:center;">
+                            RATE_WITH_FREIGHT
+                        </th>
+
+                        <th style="text-align:center;">
+                            BUYER_GRADE
+                        </th>
+
+                        <th style="text-align:center;">
+                            CLASSIFICATION_GRADE
+                        </th>
+
+
+
+                    </tr>
+                </thead>
+
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="loader">
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        var spinner = $('#loader');
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + mm + dd;//'20170609';
+        //today = '20170609';
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var OrgnNo = $('#ddlOrgnMaster').val() + today;  //$('#ddlOrgnMaster').val() + today;'A3220150525'
+            var Status = $("[name=radio]:checked").val();
+            GetPendingBales(OrgnNo, Status);
+        });
+
+        $('#btnClear').on('click', function (event) {
+            $('#ddlOrgnMaster').val('');
+            var dt1 = $('#dynamic-tabl').DataTable();
+            dt1.destroy();
+            var tblContent = '';
+            $('#dynamic-tabl tbody').empty();
+            $('#dynamic-tabl tbody').append(tblContent)
+            $("input:radio[name=radio]:checked")[0].checked = false;
+        });
+
+        
+
+        function GetPendingBales(OrgnCode, Status) {
+            spinner.show();
+            var tblContent = '';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/PendingBales',
+                data: { headerid: OrgnCode, ReportType: Status },
+                success: function (msg) {
+                    //$('#ddlOrgnMaster').val() = "";
+                    let data = JSON.parse(msg);
+                    debugger;
+                    if (data == null) {
+               
+                        spinner.hide();
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+
+                            var j = i + 1;
+                            var IndexID = "" + j;
+                            tblContent = tblContent + '<tr ' + data[i].GPIL_BALE_NUMBER + '" >'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].GPIL_BALE_NUMBER + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].REJE_TYPE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].TB_LOT_NO + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].SERIAL_NO + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FARMER_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].NET_WT + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].RATE + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].RATE_WITH_FREIGHT + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].BUYER_GRADE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].CLASSIFICATION_GRADE + '</td>'
+                                + '</tr >';
+                        }
+                        //dt1.destroy();
+                        //var dt1 = $('#dynamic-tabl').DataTable();
+                        //dt1.destroy();
+                        
+
+                      
+                    }
+                    debugger;
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+                    
+                    var myTable = $('#dynamic-tabl')
+                      .DataTable({
+                          bAutoWidth: false,                           
+                          'order': [[0, 'asc']],
+                          "aoColumns": [
+                              null, null, null, null, null, null, null, null, null, null,
+                              {},
+                          ],
+                          select: {
+                              style: 'multi'
+                             
+                          }
+                          
+                      });
+                    
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                                {
+                                    "extend": "colvis",
+                                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+
+                                },
+                                {
+                                    "extend": "copy",
+                                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "csv",
+                                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "excel",
+                                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "pdf",
+                                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "print",
+                                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    autoPrint: false,
+                                    message: 'This print was produced using the Print button for DataTables'
+                                }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container'));
+
+                    //style the message box
+                    var defaultCopyAction = myTable.button(1).action();
+                    myTable.button(1).action(function (e, dt, button, config) {
+                        defaultCopyAction(e, dt, button, config);
+                        $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+                    });
+
+
+                    var defaultColvisAction = myTable.button(0).action();
+                    myTable.button(0).action(function (e, dt, button, config) {
+
+                        defaultColvisAction(e, dt, button, config);
+
+
+                        if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                            $('.dt-button-collection')
+                                .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                                .find('a').attr('href', '#').wrap("<li />")
+                        }
+                        $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+                    });
+
+
+
+                    setTimeout(function () {
+                        $($('.tableTools-container')).find('a.dt-button').each(function () {
+                            var div = $(this).find(' > div').first();
+                            if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                            else $(this).tooltip({ container: 'body', title: $(this).text() });
+                        });
+                    }, 2000);
+
+
+
+
+
+                    myTable.on('select', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                        }
+                    });
+                    myTable.on('deselect', function (e, dt, type, index) {
+                        if (type === 'row') {
+                            $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                        }
+                    });
+
+
+
+
+                    /////////////////////////////////
+                    //table checkboxes
+                    $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+                    //select/deselect all rows according to table header checkbox
+                    $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+                        var th_checked = this.checked;//checkbox inside "TH" table header
+
+                        $('#dynamic-tabl').find('tbody > tr').each(function () {
+                            var row = this;
+                            if (th_checked) myTable.row(row).select();
+                            else myTable.row(row).deselect();
+                        });
+                    });
+
+                    //select/deselect a row when the checkbox is checked/unchecked
+                    $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+                        var row = $(this).closest('tr').get(0);
+                        if (this.checked) myTable.row(row).deselect();
+                        else myTable.row(row).select();
+                    });
+
+
+
+                    $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+
+
+
+
+
+            });
+
+
+
+
+        }
+
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            //var OrgnNo = $('#ddlOrgnMaster').val('');  //$('#ddlOrgnMaster').val() + today;'A3220150525'
+            
+            if ($.trim($('#ddlOrgnMaster').val()) == '') {
+                alert('Please Select Organization Code');
+            }
+        });
+
+
+
+    });
+
+</script>

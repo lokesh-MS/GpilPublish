@@ -1,0 +1,438 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+<h2 style="text-align:center; color:#438EB9">Stem Moisture Import Excel</h2>
+<hr/>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                @*<input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />*@
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">STEM MOISTURE UPLOAD</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            RESULT FOR "STEM MOISTURE DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Variety</th>
+                        <th>Strip_Grade</th>
+                        <th>Stem_Grade</th>
+                        <th>Date</th>
+                        <th>Sample_Time</th>
+                        <th>Equip_No</th>
+                        <th>Case_No</th>
+                        <th>Moisture_Result</th>
+                        <th>AFTER_CORRE_FACTOR(-1.8)</th>
+                        <th>Case_Temprature</th>
+                        <th>ADD/EDIT/DELETE</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+
+        $('#btnCreate').on('click', function (event) {
+
+            //var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            //window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var StemMoistureList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (StemMoistureList.length > 0) {
+                formData.append('postedFile', StemMoistureList[0]);
+                GetStemMoisture(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+        function GetStemMoisture(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'POST',
+                url: '/GLTStemMoisture/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        
+
+
+                        //<th>Crop</th>          <th>Variety</th>  <th>Strip_Grade</th>
+                        //<th>Stem_Grade</th>     <th>Date</th> <th>Sample_Time</th>
+                        //<th>Equip_No</th>       <th>Case_No</th>          <th>Moisture_Result</th>
+                        //<th>AFTER_CORRE_FACTOR(-1.8)</th>    <th>Case_Temprature</th>>ADD/EDIT/DELETE</th>
+                        var Crop = (data[i].Crop == null) ? "" : data[i].Crop;
+                        var Variety = (data[i].Variety == null) ? "" : data[i].Variety;
+                        var Strip_Grade = (data[i].Strip_Grade == null) ? "" : data[i].Strip_Grade;
+                        var Stem_Grade = (data[i].Stem_Grade == null) ? "" : data[i].Stem_Grade;
+                        var Date = (data[i].Date == null) ? "" : data[i].Date;
+                        var Sample_Time = (data[i].Sample_Time == null) ? "" : data[i].Sample_Time;
+                        var Equip_No = (data[i].Equip_No == null) ? "" : data[i].Equip_No;
+                        var Case_No = (data[i].Case_No == null) ? "" : data[i].Case_No;
+                        var Moisture_Result = (data[i].Moisture_Result == null) ? "" : data[i].Moisture_Result;
+                        var AFTER_CORRE_FACTOR = (data[i].AFTER_CORRE_FACTOR(-1.8) == null) ? "" : data[i].AFTER_CORRE_FACTOR(-1.8);
+                        var Case_Temprature = (data[i].Case_Temprature == null) ? "" : data[i].Case_Temprature;
+
+
+
+
+
+
+                        //<th>Crop</th>          <th>Variety</th>  <th>Strip_Grade</th>
+                        //<th>Stem_Grade</th>     <th>Date</th> <th>Sample_Time</th>
+                        //<th>Equip_No</th>       <th>Case_No</th>          <th>Moisture_Result</th>
+                        //<th>AFTER_CORRE_FACTOR(-1.8)</th>    <th>Case_Temprature</th>>ADD/EDIT/DELETE</th>
+
+                        if (Crop == "" || Variety == "" || Strip_Grade == "" || Stem_Grade == "" || Date == "" || Sample_Time == "" ||
+                            Equip_No == "" || Case_No == "" || Moisture_Result == "" || AFTER_CORRE_FACTOR == "" || Case_Temprature == "") {
+                            tblContent = tblContent + '<tr style="background-color:#F5405F">'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg"><span class="trBg">' + Crop + '</spanCrop class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Variety + '</span><input class="text" value="' + Variety + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Strip_Grade + '</span><input class="text" value="' + Strip_Grade + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Stem_Grade + '</span><input class="text" value="' + Stem_Grade + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Date + '</span><input class="text" value="' + Date + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Sample_Time + '</span><input class="text" value="' + Sample_Time + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Equip_No + '</span><input class="text" value="' + Equip_No + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Case_No + '</span><input class="text" value="' + Case_No + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Moisture_Result + '</span><input class="text" value="' + Moisture_Result + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + AFTER_CORRE_FACTOR + '</span><input class="text" value="' + AFTER_CORRE_FACTOR + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Case_Temprature + '</span><input class="text" value="' + Case_Temprature + '" style="display:none" /></span></td>'
+                            + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                        } else {
+                            tblContent = tblContent + '<tr>'
+                             + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg"><span class="trBg">' + Crop + '</spanCrop class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Variety + '</span><input class="text" value="' + Variety + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Strip_Grade + '</span><input class="text" value="' + Strip_Grade + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Stem_Grade + '</span><input class="text" value="' + Stem_Grade + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Date + '</span><input class="text" value="' + Date + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Sample_Time + '</span><input class="text" value="' + Sample_Time + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Equip_No + '</span><input class="text" value="' + Equip_No + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Case_No + '</span><input class="text" value="' + Case_No + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Moisture_Result + '</span><input class="text" value="' + Moisture_Result + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + AFTER_CORRE_FACTOR + '</span><input class="text" value="' + AFTER_CORRE_FACTOR + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Case_Temprature + '</span><input class="text" value="' + Case_Temprature + '" style="display:none" /></span></td>'
+                            + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                        }
+
+
+
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+
+                    var myTable1 =
+                        $('#dynamic-tabl')
+                            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                            .DataTable({
+                                "bLengthChange": true,
+                                "paging": false,
+                                //"aLengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "ALL"]],
+                                //"iDisplayLength": -1,
+                                //iDisplayLength: 200,
+                                "jQueryUI": true,
+                                bAutoWidth: false,
+                                "sScrollY": "200px",
+                                "sScrollX": "100%",
+                                //"sScrollXInner":"100%",
+                                'order': [[0, 'asc']],
+                                "aoColumns": [
+                                    null, null, null, null, null, null, null, null, null, null, null, null,
+                                    { "bSortable": false },
+
+                                    // { "bSortable": false }
+                                ],
+                                "aaSorting": [],
+
+                                //"bProcessing": true,
+                                //"bServerSide": true,
+                                //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                                //,
+
+                                //"bPaginate": true,
+
+                                //"sScrollX": "100%",
+                                //"sScrollXInner": "120%",
+                                //"bScrollCollapse": true,
+                                //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                                //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                                //"iDisplayLength": 50,
+
+
+                                select: {
+                                    style: 'multi'
+                                }
+                            });
+                },
+
+
+
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+
+
+            });
+        }
+
+
+
+
+        $('#btnComplete').on('click', function () {
+            var StemMoistureList = $("#txtExcelData").get(0).files;
+            if (StemMoistureList.length > 0) {
+                var LGSMR = {};
+                var StemMoistures = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+                    var row = $(this);
+                    var GLTStemMoisture = {};
+                    GLTStemMoisture.SNO = row.find("td:eq(0)")[0].innerText;
+                    GLTStemMoisture.Crop = row.find("td:eq(1)")[0].innerText;
+                    GLTStemMoisture.Variety = row.find("td:eq(2)")[0].innerText;
+                    GLTStemMoisture.StripGrade = row.find("td:eq(3)")[0].innerText;
+                    GLTStemMoisture.StemGrade = row.find("td:eq(4)")[0].innerText;
+                    GLTStemMoisture.Date = row.find("td:eq(5)")[0].innerText;
+                    GLTStemMoisture.RunCaseNo = row.find("td:eq(6)")[0].innerText;
+                    GLTStemMoisture.Time = row.find("td:eq(7)")[0].innerText;
+                    GLTStemMoisture.EquipNo = row.find("td:eq(8)")[0].innerText;
+                    GLTStemMoisture.MoistureResult = row.find("td:eq(9)")[0].innerText;
+                    GLTStemMoisture.AfterCorr = row.find("td:eq(10)")[0].innerText;
+                    GLTStemMoisture.CaseTemp = row.find("td:eq(11)")[0].innerText;
+
+
+
+
+
+                    StemMoistures.push(GLTStemMoisture);
+                });
+
+                if (StemMoistures.length > 0) {
+                    LGSMR.StemMoistures = StemMoistures;
+
+
+
+                    //Send the JSON array to Controller using AJAX.
+                    spinner.show();
+                    $.ajax({
+                        type: "POST",
+                        //async: false,
+                        url: "/GLTStemMoisture/StemMoistureComplete",
+                        data: JSON.stringify(LGSMR),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+
+                        success: function (response) {
+
+                            if (response.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(response, "error");
+                                spinner.hide();
+                            }
+                            else {
+                                if (response.startsWith("Error", 1)) {
+                                    bootstrap_alert.warning(response, "error");
+                                }
+                                else if (response.startsWith("Succuss", 1)) {
+
+                                    window.location = "/GLTStemMoisture/Index";
+                                    bootstrap_alert.warning('Succussful', "success");
+                                }
+                                spinner.hide();
+                            }
+                        },
+                        //error: function (response) {
+
+                        //    if (response.startsWith("Error")) {
+                        //        bootstrap_alert.warning(response, "error");
+                        //    }
+                        //    //bootstrap_alert.warning(response.responseText, "error");
+                        //}
+                    });
+                    // }
+                } else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+
+        });
+
+
+
+
+    });
+
+</script>

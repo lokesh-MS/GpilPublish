@@ -1,0 +1,250 @@
+﻿@model GPILWebApp.Models.GPIL_ORGN_MASTER
+
+@{
+    ViewBag.Title = "Orgn Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>
+
+        <dd>
+            Orgn Code
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ORGN_CODE)
+        </dt>
+
+        <dt>
+           Orgn Name
+        </dt>
+
+       
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_NAME)
+        </dd>
+
+        <dt>
+           Orgn Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_TYPE)
+        </dd>
+
+        <dt>
+            Address 1
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS1)
+        </dd>
+
+        <dt>
+            Address 2
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS2)
+        </dd>
+
+        <dt>
+            Address 3
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS3)
+        </dd>
+
+        <dt>
+           Address 4
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS4)
+        </dd>
+
+        <dt>
+           Address 5
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS5)
+        </dd>
+
+        <dt>
+            Address 6
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_ADDRESS6)
+        </dd>
+
+        <dt>
+          Country
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_COUNTRY)
+        </dd>
+
+        <dt>
+            PinCode
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PIN_CODE)
+        </dd>
+
+        <dt>
+            Telephone Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEL_NO)
+        </dd>
+
+        <dt>
+           Mobile Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOBILE_NO)
+        </dd>
+
+        <dt>
+          Email ID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL_ID)
+        </dd>
+
+       
+        <dt>
+           Status
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+
+      
+
+      
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE6)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE6)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE7)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE7)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE8)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE8)
+        </dd>
+
+        <dt>
+          Created Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+       
+
+       
+        <dt>
+            Sync ID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SYNC_ID)
+        </dd>
+
+        <dt>
+           Sync Password
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SYNC_PASSWORD)
+        </dd>
+
+        <dt>
+            Variety
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VARIETY)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ORGN_CODE }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,150 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_ITEM_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Item Creation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Item Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "GPIL_ITEM_MASTER") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GPIL_ITEM_MASTER") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+    @*<button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Excel Upload </button>*@
+</p>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Item List</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "ITEM DETAILS"
+        </div>
+
+
+        <div class="form-horizondal" id="frmdetl">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.ITEM_CODE)
+                           
+                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ITEM_CODE_GROUP)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ITEM_GROUP)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ITEM_TYPE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ITEM_DESC)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CROP)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VARIETY)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.COST_CATEGORY)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ORGN_TYPE)
+                        </th>
+                       
+                        
+                        <th>
+                            @Html.DisplayNameFor(model => model.STATUS)
+                        </th>
+                        
+                        
+                        <th></th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="tbody">
+
+
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ITEM_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ITEM_CODE_GROUP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ITEM_GROUP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ITEM_TYPE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ITEM_DESC)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CROP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VARIETY)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.COST_CATEGORY)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGN_TYPE)
+                            </td>
+                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.STATUS)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ITEM_CODE }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ITEM_CODE }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ITEM_CODE })
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+           );
+    });
+
+</script>
+
+
+

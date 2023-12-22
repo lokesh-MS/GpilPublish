@@ -1,0 +1,490 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.DataLoader.PackedCaseDispatchLoader>
+@{
+    ViewBag.Root = "Loader";
+    ViewBag.Title = "PackedCaseDispatchLoaderIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">Packed Case Dispatch Loader</h2>
+<hr />
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Clear" id="btnClear" style="width:95px" class="btn btn-success btn-sm" />
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+       
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "PACKED CASE DISPATCH DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                       
+                        <th>SNO</th>
+                        <th>SHIPMENT_NO</th>
+                        <th>SENDER_ORG_CODE</th>
+                        <th>RECEIVER_ORG_CODE </th>
+                        <th>SEND_BY</th>
+                        <th>SENDER_TRUCK_NO</th>
+                        <th>LR_NO</th>
+                        <th>DRIVER_NAME</th>
+                        <th>DRIVING_LICENCE_NO </th>
+                        <th>TRANSPORT_CODE</th>
+                        <th>FRIEGHT_CHARGES</th>
+                        <th>CASE_NUMBER</th>
+                        <th>GRADE</th>
+                        <th>LR_DATE </th>
+                        <th>DISPATCH_TYPE</th>
+                        <th>AWB_NO</th>
+                        <th>IS_LP5_NOTE</th>
+                        <th>REMARKS</th>
+                        <th>INS_STS </th>
+                        <th>Add/Edit/Update/Delete </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="loader">
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="sm-3">
+
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="sm-3">
+
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="sm-3">
+
+
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Close" id="btnBack" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="sm-3">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+      
+
+        $('#btnBack').on('click', function (event) {
+
+
+            window.location = "/Home/Index";
+            dt1.destroy();
+
+
+        });
+
+
+
+        $('#btnClear').on('click', function (event) {
+            $('#txtExcelData').val('');
+           
+            window.location = "/DataLoader/PackedCaseDispatchLoaderIndex";
+            dt1.destroy();
+            
+
+        });
+
+
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var packedCaseDispatchList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (packedCaseDispatchList.length > 0) {
+            formData.append('postedFile', packedCaseDispatchList[0]);
+            GetPackedCaseDispatch(formData);
+            }
+            else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+        function GetPackedCaseDispatch(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'POST',
+                url: '/DataLoader/ImportPCDFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+
+
+
+                    var gethdnSHIPMENT_NO = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;                         
+                        var SHIPMENT_NO = (data[i].SHIPMENT_NO == null) ? "" : data[i].SHIPMENT_NO;
+                        gethdnSHIPMENT_NO = SHIPMENT_NO; // this gives textbox value
+                        var SENDER_ORG_CODE = (data[i].SENDER_ORG_CODE == null) ? "" : data[i].SENDER_ORG_CODE;
+                        var RECEIVER_ORG_CODE = (data[i].RECEIVER_ORG_CODE == null) ? "" : data[i].RECEIVER_ORG_CODE;
+                        var SEND_BY = (data[i].SEND_BY == null) ? "" : data[i].SEND_BY;
+                        var SENDER_TRUCK_NO = (data[i].SENDER_TRUCK_NO == null) ? "" : data[i].SENDER_TRUCK_NO;
+                        var LR_NO = (data[i].LR_NO == null) ? "" : data[i].LR_NO;
+                        var DRIVER_NAME = (data[i].DRIVER_NAME == null) ? "" : data[i].DRIVER_NAME;
+                        var DRIVING_LICENCE_NO = (data[i].DRIVING_LICENCE_NO == null) ? "" : data[i].DRIVING_LICENCE_NO;
+                        var TRANSPORT_CODE = (data[i].TRANSPORT_CODE == null) ? "" : data[i].TRANSPORT_CODE;
+                        var FRIEGHT_CHARGES = (data[i].FRIEGHT_CHARGES == null) ? "" : data[i].FRIEGHT_CHARGES;
+                        var CASE_NUMBER = (data[i].CASE_NUMBER == null) ? "" : data[i].CASE_NUMBER;
+                        var GRADE = (data[i].GRADE == null) ? "" : data[i].GRADE;
+                        var LR_DATE = (data[i].LR_DATE == null) ? "" : data[i].LR_DATE;
+                        var DISPATCH_TYPE = (data[i].DISPATCH_TYPE == null) ? "" : data[i].DISPATCH_TYPE;
+                        var AWB_NO = (data[i].AWB_NO == null) ? "" : data[i].AWB_NO;
+                        var IS_LP5_NOTE = (data[i].IS_LP5_NOTE == null) ? "" : data[i].IS_LP5_NOTE;
+                        var REMARKS = (data[i].REMARKS == null) ? "" : data[i].REMARKS;
+                        var INS_STS = (data[i].INS_STS == null) ? "" : data[i].INS_STS;
+
+
+                        if (SHIPMENT_NO == "" || SENDER_ORG_CODE == "" || RECEIVER_ORG_CODE == "" || SEND_BY == "" || SENDER_TRUCK_NO == "" || LR_NO == "" ||
+                          DRIVER_NAME == "" || DRIVING_LICENCE_NO == "" || TRANSPORT_CODE == "" || FRIEGHT_CHARGES == "" || CASE_NUMBER == ""
+                            || GRADE == "" || LR_DATE == "" || DISPATCH_TYPE == "" || AWB_NO == "" || IS_LP5_NOTE == "" || REMARKS == "" || INS_STS == "")
+
+                        {
+                            bootstrap_alert.warning('Empty In Data Which Have Provided Please verify red color rows', "error");
+                            tblContent = tblContent + '<tr style="background-color:Red;color:Black">'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+
+
+                            + '<td class="trBg"><span class="trBg">' + SHIPMENT_NO + '</span><input class="text" value="' + SHIPMENT_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_ORG_CODE + '</span><input class="text" value="' + SENDER_ORG_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + RECEIVER_ORG_CODE + '</span><input class="text" value="' + RECEIVER_ORG_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SEND_BY + '</span><input class="text" value="' + SEND_BY + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_TRUCK_NO + '</span><input class="text" value="' + SENDER_TRUCK_NO + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + LR_NO + '</span><input class="text" value="' + LR_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVER_NAME + '</span><input class="text" value="' + DRIVER_NAME + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVING_LICENCE_NO + '</span><input class="text" value="' + DRIVING_LICENCE_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TRANSPORT_CODE + '</span><input class="text" value="' + TRANSPORT_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + FRIEGHT_CHARGES + '</span><input class="text" value="' + FRIEGHT_CHARGES + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + CASE_NUMBER + '</span><input class="text" value="' + CASE_NUMBER + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + GRADE + '</span><input class="text" value="' + GRADE + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + LR_DATE + '</span><input class="text" value="' + LR_DATE + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + DISPATCH_TYPE + '</span><input class="text" value="' + DISPATCH_TYPE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + AWB_NO + '</span><input class="text" value="' + AWB_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + IS_LP5_NOTE + '</span><input class="text" value="' + IS_LP5_NOTE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + REMARKS + '</span><input class="text" value="' + REMARKS + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none"/></span></td>'
+
+
+
+
+                            + '<td class="trBg"><input class="text1" type="hidden" value="' + SHIPMENT_NO + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                        }
+                        else
+                        {
+                            tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+
+
+                            + '<td class="trBg"><span class="trBg">' + SHIPMENT_NO + '</span><input class="text" value="' + SHIPMENT_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_ORG_CODE + '</span><input class="text" value="' + SENDER_ORG_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + RECEIVER_ORG_CODE + '</span><input class="text" value="' + RECEIVER_ORG_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SEND_BY + '</span><input class="text" value="' + SEND_BY + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_TRUCK_NO + '</span><input class="text" value="' + SENDER_TRUCK_NO + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + LR_NO + '</span><input class="text" value="' + LR_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVER_NAME + '</span><input class="text" value="' + DRIVER_NAME + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVING_LICENCE_NO + '</span><input class="text" value="' + DRIVING_LICENCE_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TRANSPORT_CODE + '</span><input class="text" value="' + TRANSPORT_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + FRIEGHT_CHARGES + '</span><input class="text" value="' + FRIEGHT_CHARGES + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + CASE_NUMBER + '</span><input class="text" value="' + CASE_NUMBER + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + GRADE + '</span><input class="text" value="' + GRADE + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + LR_DATE + '</span><input class="text" value="' + LR_DATE + '" style="display:none"/></span></td>'
+                             + '<td class="trBg"><span class="trBg">' + DISPATCH_TYPE + '</span><input class="text" value="' + DISPATCH_TYPE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + AWB_NO + '</span><input class="text" value="' + AWB_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + IS_LP5_NOTE + '</span><input class="text" value="' + IS_LP5_NOTE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + REMARKS + '</span><input class="text" value="' + REMARKS + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none"/></span></td>'
+
+
+
+
+                            + '<td class="trBg"><input class="text1" type="hidden" value="' + SHIPMENT_NO + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                        }
+                        
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+                    var myTable1 =
+                      $('#dynamic-tabl')
+                          //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                          .DataTable({
+                              "bLengthChange": true,
+                              "paging": false,
+                              "jQueryUI": true,
+                              bAutoWidth: false,
+                              "sScrollY": "200px",
+                              "sScrollX": "100%",
+                              "sScrollXInner":"100%",
+                              'order': [[0, 'asc']],
+                              "aoColumns": [
+                                  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                                  { "bSortable": false },
+
+                                  // { "bSortable": false }
+                              ],
+                              "aaSorting": [],
+
+
+                              select: {
+                                  style: 'multi'
+                              }
+                          });
+
+                },
+            });
+        }
+
+
+
+
+        $('#btnComplete').on('click', function () {
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+            if (ExcelIndexList.length > 0) {
+            var LPCD = {};
+            var PackedCaseDispatchs = new Array();
+            $("#dynamic-tabl tbody tr").each(function () {
+
+                @*//select SHIPMENT_NO, SENDER_ORG_CODE, RECEIVER_ORG_CODE, SEND_BY, SENDER_TRUCK_NO, LR_NO, DRIVER_NAME, DRIVING_LICENCE_NO, TRANSPORT_CODE, FRIEGHT_CHARGES, CASE_NUMBER,
+                            //GRADE, LR_DATE, DISPATCH_TYPE, AWB_NO, IS_LP5_NOTE, REMARKS,'V' AS INS_STS from[Sheet1$]*@
+                var row = $(this);
+                var PackedCaseDispatch = {};
+                PackedCaseDispatch.SNO = row.find("td:eq(0)")[0].innerText;
+                PackedCaseDispatch.SHIPMENT_NO = row.find("td:eq(1)")[0].innerText;
+                PackedCaseDispatch.SENDER_ORG_CODE = row.find("td:eq(2)")[0].innerText;
+                PackedCaseDispatch.RECEIVER_ORG_CODE = row.find("td:eq(3)")[0].innerText;
+                PackedCaseDispatch.SEND_BY = row.find("td:eq(4)")[0].innerText;
+                PackedCaseDispatch.SENDER_TRUCK_NO = row.find("td:eq(5)")[0].innerText;
+                PackedCaseDispatch.LR_NO = row.find("td:eq(6)")[0].innerText;
+                PackedCaseDispatch.DRIVER_NAME = row.find("td:eq(7)")[0].innerText;
+                PackedCaseDispatch.DRIVING_LICENCE_NO = row.find("td:eq(8)")[0].innerText;
+                PackedCaseDispatch.TRANSPORT_CODE = row.find("td:eq(9)")[0].innerText;
+                PackedCaseDispatch.FRIEGHT_CHARGES = row.find("td:eq(10)")[0].innerText;
+                PackedCaseDispatch.CASE_NUMBER = row.find("td:eq(11)")[0].innerText;
+                PackedCaseDispatch.GRADE = row.find("td:eq(12)")[0].innerText;
+                PackedCaseDispatch.LR_DATE = row.find("td:eq(13)")[0].innerText;
+                PackedCaseDispatch.DISPATCH_TYPE = row.find("td:eq(14)")[0].innerText;
+                PackedCaseDispatch.AWB_NO = row.find("td:eq(15)")[0].innerText;
+                PackedCaseDispatch.IS_LP5_NOTE = row.find("td:eq(16)")[0].innerText;
+                PackedCaseDispatch.REMARKS = row.find("td:eq(17)")[0].innerText;
+                PackedCaseDispatch.INS_STS = row.find("td:eq(18)")[0].innerText;
+
+                PackedCaseDispatchs.push(PackedCaseDispatch);
+            });
+                if (PackedCaseDispatchs.length > 0) {
+            LPCD.PackedCaseDispatchs = PackedCaseDispatchs;
+            spinner.show();
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/DataLoader/PackedCaseDispatchComplete",
+                data: JSON.stringify(LPCD),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(response, "error");
+                        spinner.hide();
+                    }
+                    else {
+                        if (response.startsWith("Error", 1)) {
+                            bootstrap_alert.warning(response, "error");
+                        }
+                        else if (response.startsWith("Success", 1)) {
+
+                            window.location = "/DataLoader/PackedCaseDispatchLoaderIndex";
+                            bootstrap_alert.warning(response, "success");
+                        }
+                        spinner.hide();
+                    }
+                },
+                error: function (msg) {
+                    //alert(msg);
+                }
+            });
+
+                }
+                else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+
+
+    });
+</script>

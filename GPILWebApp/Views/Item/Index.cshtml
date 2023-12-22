@@ -1,0 +1,192 @@
+﻿@model GPILWebApp.Models.GPIL_ITEM_MASTER
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Item Creation";
+}
+@using (Html.BeginForm("ItemMaster", "Item", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h5>ITEM CREATION</h5>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                  
+
+                    <label class="control-label">Item Code </label>
+
+                    @Html.EditorFor(model => model.ITEM_CODE, new { htmlAttributes = new { @class = "form-control", id = "txtItemCode" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_CODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Code Group </label>
+                   
+                    @Html.EditorFor(model => model.ITEM_CODE_GROUP, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_CODE_GROUP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Group </label>
+                    
+                    @Html.DropDownListFor(model => model.ITEM_GROUP, new List<SelectListItem> {
+                    new SelectListItem {Text="TBG" ,Value="TBG" },
+                    new SelectListItem {Text="BCG" ,Value="BCG" },
+                    new SelectListItem {Text="VFG" ,Value="VFG" },
+                    new SelectListItem {Text="CLG" ,Value="CLG" },
+                    new SelectListItem {Text="ICG" ,Value="ICG" },
+                    new SelectListItem {Text="GOG" ,Value="GOG" },
+                    new SelectListItem {Text="BYP" ,Value="BYP" },
+                    new SelectListItem {Text="PCG" ,Value="PCG" },
+                    new SelectListItem {Text="LOSS" ,Value="LOSS" },
+               }, "SELECT ITEM GROUP", new { @class = "form-control", @id = "ddlItemGroup" })
+                    @Html.ValidationMessageFor(model => model.ITEM_GROUP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Type </label>
+                    
+                    @Html.EditorFor(model => model.ITEM_TYPE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_TYPE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Item Description </label>
+                    
+                    @Html.EditorFor(model => model.ITEM_DESC, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ITEM_DESC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Crop </label>
+                   
+                    @Html.EditorFor(model => model.CROP, new { htmlAttributes = new { @class = "form-control", id = "txtCrop" } })
+                    @Html.ValidationMessageFor(model => model.CROP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Variety </label>
+                   
+                    @Html.EditorFor(model => model.VARIETY, new { htmlAttributes = new { @class = "form-control", id = "txtVariety" } })
+                    @Html.ValidationMessageFor(model => model.VARIETY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Cost Category </label>
+                   
+                    @Html.EditorFor(model => model.COST_CATEGORY, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.COST_CATEGORY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Orgn Type </label>
+                    @Html.DropDownListFor(model => model.ORGN_TYPE, (IEnumerable<SelectListItem>)ViewData["GPIL_ORGN_MASTER"] as SelectList,"SELECT ORGN TYPE", new { @class = "form-control", @id = "ddlOrgntype" })
+                    @Html.ValidationMessageFor(model => model.ORGN_TYPE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Status </label>
+                   
+                    @Html.DropDownListFor(model => model.STATUS, new List<SelectListItem> {
+                    new SelectListItem {Text="Y" ,Value="Y" },
+                    new SelectListItem {Text="N" ,Value="N" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlStatus" })
+                    @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @*<div class="col-md-6">
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.ATTRIBUTE1, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.EditorFor(model => model.ATTRIBUTE1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ATTRIBUTE1, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Sub-Inventory </label>
+                    @Html.DropDownListFor(model => model.ATTRIBUTE2, (IEnumerable<SelectListItem>)ViewBag.SubInventoryType as SelectList, "SELECT SUB-INVENTORY", new { @class = "form-control", @id = "ddlSubInventory" })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">BMLG GRADE </label>
+                    @Html.DropDownListFor(model => model.ATTRIBUTE3, new List<SelectListItem> {
+                    new SelectListItem {Text="BRIGHT" ,Value="BRIGHT" },
+                    new SelectListItem {Text="MEDIUM" ,Value="MEDIUM" },
+                    new SelectListItem {Text="LOW" ,Value="LOW" },
+                    new SelectListItem {Text="GREEN" ,Value="GREEN" },
+                    new SelectListItem {Text="NIL" ,Value="NIL" }
+               }, "SELECT BMLG GRADE", new { @class = "form-control" ,@id="ddlBMGLGrade"})
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">HSN Code</label>
+                    @Html.EditorFor(model => model.ATTRIBUTE4, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE4, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    .
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" id="btnSave" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+                        <input type="button" id="btnView" value="View" style="width:95px" onclick=@("window.location.href='" + @Url.Action("ItemList", "Item") + "'") ; class="btn btn-primary btn-sm" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#txtItemCode').change(function () {
+            var Crop = $('#txtItemCode').val().substring(0, 2);
+            var Variety = $('#txtItemCode').val().substring(2, 4);
+            $('#txtVariety').val(Variety);
+            $('#txtCrop').val(Crop);
+
+        });
+        
+        
+
+    });
+
+</script>
+
+

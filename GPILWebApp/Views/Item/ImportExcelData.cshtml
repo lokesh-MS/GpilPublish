@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Item Master Excel Upload";
+}
+
+@*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.dateTime.min.css" rel="stylesheet" />
+    <link href="~/Content/editor.dataTables.min.css" rel="stylesheet" />*@
+
+<link href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css" rel="stylesheet" />
+    <link href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css" rel="stylesheet" />
+
+
+
+
+<h6>Excel Upload</h6>
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ItemList", "Item") + "'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-form"> Back </button>
+    <button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Save to database </button>
+</p>
+
+<div class="table-responsive">
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Item Code</th>
+                <th>Item Code Group</th>
+                <th class="hidden-480">Item Group</th>
+                <th>
+                    Item Type
+                </th>
+                <th>Item Desc</th>
+                <th>Crop</th>
+                <th>Variety</th>
+                <th>Cost Category</th>
+                <th>Orgn Type</th>
+                <th>Subinveentory Code</th>
+                <th>BMGL Grade</th>
+                <th>HSN Code</th>
+                <th>INT Status</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@*<script src="~/Scripts/Jquery-3.5.1.js"></script>
+    <script src="~/Scripts/Jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/dataTables.select.min.js"></script>
+    <script src="~/Scripts/dataTables.dateTime.min.js"></script>
+    <script src="~/Scripts/dataTables.editor.min.js"></script>*@
+
+<script scr="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script scr="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script scr="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+<script scr="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+<script scr="https://cdn.datatables.net/keytable/2.6.4/js/dataTables.keyTable.min.js"></script>
+<script scr="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
+<script scr="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+
+<script rel="javascript" src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        window.onload = function () {
+            var editor;
+            debugger;
+            GetExcelDataBind();
+
+            //editor = new $.fn.dataTable.Editor({
+            //    ajax: '/Item/GetExcelData',
+            //    table: "#example",
+            //    fields: [{
+            //        label: "Item Code:",
+            //        name: "ITEM_CODE"
+            //    }, {
+            //        label: "Item Code Group:",
+            //        name: "ITEM_CODE_GROUP"
+            //    }, {
+            //        label: "Item Group:",
+            //        name: "ITEM_GROUP"
+            //    }, {
+            //        label: "Item Type:",
+            //        name: "ITEM_TYPE"
+            //    }, {
+            //        label: "Item Desc:",
+            //        name: "ITEM_DESC"
+            //    }, {
+            //        label: "Crop Year:",
+            //        name: "CROP_YEAR"
+
+            //    }, {
+            //        label: "Variety Code:",
+            //        name: "VARIETY_CODE"
+            //    }, {
+            //        label: "Cost Category:",
+            //        name: "COST_CATEGORY"
+
+            //    }, {
+            //        label: "Orgn Type:",
+            //        name: "ORG_TYPE"
+
+            //    },
+            //     {
+            //         label: "Item Type:",
+            //         name: "ITEM_TYPE"
+
+            //     },
+            //      {
+            //          label: "SubInventory Code:",
+            //          name: "SUBINVENTORY_CODE"
+
+            //      },
+            //      {
+            //          label: "BMGL Grade:",
+            //          name: "BMLG_GRADE"
+
+            //      },
+            //       {
+            //           label: "Ins STS:",
+            //           name: "INS_STS"
+
+            //       }
+            //    ]
+            //});
+            //$('#example').on('click', 'tbody td:not(:first-child)', function (e) {
+            //    editor.inline(this);
+            //});
+            //debugger;
+            //$('#example').DataTable({
+
+
+            //    dom: "Bfrtip",
+            //    ajax: '/Item/GetExcelData',
+            //    order: [[1, 'asc']],
+
+
+            //    columns: [
+            //        {
+            //            data: null,
+            //            defaultContent: '',
+            //            className: 'select-checkbox',
+            //            orderable: false
+            //        },
+            //        { data: "ITEM_CODE" },
+            //        { data: "ITEM_CODE_GROUP" },
+            //        { data: "ITEM_GROUP" },
+            //        { data: "ITEM_TYPE" },
+            //        { data: "ITEM_DESC" },
+            //        { data: "CROP_YEAR" },
+
+            //        { data: "VARIETY_CODE" },
+            //        { data: "COST_CATEGORY" },
+            //        { data: "ORG_TYPE" },
+            //        { data: "ITEM_TYPE" },
+            //        { data: "SUBINVENTORY_CODE" },
+            //        { data: "BMLG_GRADE" },
+
+            //        { data: "HSNCode" },
+            //        { data: "SUBINVENTORY_CODE" },
+            //        { data: "INS_STS" }
+
+            //    ],
+            //    select: {
+            //        style: 'os',
+            //        selector: 'td:first-child'
+            //    },
+            //    buttons: [
+            //        { extend: "create", editor: editor },
+            //        { extend: "edit", editor: editor },
+            //        { extend: "remove", editor: editor }
+            //    ]
+            //});
+
+
+
+
+        };
+    });
+
+
+
+
+
+
+    function GetExcelDataBind() {
+        debugger;
+        //var dt0 = $('#example').DataTable();
+        //dt0.destroy();
+        $('#example tbody').empty();
+        $('#example').DataTable({
+            'paging': false,
+            'pageLength': 25,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false,
+            'dom': 'Bfrtip',
+            'buttons': ['excel', 'print']
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Item/GetExcelData',
+            contentType: "application/json; charset=utf-8",
+            data: "json",
+            success: function (msg) {
+                debugger;
+                let data = JSON.parse(msg);
+                alert(msg);
+                var html = '';
+                for (let i = 0; i < data.Table.length; i++) {
+                    debugger;
+                    var obj = data.Table[i];
+                    html = '<tr>' +
+                            '<td>' + obj.ITEM_CODE + '</td>' +
+                            '<td>' + obj.ITEM_CODE_GROUP + '</td>' +
+                            '<td>' + obj.ITEM_GROUP + '</td>' +
+                            '<td>' + obj.ITEM_TYPE + '</td>' +
+                            '<td>' + obj.ITEM_DESC + '</td>' +
+                            '<td>' + obj.CROP_YEAR + '</td>' +
+                            '<td>' + obj.VARIETY_CODE + '</td>' +
+                            '<td>' + obj.COST_CATEGORY + '</td>' +
+                            '<td>' + obj.ORG_TYPE + '</td>' +
+                            '<td>' + obj.SUBINVENTORY_CODE + '</td>' +
+                            '<td>' + obj.BMLG_GRADE + '</td>' +
+                            '<td>' + obj.HSNCode + '</td>' +
+                            '<td>' + obj.INS_STS + '</td>' +
+                            '</tr>';
+                    $('#example').append(html);
+                }
+
+
+
+
+
+                //var dt = $('#myTable').DataTable();
+                //dt.destroy();
+                //$('#myTable tbody').empty();
+
+                //$('#myTable').DataTable({
+                //    'paging': true,
+                //    'pageLength': 7,
+                //    'lengthChange': false,
+                //    'searching': false,
+                //    'ordering': true,
+                //    'info': true,
+                //    'autoWidth': false,
+                //    'dom': 'Bfrtip',
+                //    'buttons': ['excel', 'print']
+                //});
+
+            },
+            error: function (msg) {
+                alert('sdsda' + msg);
+            }
+        });
+
+
+
+
+    }
+
+
+
+
+
+</script>

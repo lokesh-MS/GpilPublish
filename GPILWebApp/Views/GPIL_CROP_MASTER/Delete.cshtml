@@ -1,0 +1,109 @@
+﻿@model GPILWebApp.Models.GPIL_CROP_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Crop Delete</h2>
+<div>
+
+
+    <div class="col-sm-6">
+        <p id="notify" style="display:none"> @TempData["SuccessMessage"]</p>
+    </div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CROP_YEAR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CROP_YEAR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <h3>Are you sure you want to delete this?</h3>
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+
+
+
+
+</div>
+
+
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+<script>
+    var mes = document.getElementById("notify").innerHTML
+    if (mes.startsWith("Success", 1)) {
+        sweetAlert("Done", mes, "success");
+        setTimeout(function () {
+            window.location = "/GPIL_CROP_MASTER/Index";
+        },2000)
+        /*window.location.href = "Index";*/
+      /*  window.location.href = "GPIL_ITEM_MASTER/Index";*/
+    }
+</script>

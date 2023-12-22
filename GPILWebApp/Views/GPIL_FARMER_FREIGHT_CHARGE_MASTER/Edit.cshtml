@@ -1,0 +1,252 @@
+@model GPILWebApp.Models.GPIL_FARMER_FREIGHT_CHARGE_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">FARMER_FREIGHT_CHARGE EDIT</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>GPIL_FARMER_FREIGHT_CHARGE_MASTER</h4>*@
+        <hr />
+
+        @Html.HiddenFor(model => model.CREATED_BY)
+        @Html.HiddenFor(model => model.CREATED_DATE)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.SNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SNO, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SNO, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @Html.HiddenFor(model => model.FREIGHT_ID)
+        <div class="row">
+
+            @* past here *@
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">CROP</label>
+
+
+                    @Html.DropDownList("CROP", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CROP, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">VARIETY</label>
+
+
+
+                    @Html.DropDownList("VARIETY", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VARIETY, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">VILLAGE_CODE</label>
+
+                    @Html.DropDownList("VILLAGE_CODE", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VILLAGE_CODE, "", new { @class = "text-danger" })
+
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">ORGN_CODE</label>
+
+
+
+                    @Html.DropDownList("ORGN_CODE", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ORGN_CODE, "", new { @class = "text-danger" })
+
+
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">FREIGHT_CHARGE</label>
+
+
+                    @Html.EditorFor(model => model.FREIGHT_CHARGE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FREIGHT_CHARGE, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">REMARKS</label>
+
+                    @Html.EditorFor(model => model.REMARKS, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.REMARKS, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">LAST_FREIGHT_CHARGE</label>
+
+                    @Html.EditorFor(model => model.LAST_FREIGHT_CHARGE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LAST_FREIGHT_CHARGE, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Status </label>
+                    @Html.DropDownListFor(model => model.STATUS, new List<SelectListItem> {
+                    new SelectListItem {Text="Y" ,Value="Y" },
+                    new SelectListItem {Text="N" ,Value="N" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlStatus" })
+                    @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @* Row End *@
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.FLAG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FLAG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FLAG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CREATED_BY, "CREATED_BY", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CREATED_BY", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CREATED_BY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CREATED_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CREATED_DATE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CREATED_DATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LAST_UPDATED_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LAST_UPDATED_BY, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LAST_UPDATED_BY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LAST_UPDATED_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LAST_UPDATED_DATE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LAST_UPDATED_DATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LASTUPDATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LASTUPDATE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LASTUPDATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ATTRIBUTE1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ATTRIBUTE1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ATTRIBUTE2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ATTRIBUTE2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ATTRIBUTE3, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ATTRIBUTE3, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ATTRIBUTE4, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ATTRIBUTE4, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE4, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ATTRIBUTE5, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ATTRIBUTE5, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ATTRIBUTE5, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-6">
+
+
+                    <br />
+                    @*@Html.ActionLink("Back to List", "Index")*@
+                    <input type="submit" value="Save" style="width:95px" class="btn btn-success btn-sm" />
+
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <p id="notify" style="display:none"> @TempData["SuccessMessage"]</p>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+<script>var mes = document.getElementById("notify").innerHTML
+    if (mes.startsWith("Success", 1)) {
+        sweetAlert("Done", mes, "success"); setTimeout(function () {
+            window.location = "/GPIL_FARMER_FREIGHT_CHARGE_MASTER/Index";
+
+        }, 2000)
+    }</script>

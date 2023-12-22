@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewBag.Title = "SupplierVerifyIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">SUPPLIER VERIFICATION</h2>
+<hr />
+
+@*<p>
+    <button type="button" role="button" id="btnCreate" class="btn btn-success btn-sm"> Create New Item </button>
+    <input id="hdnHEADER_ID" name="hdnHEADER_ID" type="hidden" />
+    <input id="hdnpoNumber" name="hdnpoNumber" type="hidden" />
+
+</p>*@
+
+
+<div class="row">
+    <div class="col-xs-12">
+        @*<h3 class="header smaller lighter blue">Supplier Purchase List</h3>*@
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "SUPPLIER PURCHASE VERIFICATION"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>BALE NUMBER</th>
+                        <th>GRADE</th>
+                        <th>MARKED WEIGHT</th>
+                        <th>EDIT/UPDATE/DELETE</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "SupplierVerificationIndex")
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        //Create event handler
+        //$('#btnCreate').on('click', function (event) {
+
+        //    var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+        //    window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+        //    //$.ajax({
+        //    //    type: 'GET',
+        //    //    url: '/Verification/Create',
+        //    //    data: { HEADER_ID: hdnHEADER_ID },
+        //    //    //success: function (msg) {
+        //    //    //    alert(0); alert("Successfully");
+        //    //    //},
+        //    //    //error: function (msg) {
+        //    //    //    alert(0); alert(msg);
+        //    //    //}
+        //    //});
+        //});
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            var row = $(this).closest("tr");
+            var SupplierVerification = {};
+            SupplierVerification.SNO = row.find("td:eq(0)")[0].innerText;
+            SupplierVerification.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+            SupplierVerification.GRADE = row.find("td:eq(2)")[0].innerText;
+            SupplierVerification.NET_WEIGHT = row.find("td:eq(3)")[0].innerText;
+            SupplierVerification.HEADER_ID = row.find("td:eq(4)").find('input[type="hidden"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/SupplierVerification/UpdateSupplierPurchase",
+                data: '{gPIL_TAP_FARM_PURCHS_DTLS:' + JSON.stringify(SupplierVerification) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                var SupplierVerification = {};
+                SupplierVerification.SNO = row.find("td:eq(0)")[0].innerText;
+                SupplierVerification.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+                SupplierVerification.GRADE = row.find("td:eq(2)")[0].innerText;
+                SupplierVerification.NET_WEIGHT = row.find("td:eq(3)")[0].innerText;
+                
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/SupplierVerification/DeleteSupplierPurchase",
+                    data: '{GPIL_BALE_NUMBER:"' + SupplierVerification.GPIL_BALE_NUMBER + '"}',
+                    contentType: "application/json; charset=utf-8",
+
+                    success: function (response) {
+                        if ($("#dynamic-tabl tr").length > 2) {
+                            row.remove();
+                        } else {
+                            row.find(".btnEdit").hide();
+                            row.find(".btnDelete").hide();
+                            row.find("span").html('&nbsp;');
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
+        var tblContent = "";
+        /**/
+
+        let data = $.parseJSON('@Html.Raw(Model.Data)');
+        var gethdnHEADER_ID = "";
+        for (var i = 0; i < data.Table.length; i++) {
+            var j = i + 1;
+            var GPIL_BALE_NUMBER = (data.Table[i].GPIL_BALE_NUMBER == null) ? "" : data.Table[i].GPIL_BALE_NUMBER;
+            var HEADER_ID = (data.Table[i].HEADER_ID == null) ? "" : data.Table[i].HEADER_ID;
+            gethdnHEADER_ID = HEADER_ID; // this gives textbox value
+            var GRADE = (data.Table[i].GRADE == null) ? "" : data.Table[i].GRADE;
+            var NET_WEIGHT = (data.Table[i].NET_WEIGHT == null) ? "" : data.Table[i].NET_WEIGHT;
+            
+            var IndexID = "" + j;
+            tblContent = tblContent + '<tr>'
+            //style = "text-align:center;"
+                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                + '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                + '<td class="trBg"><span class="trBg">' + GRADE + '</span><input class="text" value="' + GRADE + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + NET_WEIGHT + '</span><input class="text" value="' + NET_WEIGHT + '" style="display:none"/></span></td>'
+                
+                + '<td class="trBg"><input class="text1" type="hidden" value="' + HEADER_ID + '"/></span><button class="btnEdit">Edit</button><button style="display:none" class="btnUpdate">Update</button><button class="btnDelete">Delete</button><button style="display:none" class="btnCancel">Cancel</button></td>'
+                + '</tr >';
+        }
+        $("#hdnHEADER_ID").val(gethdnHEADER_ID); // this will set hidden field value
+
+        var dt1 = $('#dynamic-tabl').DataTable();
+        dt1.destroy();
+        $('#dynamic-tabl tbody').empty();
+        $('#dynamic-tabl tbody').append(tblContent);
+
+
+        var myTable = $('#dynamic-tabl')
+                  .DataTable({
+                      //paging: false,
+                      paging: false,
+                      scrollY: 300,
+                      //scrollX: true,
+                      'order': [[0, 'asc']],
+                  });
+
+        new $.fn.dataTable.Buttons(myTable, {
+            buttons: [
+                    {
+                        "extend": "colvis",
+                        "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                        "className": "btn btn-white btn-primary btn-bold",
+
+                    },
+                    {
+                        "extend": "copy",
+                        "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "csv",
+                        "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "excel",
+                        "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "pdf",
+                        "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "print",
+                        "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                        "className": "btn btn-white btn-primary btn-bold",
+                        autoPrint: false,
+                        message: 'This print was produced using the Print button for DataTables'
+                    }
+            ]
+        });
+        myTable.buttons().container().appendTo($('.tableTools-container'));
+
+
+    });
+</script>

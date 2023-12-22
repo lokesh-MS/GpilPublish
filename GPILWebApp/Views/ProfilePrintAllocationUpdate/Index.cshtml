@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Root = "Profile";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">PRINT ALLOCATION UPDATE</h2>
+<hr />
+@*<form name="myform" method="post" action="#" onsubmit="return validate_form();">*@
+    <div class="row">
+        <div class="col-md-4">
+            <div class="sm-3">
+                <label>Crop Year Code:</label>
+                <input class="form-control" id="txtCropYear" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sm-3">
+                <label>Run No:</label>
+                <input class="form-control" id="txtRunNo" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sm-3">
+                <label>Loc Code:</label>
+                <input class="form-control" id="txtLocCode" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label></label>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="sm-3">
+                <label>Grade Code:</label>
+                <input class="form-control" id="txtGradeCode" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sm-3">
+                <label>Cases To Print:</label>
+                <input class="form-control" id="txtCasesToPrint" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sm-3">
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            @*<div class="col-md-offset-2 col-md-10">*@
+            <br />
+            <button id="btnUpdate" class="btn btn-success btn-sm" style="width:170px; height:37px">Update</button>
+        </div>
+    </div>
+@*</form>*@
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $("#btnUpdate").click(function () {
+        if ($.trim($("#txtCropYear").val()) == "") {
+            alert("Please enter Name!");
+        }
+        if ($.trim($("#txtRunNo").val()) == "") {
+            alert("Please enter!");
+        }
+    });
+
+  
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        $('#btnUpdate').on('click', function (event) {
+            var CropList = $('#txtCropYear').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var RunNoList = $('#txtRunNo').val();
+            RunNoList = (RunNoList == "0") ? "" : RunNoList;
+            var LocCodeList = $('#txtLocCode').val();
+            LocCodeList = (LocCodeList == "0") ? "" : LocCodeList;
+            var GradeList = $('#txtGradeCode').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var CasePrintList = $('#txtCasesToPrint').val();
+            //CasePrintList = (CasePrintList == "0") ? "" : CasePrintList;
+
+
+            PrintAllocationUpdate(CropList, RunNoList, LocCodeList, GradeList, CasePrintList);
+        });
+
+        function PrintAllocationUpdate(Crop, RunNo, LocCode, Grade, CasePrint) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/ProfilePrintAllocationUpdate/UpdatePrintAllocation',
+                data: { crop: Crop, runNo: RunNo, locCode: LocCode, grade: Grade, casePrint: CasePrint},
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+
+                        bootstrap_alert.warning( msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+    });
+</script>

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_CROP_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Crop List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Crop Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "GPIL_CROP_MASTER") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GPIL_CROP_MASTER") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+    @*<button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Excel Upload </button>*@
+</p>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Crop List</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "CROP DETAILS"
+        </div>
+
+
+        <div class="form-horizondal" id="frmdetl">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+
+
+
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CROP)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CROP_YEAR)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.STATUS)
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+
+
+
+                </thead>
+
+
+                <tbody id="tbody">
+
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CROP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CROP_YEAR)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.STATUS)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.CROP }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.CROP }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.CROP })
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+           );
+    });
+
+</script>

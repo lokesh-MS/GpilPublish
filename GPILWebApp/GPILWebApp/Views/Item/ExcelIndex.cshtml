@@ -1,0 +1,789 @@
+﻿
+@{
+    ViewBag.Title = "ExcelIndex";
+}
+
+
+
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Item Master Excel Upload";
+}
+
+@*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.dateTime.min.css" rel="stylesheet" />
+    <link href="~/Content/editor.dataTables.min.css" rel="stylesheet" />*@
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css" />
+    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css" />*@
+
+
+
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="~/assets/css/jquery-ui.min.css" />
+<link rel="stylesheet" href="~/assets/css/bootstrap-datepicker3.min.css" />
+<link rel="stylesheet" href="~/assets/css/ui.jqgrid.min.css" />
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ItemList", "Item") + "'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-form"> Back </button>
+    <button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Save to database </button>
+</p>
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+
+            <i class="ace-icon fa fa-hand-o-right"></i>
+            Please note that demo server is not configured to save the changes, therefore you may see an error message.
+        </div>
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+@*<div class="table-responsive">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Item Code</th>
+                    <th>Item Code Group</th>
+                    <th class="hidden-480">Item Group</th>
+                    <th>
+                        Item Type
+                    </th>
+                    <th>Item Desc</th>
+                    <th>Crop</th>
+                    <th>Variety</th>
+                    <th>Cost Category</th>
+                    <th>Orgn Type</th>
+                    <th>Subinveentory Code</th>
+                    <th>BMGL Grade</th>
+                    <th>HSN Code</th>
+                    <th>INT Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>*@
+@*"ImportExcelData", "Item", FormMethod.Post, new { @enctype = "multipart/form-data" }*@
+@using (Html.BeginForm())
+{
+    <div id="modal-form" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="blue bigger">Item Creation Excel Upload</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="VarietyFrm">
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <input type="file" id="id-input-file-2" name="postedFile" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm" id="btnCancel" data-dismiss="modal">
+                        <i class="ace-icon fa fa-times"></i>
+                        Cancel
+                    </button>
+
+                    <button class="btn btn-sm btn-primary" type="submit" id="btnSave">
+                        <i class="ace-icon fa fa-check"></i>
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@*<script src="~/Scripts/Jquery-3.5.1.js"></script>
+    <script src="~/Scripts/Jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/dataTables.select.min.js"></script>
+    <script src="~/Scripts/dataTables.dateTime.min.js"></script>
+    <script src="~/Scripts/dataTables.editor.min.js"></script>*@
+
+@*<script scr="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script scr="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <script scr="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+    <script scr="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <script scr="https://cdn.datatables.net/keytable/2.6.4/js/dataTables.keyTable.min.js"></script>
+    <script scr="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
+    <script scr="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>*@
+
+<script rel="javascript" src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+        //$(document).ready(function () {
+
+        //    $('#btnSave').click(function () {
+        //        debugger;
+        //        if ($("#id-input-file-2").val() == "") {
+        //            alert("Please select a file");
+        //            return false;
+        //        }
+
+        //        if (window.FormData !== undefined) {
+        //            debugger;
+        //            var fileUpload = $("#id-input-file-2").get(0);
+        //            var files = fileUpload.files;
+        //            var formData = new FormData();
+        //            fromData = files.name;
+        //            for (var i = 0; i < files.length; i++) {
+        //                formData.append(files[i].name, files[i]);
+        //            }
+        //            alert(formData);
+        //            var dt0 = $('#example').DataTable();
+        //            dt0.destroy();
+        //            $('#example tbody').empty();
+        //            $('#example').DataTable({
+        //                'paging': true,
+        //                'pageLength': 25,
+        //                'lengthChange': false,
+        //                'searching': false,
+        //                'ordering': true,
+        //                'info': true,
+        //                'autoWidth': false,
+        //                'dom': 'Bfrtip',
+        //                'buttons': ['excel', 'print']
+        //            });
+        //            debugger;
+        //            $.ajax({
+        //                type: "POST",
+        //                url: '/Item/ImportExcelData',
+        //                data: formData,
+        //                dataType: 'json',
+        //                contentType: false,
+        //                processData: false,
+        //                success: function (response) {
+        //                    let data = JSON.parse(response);
+        //                    debugger;
+        //                    var html = '';
+        //                    for (let i = 0; i < data.Table.length; i++) {
+        //                        debugger;
+        //                        var obj = data.Table[i];
+        //                        html = '<tr>' +
+        //                                '<td>' + obj.ITEM_CODE + '</td>' +
+        //                                '<td>' + obj.ITEM_CODE_GROUP + '</td>' +
+        //                                '<td>' + obj.ITEM_GROUP + '</td>' +
+        //                                '<td>' + obj.ITEM_TYPE + '</td>' +
+        //                                '<td>' + obj.ITEM_DESC + '</td>' +
+        //                                '<td>' + obj.CROP_YEAR + '</td>' +
+        //                                '<td>' + obj.VARIETY_CODE + '</td>' +
+        //                                '<td>' + obj.COST_CATEGORY + '</td>' +
+        //                                '<td>' + obj.ORG_TYPE + '</td>' +
+        //                                '<td>' + obj.SUBINVENTORY_CODE + '</td>' +
+        //                                '<td>' + obj.BMLG_GRADE + '</td>' +
+        //                                '<td>' + obj.HSNCode + '</td>' +
+        //                                '<td>' + obj.INS_STS + '</td>' +
+        //                                '</tr>';
+        //                        $('#example').append(html);
+        //                    }
+
+
+        //                },
+        //                error: function (error) {
+        //                    alert("errror");
+        //                }
+        //            });
+        //            $('#modal-form').modal('hide');
+        //        }
+        //    });
+
+
+
+
+
+
+            //$('#btnSave').click(function () {
+            //    if ($("#id-input-file-2").val() == "") {
+            //        alert("Please select a file");
+            //        return false;
+            //    }
+            //    // GetExcelDataBind();
+
+
+
+
+
+
+
+            //});
+            //window.onload = function () {
+            //    var editor;
+            //    debugger;
+
+
+            //editor = new $.fn.dataTable.Editor({
+            //    ajax: '/Item/GetExcelData',
+            //    table: "#example",
+            //    fields: [{
+            //        label: "Item Code:",
+            //        name: "ITEM_CODE"
+            //    }, {
+            //        label: "Item Code Group:",
+            //        name: "ITEM_CODE_GROUP"
+            //    }, {
+            //        label: "Item Group:",
+            //        name: "ITEM_GROUP"
+            //    }, {
+            //        label: "Item Type:",
+            //        name: "ITEM_TYPE"
+            //    }, {
+            //        label: "Item Desc:",
+            //        name: "ITEM_DESC"
+            //    }, {
+            //        label: "Crop Year:",
+            //        name: "CROP_YEAR"
+
+            //    }, {
+            //        label: "Variety Code:",
+            //        name: "VARIETY_CODE"
+            //    }, {
+            //        label: "Cost Category:",
+            //        name: "COST_CATEGORY"
+
+            //    }, {
+            //        label: "Orgn Type:",
+            //        name: "ORG_TYPE"
+
+            //    },
+            //     {
+            //         label: "Item Type:",
+            //         name: "ITEM_TYPE"
+
+            //     },
+            //      {
+            //          label: "SubInventory Code:",
+            //          name: "SUBINVENTORY_CODE"
+
+            //      },
+            //      {
+            //          label: "BMGL Grade:",
+            //          name: "BMLG_GRADE"
+
+            //      },
+            //       {
+            //           label: "Ins STS:",
+            //           name: "INS_STS"
+
+            //       }
+            //    ]
+            //});
+            //$('#example').on('click', 'tbody td:not(:first-child)', function (e) {
+            //    editor.inline(this);
+            //});
+            //debugger;
+            //$('#example').DataTable({
+
+
+            //    dom: "Bfrtip",
+            //    ajax: '/Item/GetExcelData',
+            //    order: [[1, 'asc']],
+
+
+            //    columns: [
+            //        {
+            //            data: null,
+            //            defaultContent: '',
+            //            className: 'select-checkbox',
+            //            orderable: false
+            //        },
+            //        { data: "ITEM_CODE" },
+            //        { data: "ITEM_CODE_GROUP" },
+            //        { data: "ITEM_GROUP" },
+            //        { data: "ITEM_TYPE" },
+            //        { data: "ITEM_DESC" },
+            //        { data: "CROP_YEAR" },
+
+            //        { data: "VARIETY_CODE" },
+            //        { data: "COST_CATEGORY" },
+            //        { data: "ORG_TYPE" },
+            //        { data: "ITEM_TYPE" },
+            //        { data: "SUBINVENTORY_CODE" },
+            //        { data: "BMLG_GRADE" },
+
+            //        { data: "HSNCode" },
+            //        { data: "SUBINVENTORY_CODE" },
+            //        { data: "INS_STS" }
+
+            //    ],
+            //    select: {
+            //        style: 'os',
+            //        selector: 'td:first-child'
+            //    },
+            //    buttons: [
+            //        { extend: "create", editor: editor },
+            //        { extend: "edit", editor: editor },
+            //        { extend: "remove", editor: editor }
+            //    ]
+            //});
+
+
+
+
+            //};
+        //});
+
+
+
+
+
+
+        //function GetExcelDataBind() {
+        //    debugger;
+        //    var dt0 = $('#example').DataTable();
+        //    dt0.destroy();
+        //    $('#example tbody').empty();
+        //    $('#example').DataTable({
+        //        'paging': true,
+        //        'pageLength': 25,
+        //        'lengthChange': false,
+        //        'searching': false,
+        //        'ordering': true,
+        //        'info': true,
+        //        'autoWidth': false,
+        //        'dom': 'Bfrtip',
+        //        'buttons': ['excel', 'print']
+        //    });
+        //    debugger;
+
+        //    var VarietyDetail = $('#VarietyFrm').serialize();
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/Item/ImportExcelData',
+            contentType: "application/json; charset=utf-8",
+            data: formData,
+            success: function (msg) {
+                debugger;
+                let data = JSON.parse(msg);
+                alert('OK' + msg);
+                var html = '';
+                for (let i = 0; i < data.Table.length; i++) {
+                    debugger;
+                    var obj = data.Table[i];
+                    html = '<tr>' +
+                            '<td>' + obj.ITEM_CODE + '</td>' +
+                            '<td>' + obj.ITEM_CODE_GROUP + '</td>' +
+                            '<td>' + obj.ITEM_GROUP + '</td>' +
+                            '<td>' + obj.ITEM_TYPE + '</td>' +
+                            '<td>' + obj.ITEM_DESC + '</td>' +
+                            '<td>' + obj.CROP_YEAR + '</td>' +
+                            '<td>' + obj.VARIETY_CODE + '</td>' +
+                            '<td>' + obj.COST_CATEGORY + '</td>' +
+                            '<td>' + obj.ORG_TYPE + '</td>' +
+                            '<td>' + obj.SUBINVENTORY_CODE + '</td>' +
+                            '<td>' + obj.BMLG_GRADE + '</td>' +
+                            '<td>' + obj.HSNCode + '</td>' +
+                            '<td>' + obj.INS_STS + '</td>' +
+                            '</tr>';
+                    $('#example').append(html);
+                }
+
+
+
+
+
+                var dt = $('#myTable').DataTable();
+                dt.destroy();
+                $('#myTable tbody').empty();
+
+                $('#myTable').DataTable({
+                    'paging': true,
+                    'pageLength': 7,
+                    'lengthChange': false,
+                    'searching': false,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false,
+                    'dom': 'Bfrtip',
+                    'buttons': ['excel', 'print']
+                });
+
+            },
+            error: function (msg) {
+                $('#modal-form').modal('hide');
+            }
+
+        });
+    </script>
+
+
+<!-- page specific plugin scripts -->
+<script src="~/assets/js/jquery.jqGrid.min.js"></script>
+<script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+
+<script src="~/assets/js/grid.locale-en.js"></script>
+
+
+<script type="text/javascript">
+
+    $('#btnSave').click(function () {
+        debugger;
+        if ($("#id-input-file-2").val() == "") {
+            alert("Please select a file");
+            return false;
+        }
+        GetExcelDataBind();
+
+    });
+    
+
+    function GetExcelDataBind() {
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+
+
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+        })
+
+        //resize on sidebar collapse/expand
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 20);
+            }
+        })
+        var fileUpload = $("#id-input-file-2").get(0);
+        var files = fileUpload.files;
+        var formData = new FormData();
+        fromData = files.name;
+        for (var i = 0; i < files.length; i++) {
+            formData.append(files[i].name, files[i]);
+        }
+        debugger;
+        jQuery(grid_selector).jqGrid({
+            
+                mtype: 'POST',
+                url: '/Item/ImportExcelData',
+                data: formData,
+                datatype: 'json',
+                contentType: false,
+                processData: false,
+                height: 550,
+
+                colNames: [' ', 'Item Code', 'Item Code Group', 'Item Group', 'Item Type', 'Item Desc', 'Crop', 'Variety', 'Cost Category', 'Orgn Type', 'Subinventory', 'BMGL Grade', 'HSN Code', 'INT Sts'],
+                colModel: [
+                    {
+                        name: 'myac', index: '', width: 80, fixed: true, sortable: false, resize: false,
+                        formatter: 'actions',
+                        formatoptions: {
+                            keys: true,
+                            //delbutton: false,//disable delete button
+
+                            delOptions: { recreateForm: true, beforeShowForm: beforeDeleteCallback },
+                            //editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+                        }
+                    },
+                    { name: 'ITEM_CODE', index: 'ITEM_CODE', width: 60, editable: true },
+                    { name: 'ITEM_CODE_GROUP', index: 'ITEM_CODE_GROUP', width: 90, editable: true, unformat: pickDate },
+                    { name: 'ITEM_GROUP', index: 'ITEM_GROUP', width: 150, editable: true },
+                    { name: 'ITEM_TYPE', index: 'ITEM_TYPE', width: 70, editable: true },
+                    { name: 'ITEM_DESC', index: 'ITEM_DESC', width: 90, editable: true },
+                    { name: 'CROP_YEAR', index: 'CROP_YEAR', width: 150, sortable: false },
+                    { name: 'VARIETY_CODE', index: 'VARIETY_CODE', width: 60, editable: true },
+                    { name: 'COST_CATEGORY', index: 'COST_CATEGORY', width: 60, editable: true },
+                    { name: 'ORG_TYPE', index: 'ORG_TYPE', width: 60, editable: true },
+                    { name: 'SUBINVENTORY_CODE', index: 'SUBINVENTORY_CODE', width: 60, editable: true },
+                    { name: 'BMLG_GRADE', index: 'BMLG_GRADE', width: 60, editable: true },
+                    { name: 'HSNCode', index: 'HSNCode', width: 60, editable: true },
+                    { name: 'INS_STS', index: 'INS_STS', width: 60, editable: true },
+                ],
+
+                viewrecords: true,
+                rowNum: 30,
+                rowList: [30, 60, 90],
+                pager: pager_selector,
+                altRows: true,
+                //toppager: true,
+
+                multiselect: true,
+                //multikey: "ctrlKey",
+                multiboxonly: true,
+
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        // enableTooltips(table);
+                    }, 0);
+                },
+
+               // editurl: "./dummy.php",//nothing is saved
+                caption: "jqGrid with inline editing"
+
+
+          
+        });
+        $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+
+
+
+        //enable search/filter toolbar
+        //jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+        //jQuery(grid_selector).filterToolbar({});
+
+
+        //switch element when editing inline
+        function aceSwitch(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=checkbox]')
+                    .addClass('ace ace-switch ace-switch-5')
+                    .after('<span class="lbl"></span>');
+            }, 0);
+        }
+        //enable datepicker
+        function pickDate(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=text]')
+                    .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+            }, 0);
+        }
+
+
+        //navButtons
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+            { 	//navbar options
+                edit: true,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: true,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: true,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: true,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: true,
+                viewicon: 'ace-icon fa fa-search-plus grey',
+            },
+            {
+                //edit record form
+                //closeAfterEdit: true,
+                //width: 700,
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                }
+            },
+            {
+                //new record form
+                //width: 700,
+                closeAfterAdd: true,
+                recreateForm: true,
+                viewPagerButtons: false,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+                    .wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                }
+            },
+            {
+                //delete record form
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    if (form.data('styled')) return false;
+
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_delete_form(form);
+
+                    form.data('styled', true);
+                },
+                onClick: function (e) {
+                    //alert(1);
+                }
+            },
+            {
+                //search form
+                recreateForm: true,
+                afterShowSearch: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                    style_search_form(form);
+                },
+                afterRedraw: function () {
+                    style_search_filters($(this));
+                }
+                ,
+                multipleSearch: true,
+                /**
+                multipleGroup:true,
+                showQuery: true
+                */
+            },
+            {
+                //view record form
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                }
+            }
+        )
+
+
+
+        function style_edit_form(form) {
+            //enable datepicker on "sdate" field and switches for "stock" field
+            form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+
+            form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+            //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+            //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+
+            //update buttons classes
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+            buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+            buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+            buttons = form.next().find('.navButton a');
+            buttons.find('.ui-icon').hide();
+            buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+            buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+        }
+
+        function style_delete_form(form) {
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+            buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+            buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+        }
+
+        function style_search_filters(form) {
+            form.find('.delete-rule').val('X');
+            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+            form.find('.add-group').addClass('btn btn-xs btn-success');
+            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+        }
+        function style_search_form(form) {
+            var dialog = form.closest('.ui-jqdialog');
+            var buttons = dialog.find('.EditTable')
+            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+        }
+
+        function beforeDeleteCallback(e) {
+            var form = $(e[0]);
+            if (form.data('styled')) return false;
+
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_delete_form(form);
+
+            form.data('styled', true);
+        }
+
+        function beforeEditCallback(e) {
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_edit_form(form);
+        }
+
+
+
+        //it causes some flicker when reloading or navigating grid
+        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+        //or go back to default browser checkbox styles for the grid
+        function styleCheckbox(table) {
+            /**
+                $(table).find('input:checkbox').addClass('ace')
+                .wrap('<label />')
+                .after('<span class="lbl align-top" />')
+
+
+                $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+                .find('input.cbox[type=checkbox]').addClass('ace')
+                .wrap('<label />').after('<span class="lbl align-top" />');
+            */
+        }
+
+
+        //unlike navButtons icons, action icons in rows seem to be hard-coded
+        //you can change them like this in here if you want
+        function updateActionIcons(table) {
+            /**
+            var replacement =
+            {
+                'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+                'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+                'ui-icon-disk' : 'ace-icon fa fa-check green',
+                'ui-icon-cancel' : 'ace-icon fa fa-times red'
+            };
+            $(table).find('.ui-pg-div span.ui-icon').each(function(){
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+                if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+            })
+            */
+        }
+
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        //function enableTooltips(table) {
+        //    $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+        //    $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        //}
+
+        //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+        $(document).one('ajaxloadstart.page', function (e) {
+            $.jgrid.gridDestroy(grid_selector);
+            $('.ui-jqdialog').remove();
+        });
+    
+    };
+</script>

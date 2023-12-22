@@ -1,0 +1,301 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "OldPackedCaseStockLoaderIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Old Packed Stock Loader</h2>
+<hr />
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        @*<h3 class="header smaller lighter blue">OLD PACKED STOCK LOADER</h3>*@
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "OLD PACK STOCK DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Variety</th>
+                        <th>CaseNumber</th>
+                        <th>Grade</th>
+                        <th>NettWeight</th>
+                        <th>Organization</th>
+                        <th>InsertSts</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            //var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            //window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var ReceiptList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (ReceiptList.length > 0) {
+                formData.append('postedFile', ReceiptList[0]);
+                GetReceipt(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+        function GetReceipt(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/OldPackedCaseStockLoaderVerification/ImportOPSFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    @*SELECT CROP,VARIETY,GPIL_BALE_NUMBER,GRADE,MARKED_WT,ORGN_CODE,'V' AS INS_STS from [Sheet1$]";*@
+                    //var gethdnGPIL_BALE_NUMBER = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+
+                        var CROP = (data[i].Crop == null) ? "" : data[i].Crop;
+                        var VARIETY = (data[i].Variety == null) ? "" : data[i].Variety;
+
+                        var GPIL_BALE_NUMBER = (data[i].CaseNumber == null) ? "" : data[i].CaseNumber;
+                        // gethdnGPIL_BALE_NUMBER = GPIL_BALE_NUMBER; // this gives textbox value
+                        var GRADE = (data[i].Grade == null) ? "" : data[i].Grade;
+                        var MARKED_WT = (data[i].NettWeight == null) ? "" : data[i].NettWeight;
+                        var ORGN_CODE = (data[i].Organization == null) ? "" : data[i].Organization;
+                        var INS_STS = (data[i].InsertSts == null) ? "" : data[i].InsertSts;
+
+
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+
+
+
+
+                            + '<td class="trBg"><span class="trBg">' + CROP + '</span><input class="text" value="' + CROP + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + VARIETY + '</span><input class="text" value="' + VARIETY + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + GRADE + '</span><input class="text" value="' + GRADE + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + MARKED_WT + '</span><input class="text" value="' + MARKED_WT + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ORGN_CODE + '</span><input class="text" value="' + ORGN_CODE + '" style="display:none" /></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none" /></span></td>'
+
+
+                            + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                    }
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                },
+
+
+
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+
+
+            });
+        }
+
+
+        $('#btnComplete').on('click', function () {
+
+            var ReceiptList = $("#txtExcelData").get(0).files;
+            if (ReceiptList.length > 0) {
+
+                var LOPS = {};
+                var OldPackedStocks = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+                    @*SELECT CROP,VARIETY,GPIL_BALE_NUMBER,GRADE,MARKED_WT,ORGN_CODE,'V' AS INS_STS from [Sheet1$]";*@
+                    var row = $(this);
+                    var OldPackedStock = {};
+                    OldPackedStock.SNO = row.find("td:eq(0)")[0].innerText;
+                    OldPackedStock.CROP = row.find("td:eq(1)")[0].innerText;
+                    OldPackedStock.VARIETY = row.find("td:eq(2)")[0].innerText;
+                    OldPackedStock.GPIL_BALE_NUMBER = row.find("td:eq(3)")[0].innerText;
+                    OldPackedStock.GRADE = row.find("td:eq(4)")[0].innerText;
+                    OldPackedStock.MARKED_WT = row.find("td:eq(5)")[0].innerText;
+                    OldPackedStock.ORGN_CODE = row.find("td:eq(6)")[0].innerText;
+                    OldPackedStock.INS_STS = row.find("td:eq(7)")[0].innerText;
+
+                    OldPackedStocks.push(OldPackedStock);
+                });
+                if (OldPackedStocks.length > 0) {
+                    LOPS.OldPackedStocks = OldPackedStocks;
+
+                    //Send the JSON array to Controller using AJAX.
+                    $.ajax({
+                        type: "POST",
+                        url: "/OldPackedCaseStockLoaderVerification/OldPackedStockComplete",
+                        data: JSON.stringify(LOPS),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(response, "error");
+                            }
+                            else if (response.startsWith("Success", 1)) {
+
+                                //window.location = "/GPIL_CROP_MASTER/Index";
+                                bootstrap_alert.warning('Successful ' + response, "success");
+                            }
+                        },
+                        error: function (response) {
+
+                            //if (response.startsWith("Error", 1)) {
+                            //    bootstrap_alert.warning(response, "error");
+                            //}
+                            bootstrap_alert.warning(response.responseText, "error");
+                        }
+                    });
+
+                } else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+    });
+</script>

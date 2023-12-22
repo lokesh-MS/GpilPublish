@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">EXPORT DATA</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>From Date</label>
+            <input class="form-control" id="txtFromDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>To Date</label>
+            <input class="form-control" id="txtToDate" type="date" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>CROP</label>
+
+            @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCropYear", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>VARIETY</label>
+            @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTERs, "VARIETY", "VARIETYNAME"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Organization Code</label>
+            @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTERs, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnCode", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Select Rcipe</label>
+            @Html.DropDownList("RECIPE_CODE", new SelectList(ViewBag.GPIL_OPERATION_RECIPEs, "RECIPE_CODE", "OPERATION_RECIPE"), "Please select", new { @id = "ddlOperationRecipe", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Export Data Form</label>
+            <select class="form-control" id="ddlExportDataForm">
+                <option value="0">Please select</option>
+                <option value="TAP Purchase">TAP Purchase</option>
+                <option value="Farmer Purchase">Farmer Purchase</option>
+                <option value="Supplier Purchase">Supplier Purchase</option>
+                <option value="Dispatch">Dispatch</option>
+                <option value="Receipt">Receipt</option>
+                <option value="Dispatch Summary">Dispatch Summary</option>
+                <option value="Receipt Summary">Receipt Summary</option>
+                <option value="Sales">Sales</option>
+                <option value="Classification">Classification</option>
+                <option value="Grade Transfer">Grade Transfer</option>
+                <option value="Crop Transfer">Crop Transfer</option>
+                <option value="Grading">Grading</option>
+                <option value="Threshing">Threshing</option>
+                <option value="Fumigation">Fumigation</option>
+                <option value="Stock ">Stock</option>
+                <option value="Packed Stock">Packed Stock</option>
+                <option value="GST Download">GST Download</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+
+        <br />
+        <button id="btnExporttoExcel" class="btn btn-success btn-sm" onclick="exportToExcel()">Export To Excel</button>
+
+        @*<button type="submit" role="button" id="btnExporttoExcel" onclick="exportToExcel()" class="btn btn-success btn-sm">Excel TO Excel</button>*@
+
+        @*@Html.ActionLink("Back to List", "Index")*@
+
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    function startLoader() {
+        $("#ExportToExcel").text('Loading...');
+        $("#ExportToExcel").attr('disabled', true);
+    }
+
+    function stopLoader() {
+        $("#ExportToExcel").text('Export to Excel');
+        $("#ExportToExcel").attr('disabled', false);
+    }
+
+
+    function exportToExcel() {
+        var FromDateList = $('#txtFromDate').val();
+        FromDateList = (FromDateList == "0") ? "" : FromDateList;
+        var ToDateList = $('#txtToDate').val();
+        ToDateList = (ToDateList == "0") ? "" : ToDateList;
+        var CropList = $('#ddlCropYear').val();
+        CropList = (CropList == "0") ? "" : CropList;
+
+        var VarietyList = $('#ddlVariety').val();
+        VarietyList = (VarietyList == "0") ? "" : VarietyList;
+        var OrgnCodeList = $('#ddlOrgnCode').val();
+        OrgnCodeList = (OrgnCodeList == "0") ? "" : OrgnCodeList;
+        var OperationRecList = $('#ddlOperationRecipe').val();
+        OperationRecList = (OperationRecList == "0") ? "" : OperationRecList;
+
+        var ExportDataList = $('#ddlExportDataForm').val();
+        ExportDataList = (ExportDataList == "0") ? "" : ExportDataList;
+
+        $.ajax({
+            type: "GET",
+            data: { fromDate: FromDateList, toDate: ToDateList, crop: CropList, variety: VarietyList, orgnCode: OrgnCodeList, operationRec: OperationRecList, exportData: ExportDataList },
+            contentType: "application/json; charset-utf-8",
+            url: '@Url.Action("ExportToExcel", "VerificationExportData")',
+            beforeSend: function () {
+                startLoader();
+            },
+            success: function (response) {
+                if (response.startsWith("Error", 1)) {
+                    bootstrap_alert.warning(response, "error");
+                    $('#FactoryDispatch').hide();
+                    //spinner.hide();
+                }
+                else if (response.startsWith("Succuss", 1)) {
+
+                    //window.location = "/VerificationFactoryDispatchDataCheck/Index";
+                    bootstrap_alert.warning('Succussful', "success");
+
+                }
+                else {
+                    if (response != "") {
+                        var blob = new Blob([response], { type: 'application/ms-excel' });
+                        var downloadUrl = URL.createObjectURL(blob);
+                        var a = document.createElement("a");
+                        a.href = downloadUrl;
+                        a.download = "ReportFile.xls";
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                    else {
+                        alert("No Data Found...")
+                    }
+                }
+
+                //var blob = new Blob([response], { type: 'application/ms-excel' });
+                //var downloadUrl = URL.createObjectURL(blob);
+                //var a = document.createElement("a");
+                //a.href = downloadUrl;
+                //a.download = "ReportFile.xls";
+                //document.body.appendChild(a);
+                //a.click();
+            },
+            complete: function () {
+                stopLoader();
+            }
+
+
+
+        });
+        return false;
+    }
+
+    $(document).ready(function () {
+
+
+    $('.alert').hide();
+
+
+
+
+
+
+    //$("#ddlExportDataForm").on('change', function (event) {
+    //        var FromDateList = $('#txtFromDate').val();
+    //        FromDateList = (FromDateList == "0") ? "" : FromDateList;
+    //        var ToDateList = $('#txtToDate').val();
+    //        ToDateList = (ToDateList == "0") ? "" : ToDateList;
+    //        var CropList = $('#ddlCropYear').val();
+    //        CropList = (CropList == "0") ? "" : CropList;
+
+    //        var VarietyList = $('#ddlVariety').val();
+    //        VarietyList = (VarietyList == "0") ? "" : VarietyList;
+    //        var OrgnCodeList = $('#ddlOrgnCode').val();
+    //        OrgnCodeList = (OrgnCodeList == "0") ? "" : OrgnCodeList;
+    //        var OperationRecList = $('#ddlOperationRecipe').val();
+    //        OperationRecList = (OperationRecList == "0") ? "" : OperationRecList;
+
+    //        var ExportDataList = $('#ddlExportDataForm').val();
+    //        ExportDataList = (ExportDataList == "0") ? "" : ExportDataList;
+
+    //        GetExcelData(FromDateList, ToDateList, CropList, VarietyList, OrgnCodeList, OperationRecList, ExportDataList);
+
+
+    //});
+
+    //function GetExcelData(FromDate, ToDate, Crop, Variety, OrgnCode, OperationRec, ExportData) {
+    //    //var dt01 = $('#dynamic-tabl').DataTable();
+    //    var tblContent = '';
+    //    $.ajax({
+    //        type: 'POST',
+    //        dataType: 'json',
+    //        url: '/VerificationExportData/FarmerPurchaceBW',
+    //        data: { fromDate: FromDate, toDate: ToDate, crop: Crop, variety: Variety, orgnCode: OrgnCode, operationRec: OperationRec, exportData: ExportData },
+    //        success: function (msg) {
+    //            if (msg.result == 'Redirect') {
+    //                window.location = msg.url;
+    //            }
+
+    //        },
+    //        error: function (msg) {
+    //            alert(0); alert(msg);
+    //        }
+    //    });
+
+    //}
+
+
+
+
+    //$('#btnSubmit').on('click', function (event) {
+    //    var FromDateList = $('#txtFromDate').val();
+    //    FromDateList = (FromDateList == "0") ? "" : FromDateList;
+    //    var ToDateList = $('#txtToDate').val();
+    //    ToDateList = (ToDateList == "0") ? "" : ToDateList;
+    //    var CropList = $('#ddlCropYear').val();
+    //    CropList = (CropList == "0") ? "" : CropList;
+
+    //    var VarietyList = $('#ddlVariety').val();
+    //    VarietyList = (VarietyList == "0") ? "" : VarietyList;
+    //    var OrgnCodeList = $('#ddlOrgnCode').val();
+    //    OrgnCodeList = (OrgnCodeList == "0") ? "" : OrgnCodeList;
+    //    var OperationRecList = $('#ddlOperationRecipe').val();
+    //    OperationRecList = (OperationRecList == "0") ? "" : OperationRecList;
+
+    //    var ExportDataList = $('#ddlExportDataForm').val();
+    //    ExportDataList = (ExportDataList == "0") ? "" : ExportDataList;
+
+    //    GetExcelData(FromDateList, ToDateList, CropList, VarietyList, OrgnCodeList, OperationRecList, ExportDataList);
+    //});
+
+
+     });
+
+</script>

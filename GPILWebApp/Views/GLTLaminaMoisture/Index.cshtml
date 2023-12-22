@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2 style="text-align:center; color:#438EB9">LAMINA MOISTURE</h2>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="col-sm-3">
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+            <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GLTLaminaMoisture") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+        </div>
+
+    </div>
+
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Crop</label>
+            <div>
+                <select class="form-control" id="ddlCrop">
+                    <option value="0">SELECT CROP CODE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Grade</label>
+            <div>
+                <select class="form-control" id="ddlGrade">
+                    <option value="0">SELECT GRADE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Type</label>
+            <div>
+                <select class="form-control" id="ddlType">
+                    <option value="0">SELECT TYPE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Date</label>
+            <div class="input-group">
+                <input class="form-control date-picker" id="txtFromDate" type="date" data-date-format="dd-mm-yyyy" />
+                <span class="input-group-addon">
+
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Sample Time</label>
+            <div>
+                <input class="form-control " id="txtSampleTime" type="text" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Run No</label>
+            <div>
+                <input class="form-control " id="txtRunNo" type="text" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Run Case No</label>
+            <div>
+                <input class="form-control " id="txtRunCaseNo" type="text" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Time In</label>
+            <div>
+                <input class="form-control " id="txtTimeIn" type="text" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Time Out</label>
+            <div>
+                <input class="form-control " id="txtTimeOut" type="text" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Results</label>
+            <div>
+                <input class="form-control " id="txtResults" type="text" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Packed Temp</label>
+            <div>
+                <input class="form-control " id="txtPackedTemp" type="text" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Griding Start Time</label>
+            <div>
+                <input class="form-control " id="txtStartTime" type="text" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-sm-3">
+            <label class="control-label">Griding Stop Time</label>
+            <div>
+                <input class="form-control " id="txtStoptime" type="text" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSave" class="btn btn-sm btn-success">
+            Save
+
+        </button>
+        @*<button type="submit" value="Submit" id="btnComplete" class="btn btn-sm btn-success">
+            COMPLETE
+
+        </button>*@
+        <button type="reset" id="btnClear" class="btn btn-sm btn-danger">
+            Clear
+
+        </button>
+        
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+
+    GetCrop();
+    GetGrade();
+    GetType();
+
+    function GetCrop() {
+        $('#ddlCrop').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetCrop',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].CROP_YEAR + '</option>';
+                }
+                $('#ddlCrop').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+    function GetGrade() {
+        $('#ddlGrade').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT GRADE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetGrade',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].ITEM_CODE + '</option>';
+                }
+                $('#ddlGrade').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+
+    function GetType() {
+        $('#ddlType').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT TYPE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTLaminaMoisture/GetType',
+            data: 'json',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].VARIETY_TYPE + '</option>';
+                }
+                $('#ddlType').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+
+        $('#btnSave').on('click', function (event) {
+            var CropList = $('#ddlCrop').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var GradeList = $('#ddlGrade').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var TypeList = $('#ddlType').val();
+            TypeList = (TypeList == "0") ? "" : TypeList;
+            var FromDateList = $('#txtFromDate').val();
+            FromDateList = (FromDateList == "0") ? "" : FromDateList;
+            var SampleTimeList = $('#txtSampleTime').val();
+            SampleTimeList = (SampleTimeList == "0") ? "" : SampleTimeList;
+            var RunNoList = $('#txtRunNo').val();
+            RunNoList = (RunNoList == "0") ? "" : RunNoList;
+            var RunCaseNoList = $('#txtRunCaseNo').val();
+            RunCaseNoList = (RunCaseNoList == "0") ? "" : RunCaseNoList;
+            var TimeInList = $('#txtTimeIn').val();
+            TimeInList = (TimeInList == "0") ? "" : TimeInList;
+            var TimeOutList = $('#txtTimeOut').val();
+            TimeOutList = (TimeOutList == "0") ? "" : TimeOutList;
+            var ResultList = $('#txtResults').val();
+            ResultList = (ResultList == "0") ? "" : ResultList;
+            var PackedTempList = $('#txtPackedTemp').val();
+            PackedTempList = (PackedTempList == "0") ? "" : PackedTempList;
+            var StartTimeList = $('#txtStartTime').val();
+            StartTimeList = (StartTimeList == "0") ? "" : StartTimeList;
+            var StopTimeList = $('#txtStoptime').val();
+            StopTimeList = (StopTimeList == "0") ? "" : StopTimeList;
+            GetInsertLaminaMoistureDetails(CropList, GradeList, TypeList, FromDateList, SampleTimeList, RunNoList, RunCaseNoList, TimeInList, TimeOutList, ResultList, PackedTempList, StartTimeList, StopTimeList);
+        });
+
+
+
+        function GetInsertLaminaMoistureDetails(Crop, Grade, Type, FromDate, SampleTime, RunNo, RunCaseNo, TimeIn, TimeOut, Result, PackedTemp, StartTime, StopTime) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/GLTLaminaMoisture/InsertLaminaMoisture',
+
+                //crop, grade, type, fromDate, sampleTime, runNo, runCaseNo, timeIn, timeOut, result, packedTemp, startTime, stopTime
+                data: { crop: Crop, grade: Grade, type: Type, fromDate: FromDate, sampleTime: SampleTime, runNo: RunNo, runCaseNo: RunCaseNo, timeIn: TimeIn, timeOut: TimeOut, result: Result, packedTemp: PackedTemp, startTime: StartTime, stopTime: StopTime },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                        Clear();
+                    }
+                },
+                error: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg.responseText, "error");
+                    }
+
+                }
+            });
+        }
+
+
+        function Clear() {
+            GetCrop();
+            GetGrade();
+            GetType();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtRunNo').val('');
+            $('#txtRunCaseNo').val('');
+            $('#txtTimeIn').val('');
+            $('#txtTimeOut').val('');
+            $('#txtResults').val('');
+            $('#txtPackedTemp').val('');
+            $('#txtStartTime').val('');
+            $('#txtStoptime').val('');
+           
+        }
+
+        $('#btnClear').on('click', function (event) {
+            GetCrop();
+            GetGrade();
+            GetType();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtRunNo').val('');
+            $('#txtRunCaseNo').val('');
+            $('#txtTimeIn').val('');
+            $('#txtTimeOut').val('');
+            $('#txtResults').val('');
+            $('#txtPackedTemp').val('');
+            $('#txtStartTime').val('');
+            $('#txtStoptime').val('');
+        });
+
+    });
+
+
+</script>

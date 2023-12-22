@@ -1,0 +1,54 @@
+﻿@model GPILWebApp.Models.GPIL_RATE_MASTER
+
+@{
+    ViewBag.root = "Master";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Rate Details</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Loc_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loc_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_Updated_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Last_Updated_Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey*/ })
+        @Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Item_Code }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

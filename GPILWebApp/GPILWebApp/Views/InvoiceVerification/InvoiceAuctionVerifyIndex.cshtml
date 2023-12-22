@@ -1,0 +1,390 @@
+﻿
+@{
+    ViewBag.Title = "InvoiceAuctionVerifyIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">INVOICE AUCTION VERIFICATION</h2>
+<hr />
+
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        <h3 style="color:red">@ViewBag.ErrorMessage</h3>
+    </div>
+}
+
+<p>
+    <button type="button" role="button" id="btnCreate" class="btn btn-success btn-sm"> Create New Item </button>
+    <input id="hdnHEADER_ID" name="hdnHEADER_ID" type="hidden" />
+    <input id="hdnpoNumber" name="hdnpoNumber" type="hidden" />
+
+</p>
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Invoice Verification List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "INVOICE VERIFICATION"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>GPIL_BALE_NUMBER</th>
+                        <th>TB_LOT_NO</th>
+                        <th>TBGR_NO</th>
+                        <th>TB_GRADE</th>
+                        <th>NET_WT</th>
+                        <th>RATE</th>
+                        <th>BUYER_GRADE</th>
+                        <th>REJE_TYPE</th>
+                        <th>PATTA_CHARGE</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+
+        //Edit Button.
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/InvoiceVerification/Create?HEADER_ID=' + hdnHEADER_ID
+
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+
+
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("#ddlrejtype").select > 0) {
+                    var span = $(this).find("span");
+                    var select = $(this).find("#ddlrejtype");
+                    span.html("select".val());
+                    span.show();
+                    select.hide();
+                }
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());                  
+                    span.show();
+                    input.hide();
+                    //select.hide();
+                }
+            });
+            var deptSelectedValue = $("#ddlRejType").val();
+            var row = $(this).closest("tr");
+            var FarmerPurchase = {};
+            FarmerPurchase.SNO = row.find("td:eq(0)")[0].innerText;
+            FarmerPurchase.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+            FarmerPurchase.TB_LOT_NO = row.find("td:eq(2)")[0].innerText;
+            FarmerPurchase.TBGR_NO = row.find("td:eq(3)")[0].innerText;
+            FarmerPurchase.TB_GRADE = row.find("td:eq(4)")[0].innerText;
+            FarmerPurchase.NET_WT = row.find("td:eq(5)")[0].innerText;
+            FarmerPurchase.RATE = row.find("td:eq(6)")[0].innerText;
+            FarmerPurchase.BUYER_GRADE = row.find("td:eq(7)")[0].innerText;
+            //FarmerPurchase.REJE_TYPE = row.find("td:eq(8)")[0].innerText;
+            FarmerPurchase.REJE_TYPE = deptSelectedValue;
+            FarmerPurchase.PATTA_CHARGE = row.find("td:eq(9)")[0].innerText;
+            FarmerPurchase.HEADER_ID = row.find("td:eq(10)").find('input[type="hidden"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/InvoiceVerification/UpdateInvoiceVerification",
+                data: '{gPIL_TAP_FARM_PURCHS_DTLS:' + JSON.stringify(FarmerPurchase) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json", success: function (msg) {
+                    window.location = "/InvoiceVerification/InvoiceAuctionVerifyIndex";
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+
+
+        //<th>GPIL_BALE_NUMBER</th>                        <th>TB_LOT_NO</th>                        <th>TBGR_NO</th>
+        //                <th>TB_GRADE</th>                        <th>NET_WT</th>                        <th>RATE</th>
+        //                <th>BUYER_GRADE</th>                        <th>REJE_TYPE</th>                        <th>PATTA_CHARGE</th>
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                var FarmerPurchase = {};
+                FarmerPurchase.SNO = row.find("td:eq(0)")[0].innerText;
+                FarmerPurchase.GPIL_BALE_NUMBER = row.find("td:eq(1)")[0].innerText;
+                FarmerPurchase.TB_LOT_NO = row.find("td:eq(2)")[0].innerText;
+                FarmerPurchase.TBGR_NO = row.find("td:eq(3)")[0].innerText;
+                FarmerPurchase.TB_GRADE = row.find("td:eq(4)")[0].innerText;
+                FarmerPurchase.NET_WT = row.find("td:eq(5)")[0].innerText;
+                FarmerPurchase.RATE = row.find("td:eq(6)")[0].innerText;
+                FarmerPurchase.BUYER_GRADE = row.find("td:eq(7)")[0].innerText;
+                FarmerPurchase.REJE_TYPE = row.find("td:eq(8)")[0].innerText;
+                FarmerPurchase.PATTA_CHARGE = row.find("td:eq(9)")[0].innerText;
+                //FarmerPurchase.HEADER_ID = row.find("td:eq(9)")[0].find('input[type="hidden"]').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/InvoiceVerification/DeleteInvoiceVerification",
+                    data: '{GPIL_BALE_NUMBER:"' + FarmerPurchase.GPIL_BALE_NUMBER + '"}',
+                    contentType: "application/json; charset=utf-8",
+
+                    success: function (response) {
+                        if ($("#dynamic-tabl tr").length > 2) {
+                            row.remove();
+                        } else {
+                            row.find(".btnEdit").hide();
+                            row.find(".btnDelete").hide();
+                            row.find("span").html('&nbsp;');
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
+
+        var tblContent = "";
+        /**/
+
+        let data = $.parseJSON('@Html.Raw(Model.Data)');
+        var gethdnHEADER_ID = "";
+        for (var i = 0; i < data.Table.length; i++) {
+            var j = i + 1;
+            var GPIL_BALE_NUMBER = (data.Table[i].GPIL_BALE_NUMBER == null) ? "" : data.Table[i].GPIL_BALE_NUMBER;
+            var HEADER_ID = (data.Table[i].HEADER_ID == null) ? "" : data.Table[i].HEADER_ID;
+            gethdnHEADER_ID = HEADER_ID; // this gives textbox value
+            var TB_LOT_NO = (data.Table[i].TB_LOT_NO == null) ? "" : data.Table[i].TB_LOT_NO;
+            var TBGR_NO = (data.Table[i].TBGR_NO == null) ? "" : data.Table[i].TBGR_NO;
+            var TB_GRADE = (data.Table[i].TB_GRADE == null) ? "" : data.Table[i].TB_GRADE;
+            var NET_WT = (data.Table[i].NET_WT == null) ? "" : data.Table[i].NET_WT;
+            var RATE = (data.Table[i].RATE == null) ? "" : data.Table[i].RATE;
+            var BUYER_GRADE = (data.Table[i].BUYER_GRADE == null) ? "" : data.Table[i].BUYER_GRADE;
+            var REJE_TYPE = (data.Table[i].REJE_TYPE == null) ? "" : data.Table[i].REJE_TYPE;
+            var PATTA_CHARGE = (data.Table[i].PATTA_CHARGE == null) ? "" : data.Table[i].PATTA_CHARGE;
+            var IndexID = "" + j;
+            tblContent = tblContent + '<tr>'
+                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                + '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                + '<td class="trBg" style="text-align:center;"><span class="trBg">' + TB_LOT_NO + '</span><input class="text" value="' + TB_LOT_NO + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + TBGR_NO + '</span><input class="text" value="' + TBGR_NO + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + TB_GRADE + '</span><input class="text" value="' + TB_GRADE + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + NET_WT + '</span><input class="text" value="' + NET_WT + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + RATE + '</span><input class="text" value="' + RATE + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + BUYER_GRADE + '</span><input class="text" value="' + BUYER_GRADE + '" style="display:none"/></span></td>'
+                + '<td class="trBg"> <span class="trBg">' + REJE_TYPE + '</span><select class="text" id="ddlRejType" style="display:none"><option selected="selected" value="CR" >CR</option><option selected="selected" value="RR" >RR</option><option selected="selected" value="0" >NONE</option></select> </td>'
+                //+ '<td class="trBg"><span class="trBg">' + REJE_TYPE + '</span><input class="text" value="' + REJE_TYPE + '" style="display:none"/></span></td>'
+                + '<td class="trBg"><span class="trBg">' + PATTA_CHARGE + '</span><input class="text" value="' + PATTA_CHARGE + '" style="display:none"/></span></td>'
+
+                //+ '<td class="trBg"> <button id="btnEdit">Edit</button> <button id="btnDelete">Delete</button> </td>'
+                //<div><button class='editRow'>Edit row</button></div><div><button class='saveRow'>Save row</button></div>
+                + '<td class="trBg"><input class="text1" type="hidden" value="' + HEADER_ID + '"/></span><button class="btnEdit">Edit</button><button style="display:none" class="btnUpdate">Update</button><button class="btnDelete">Delete</button><button style="display:none" class="btnCancel">Cancel</button></td>'
+                + '</tr >';
+        }
+        $("#hdnHEADER_ID").val(gethdnHEADER_ID); // this will set hidden field value
+
+        //dt1.destroy();
+        $('#dynamic-tabl tbody').empty();
+        $('#dynamic-tabl tbody').append(tblContent);
+
+        var myTable = $('#dynamic-tabl')
+                            .DataTable({
+                                paging:true,
+                                bAutoWidth: false,
+                                sScrollX: 100,
+                                'order': [[0, 'asc']],
+                                "aoColumns": [
+                                    null, null, null, null, null, null, null, null, null, null,
+                                    {},
+                                ],
+                                select: {
+                                    style: 'multi'
+                                }
+                            });
+
+        new $.fn.dataTable.Buttons(myTable, {
+            buttons: [
+                    {
+                        "extend": "colvis",
+                        "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                        "className": "btn btn-white btn-primary btn-bold",
+
+                    },
+                    {
+                        "extend": "copy",
+                        "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "csv",
+                        "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "excel",
+                        "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "pdf",
+                        "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                        "className": "btn btn-white btn-primary btn-bold"
+                    },
+                    {
+                        "extend": "print",
+                        "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                        "className": "btn btn-white btn-primary btn-bold",
+                        autoPrint: false,
+                        message: 'This print was produced using the Print button for DataTables'
+                    }
+            ]
+        });
+        myTable.buttons().container().appendTo($('.tableTools-container'));
+
+        //style the message box
+        var defaultCopyAction = myTable.button(1).action();
+        myTable.button(1).action(function (e, dt, button, config) {
+            defaultCopyAction(e, dt, button, config);
+            $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+        });
+
+
+        var defaultColvisAction = myTable.button(0).action();
+        myTable.button(0).action(function (e, dt, button, config) {
+
+            defaultColvisAction(e, dt, button, config);
+
+
+            if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                $('.dt-button-collection')
+                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                    .find('a').attr('href', '#').wrap("<li />")
+            }
+            $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+        });
+
+
+
+        setTimeout(function () {
+            $($('.tableTools-container')).find('a.dt-button').each(function () {
+                var div = $(this).find(' > div').first();
+                if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                else $(this).tooltip({ container: 'body', title: $(this).text() });
+            });
+        }, 2000);
+
+
+        myTable.on('select', function (e, dt, type, index) {
+            if (type === 'row') {
+                $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+            }
+        });
+        myTable.on('deselect', function (e, dt, type, index) {
+            if (type === 'row') {
+                $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+            }
+        });
+
+
+
+
+        /////////////////////////////////
+        //table checkboxes
+        $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+        //select/deselect all rows according to table header checkbox
+        $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+            var th_checked = this.checked;//checkbox inside "TH" table header
+
+            $('#dynamic-tabl').find('tbody > tr').each(function () {
+                var row = this;
+                if (th_checked) myTable.row(row).select();
+                else myTable.row(row).deselect();
+            });
+        });
+
+        //select/deselect a row when the checkbox is checked/unchecked
+        $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+            var row = $(this).closest('tr').get(0);
+            if (this.checked) myTable.row(row).deselect();
+            else myTable.row(row).select();
+        });
+
+
+
+        $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        /**/
+
+
+
+
+    });
+
+
+</script>

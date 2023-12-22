@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d5c773e1844f47c8862834ac5c1dc8de" Name="Diagram1">
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.C_" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.BC_Batch_Details" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.BC_Batch_Header" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.BC_InterGrade" Width="1.5" PointX="6" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_3ROWDATA_DTLS" Width="1.5" PointX="5.25" PointY="251" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_3ROWDATA_HDR" Width="1.5" PointX="5.25" PointY="282.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_BANK_NAME_LIST" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_BG_INFORMATION" Width="1.5" PointX="5.25" PointY="302.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_BG_TRANSACTION" Width="1.5" PointX="8.25" PointY="303" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_BUYER_VS_CLASSIFIER_GRD_MASTER" Width="1.5" PointX="3" PointY="189.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLASSIFICATION_DTLS" Width="1.5" PointX="5.25" PointY="273.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLASSIFICATION_DTLS_TEMP" Width="1.5" PointX="8.25" PointY="276.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLASSIFICATION_HDR" Width="1.5" PointX="5.25" PointY="262.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLASSIFICATION_HDR_TEMP" Width="1.5" PointX="8.25" PointY="265.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLASSIFY_SUFFIX" Width="1.5" PointX="8.25" PointY="258.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CLUSTER_MASTER" Width="1.5" PointX="3" PointY="228.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_COMPANY_MASTER" Width="1.5" PointX="3" PointY="234.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_COMPETITION_DTLS" Width="1.5" PointX="8.25" PointY="226.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_COMPETITION_HDR" Width="1.5" PointX="8.25" PointY="285.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CROP_MASTER" Width="1.5" PointX="3" PointY="251.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CROP_TRANS_DTLS" Width="1.5" PointX="11.25" PointY="287.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CROP_TRANS_DTLS_TEMP" Width="1.5" PointX="11.25" PointY="277.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CROP_TRANS_HDR" Width="1.5" PointX="11.25" PointY="261.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_CROP_TRANS_HDR_TEMP" Width="1.5" PointX="11.25" PointY="253.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_DAILYSTOCK_BACKUP" Width="1.5" PointX="14.25" PointY="264.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FACTORY_DISPATCH_GRADE_DTLS" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_CROP_HISTORY" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_FREIGHT_CHARGE_MASTER" Width="1.5" PointX="19.5" PointY="273.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_FREIGHT_MASTER" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_LOAN_TRANSACTION" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_LOAN_TRANSACTIONS" Width="1.5" PointX="5.25" PointY="291.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_MASTER" Width="1.5" PointX="12" PointY="317.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_MASTER_backup" Width="1.5" PointX="12.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_MASTER_NEW" Width="1.5" PointX="8.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_PURCHASE_TRANSACTIONS" Width="1.5" PointX="14.25" PointY="282.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_PURCHS_REMARKS" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_VILLAGE_FREIGHT_MASTER" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FUMIGATION_DTLS" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FUMIGATION_DTLS_TEMP" Width="1.5" PointX="10.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FUMIGATION_HDR" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FUMIGATION_HDR_TEMP" Width="1.5" PointX="16.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_GRADING_DTLS" Width="1.5" PointX="22.5" PointY="272" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_GRADING_DTLS_TEMP" Width="1.5" PointX="22.5" PointY="280" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_GRADING_HDR" Width="1.5" PointX="14.25" PointY="290.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_GRADING_HDR_TEMP" Width="1.5" PointX="14.25" PointY="274" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_GRADING_NONSUFFIX_ITEM" Width="1.5" PointX="3" PointY="281.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_ITEM_MASTER" Width="1.5" PointX="3" PointY="286.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_MAX_MIN_VALUE" Width="1.5" PointX="12.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_OPERATION_RECIPE" Width="1.5" PointX="3" PointY="296.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_ORGN_MASTER" Width="1.5" PointX="3" PointY="303.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_PROCESS_ORDER_CAPTURE" Width="1.5" PointX="13.5" PointY="305.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_REJECTION_TYPE" Width="1.5" PointX="14.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_REMARKS" Width="1.5" PointX="16.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SERVICE_CHARGE_CHART" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SERVICE_CHARGE_INFO" Width="1.5" PointX="3" PointY="318.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SERVICE_CHARGE_MASTER" Width="1.5" PointX="3" PointY="324" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SHIP_MISS" Width="1.5" PointX="19.5" PointY="257" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SHIPMENT_DTLS" Width="1.5" PointX="22.5" PointY="263.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SHIPMENT_DTLS_TEMP" Width="1.5" PointX="25.5" PointY="284.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SHIPMENT_HDR" Width="1.5" PointX="14.25" PointY="252.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SHIPMENT_HDR_TEMP" Width="1.5" PointX="17.25" PointY="262.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SO_RESERVATION_DTLS" Width="1.5" PointX="25.5" PointY="276.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SO_RESERVATION_DTLS_TEMP" Width="1.5" PointX="25.5" PointY="268.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SO_RESERVATION_HDR" Width="1.5" PointX="17.25" PointY="251.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SO_RESERVATION_HDR_TEMP" Width="1.5" PointX="8.25" PointY="249" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SOIL_MASTER" Width="1.5" PointX="3" PointY="328.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_STACK_MASTER" Width="1.5" PointX="20.25" PointY="263.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_STOCK" Width="1.5" PointX="11.25" PointY="297.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SUBINVENTORY" Width="1.5" PointX="3" PointY="334.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SUPP_PURCHS_DTLS" Width="1.5" PointX="22.5" PointY="287.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SUPP_PURCHS_HDR" Width="1.5" PointX="17.25" PointY="282.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_SUPPLIER_MASTER" Width="1.5" PointX="3" PointY="342.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_TAP_FARM_PURCHS_DTLS" Width="1.5" PointX="28.5" PointY="288.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_TAP_FARM_PURCHS_HDR" Width="1.5" PointX="17.25" PointY="290.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_DTLS_1" Width="1.5" PointX="28.5" PointY="280.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_DTLS_1_TEMP" Width="1.5" PointX="28.5" PointY="272" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_DTLS_2" Width="1.5" PointX="17.25" PointY="274.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_DTLS_2_TEMP" Width="1.5" PointX="11.25" PointY="269.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_HDR" Width="1.5" PointX="20.25" PointY="281.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_HDR_TEMP" Width="1.5" PointX="20.25" PointY="294.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_THRESH_RECON_ISSUE_GRADE_DTLS" Width="1.5" PointX="18.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_USER_MASTER" Width="1.5" PointX="0.75" PointY="213" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_USER_RIGHTS" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_VARIETY_MASTER" Width="1.5" PointX="3" PointY="349.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_VARIETY_SEASON_MASTER" Width="1.5" PointX="8.25" PointY="296.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_VILLAGE_MASTER" Width="1.5" PointX="5.25" PointY="223.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mCas" Width="1.5" PointX="18.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mChemicalDetail" Width="1.5" PointX="18.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mCountry" Width="1.5" PointX="2.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mCropYear" Width="1.5" PointX="0.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mGrade" Width="1.5" PointX="0.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mJobType" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mLocation" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mRate" Width="1.5" PointX="4.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mStack" Width="1.5" PointX="3" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mSupplier" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mTransporter" Width="1.5" PointX="6" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mUser" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mVariety" Width="1.5" PointX="20.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mWebSetting" Width="1.5" PointX="20.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.sysdiagram" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tBarcodeDetail" Width="1.5" PointX="20.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tCaseDetail" Width="1.5" PointX="5.25" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tDispatchDetail" Width="1.5" PointX="8.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tDispatchNote" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tFactoryDetail" Width="1.5" PointX="10.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tMaxLP5" Width="1.5" PointX="3" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tPrintAllocation" Width="1.5" PointX="12.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.BC_ERP_IOT_DTL" Width="1.5" PointX="14.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.BC_WMS_LEAF_ASN_D" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_BG_INFO" Width="1.5" PointX="5.25" PointY="355.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_Chemical_Targets" Width="1.5" PointX="22.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_Chemistry_Reports" Width="1.5" PointX="7.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FARMER_FATHERS_NAME" Width="1.5" PointX="22.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_FINANCIAL_YEAR" Width="1.5" PointX="22.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_LOG" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_PPGRD_MASTER" Width="1.5" PointX="22.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_PROJECT_FORMS" Width="1.5" PointX="24.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_RATE_MASTER" Width="1.5" PointX="24.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_Subsidue_Master" Width="1.5" PointX="24.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.GPIL_USER_PERMISSION" Width="1.5" PointX="24.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.ITEM_MASTER" Width="1.5" PointX="9.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.mDownloadTable" Width="1.5" PointX="24.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.temp1" Width="1.5" PointX="24.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.temp2" Width="1.5" PointX="18.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tempUploading" Width="1.5" PointX="24.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.tVersionDetail" Width="1.5" PointX="20.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GREEN_LEAF_TRACEABILITYModel.HS_TRANSACTION_LOG" Width="1.5" PointX="22.75" PointY="24.75" IsExpanded="true" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_Batch_Details_BC_Batch_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_Batch_Header_mCropYears" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_Batch_Header_mGrades" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_Batch_Header_mLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_InterGrade_mGrades" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_InterGrade_mGrades1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_BC_InterGrade_mLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__CREAT__3EA749C6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__CREAT__489AC854" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__HEADE__3F9B6DFF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__HEADE__498EEC8D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__TB_GR__408F9238" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__TB_GR__4A8310C6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__BUYER__4183B671" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__BUYER__4B7734FF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__CREAT__4277DAAA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__CREAT__4C6B5938" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__ORGN___436BFEE3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__ORGN___4D5F7D71" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__VARIE__4460231C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROW__VARIE__4E53A1AA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROWD__CROP__45544755" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_3ROWD__CROP__4F47C5E3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_I__ORGN___6DEC4894" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_I__VARIE__6EE06CCD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_IN__CROP__6FD49106" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_T__ORGN___74994623" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_T__VARIE__758D6A5C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_TR__CROP__76818E95" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BUYE__CREAT__1CA7377D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BUYE__CREAT__1D9B5BB6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__BATCH__2FEF161B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CLASS__153B1FDF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CREAT__004002F9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__FROM___01342732" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__GPIL___031C6FA4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__BATCH__30E33A54" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CLASS__4C0144E4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CREAT__4CF5691D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__FROM___4DE98D56" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__GPIL___4EDDB18F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CLASS__0504B816" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__ORGN___08D548FA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__RECIP__0ABD916C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CLASS__53A266AC" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CREAT__54968AE5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__ORGN___558AAF1E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__RECIP__567ED357" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CREAT__5772F790" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__CREAT__625A9A57" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__RECIP__58671BC9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLAS__RECIP__634EBE90" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLUS__CREAT__595B4002" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLUS__CREAT__61516785" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLUS__CREAT__62458BBE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CLUS__CREAT__6442E2C9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VILL__CLUST__6521F869" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VILL__CLUST__66161CA2" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__COMPA__5B438874" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__COMPA__662B2B3B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__5A4F643B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__65370702" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__5C37ACAD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__671F4F74" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__HEADE__5D2BD0E6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__HEADE__681373AD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__BUYER__5E1FF51F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__BUYER__690797E6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__5F141958" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__CREAT__69FBBC1F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__ORGN___60083D91" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__ORGN___6AEFE058" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__VARIE__60FC61CA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMP__VARIE__6BE40491" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMPE__CROP__61F08603" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_COMPE__CROP__6CD828CA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__62E4AA3C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__6DCC4D03" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_C__689D8392" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_C__7132C993" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARME__CROP__2E90DD8E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARME__CROP__3631FF56" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARME__CROP__3EC74557" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRADI__CROP__0EC32C7A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRADI__CROP__15702A09" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOCK__CROP__3AA1AEB8" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOCK__CROP__4589517F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP___CROP__3C89F72A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP___CROP__4336F4B9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP_F__CROP__4EA8A765" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP_F__CROP__536D5C82" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRES__CROP__5FD33367" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRES__CROP__6497E884" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRES__CROP__6A50C1DA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRES__CROP__70099B30" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARIE__CROP__75E27017" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__BATCH__32CB82C6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__64CCF2AE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__FROM___65C116E7" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__NEW_B__66B53B20" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_B__67A95F59" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_G__6991A7CB" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_V__6A85CC04" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__TO_SU__6B79F03D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__BATCH__31D75E8D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__6D6238AF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__FROM___6E565CE8" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__NEW_B__6F4A8121" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_B__703EA55A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_G__7226EDCC" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__OLD_V__731B1205" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__TO_SU__740F363E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CLASS__75035A77" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__00DF2177" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__ORGN___01D345B0" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__RECIP__02C769E9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CLASS__03BB8E22" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__CREAT__04AFB25B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__ORGN___05A3D694" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_CROP__RECIP__0697FACD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_DAIL__CREAT__226010D3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_DAIL__ORGN___2354350C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__CREAT__2AC04CAA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__ORGN___2BB470E3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__VARIE__2CA8951C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__VILLA__2D9CB955" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__CREAT__335592AB" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__FARM___3449B6E4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__VARIE__353DDB1D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__FARM___3BEAD8AC" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__CREAT__3AF6B473" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__ORGN___3CDEFCE5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_FARM__VARIE__3DD3211E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__BATCH__34B3CB38" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__00750D23" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__GPIL___0169315C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__GRADE__025D5595" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__SUBIN__035179CE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__BATCH__33BFA6FF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__0539C240" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__GPIL___062DE679" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__GRADE__07220AB2" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__SUBIN__08162EEB" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__090A5324" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__ISSUE__09FE775D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__ORGN___0AF29B96" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__RECIP__0BE6BFCF" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__SUPER__0CDAE408" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__VARIE__0DCF0841" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__0FB750B3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__ISSUE__10AB74EC" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__ORGN___119F9925" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__RECIP__1293BD5E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__SUPER__1387E197" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__VARIE__147C05D0" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__0B47A151" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_GRAD__CREAT__0C3BC58A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_ITEM__CREAT__16644E42" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_ITEM__CREAT__214BF109" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__BUYER__36D11DD4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__BUYER__41B8C09B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__GRADE__3F6663D5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___BUYER__48EFCE0F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__GRADE__5B0E7E4A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__PACKE__62AFA012" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_OPER__CREAT__1758727B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_OPER__CREAT__22401542" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__RECIP__6774552F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__RECIP__6D2D2E85" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_BG_I__ORGN___503BEA1C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_ORGN__CREAT__184C96B4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_ORGN__CREAT__2334397B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_PROC__ORGN___1A34DF26" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_PROC__ORGN___251C81ED" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__SENDE__2D47B39A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__SENDE__33008CF0" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__SENDE__0F4D3C5F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__SENDE__7B113988" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STAC__ORGN___35DCF99B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STAC__ORGN___40C49C62" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__CURR___37C5420D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__CURR___42ACE4D4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__ORIGN__38B96646" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__ORIGN__43A1090D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__RECEV__46136164" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___ORGN___51851410" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__ORGN___668030F6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__ORGN___6C390A4C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_PROC__GPIL___1466F737" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_PROC__GPIL___155B1B70" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SERV__CREAT__16B953FD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SERV__CREAT__17AD7836" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SERV__CREAT__1B29035F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SERV__CREAT__2610A626" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__1C1D2798" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__2704CA5F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__GPIL___1D114BD1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__GPIL___27F8EE98" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__SHIPM__1E05700A" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__SHIPM__28ED12D1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__1EF99443" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__FROM___20E1DCB5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__GPIL___21D600EE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__LAST___22CA2527" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__24B26D99" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__FROM___269AB60B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__GPIL___278EDA44" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__LAST___2882FE7D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__297722B6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__LAST___2B5F6B28" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__RECEI__373B3228" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__SENT___3A179ED3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__CREAT__30242045" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SHIP__LAST___320C68B7" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__CREAT__150615B5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__FROM___15FA39EE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__GPIL___16EE5E27" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__LAST___17E28260" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__CREAT__338A9CD5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__FROM___347EC10E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__GPIL___3572E547" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__LAST___36670980" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__CREAT__0C70CFB4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__LAST___0D64F3ED" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__RECEI__0E591826" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__SENT___10416098" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SO_R__CREAT__7C055DC1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SOIL__CREAT__33F4B129" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SOIL__CREAT__3EDC53F0" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SOIL__CREAT__6339AFF7" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SOIL__CREAT__642DD430" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STAC__CREAT__34E8D562" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STAC__CREAT__3FD07829" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__VARIE__39AD8A7F" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_STOC__VARIE__44952D46" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__GPIL___3E723F9C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___GPIL___4AD81681" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__GPIL___5649C92D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__GPIL___5A1A5A11" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUBI__CREAT__3B95D2F1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUBI__CREAT__467D75B8" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__SUBIN__414EAC47" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___SUBIN__4CC05EF3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__SUBIN__573DED66" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__SUBIN__5C02A283" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__CREAT__3D7E1B63" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__HEADE__405A880E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__VARIE__4242D080" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__BUYER__442B18F2" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__CREAT__451F3D2B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__VARIE__4707859D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__CREAT__47FBA9D6" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_SUPP__CREAT__52E34C9D" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___CREAT__49E3F248" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___HEADE__4BCC3ABA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___VARIE__4DB4832C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___BUYER__4F9CCB9E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___CREAT__5090EFD7" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_TAP___VARIE__52793849" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__BATCH__379037E3" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__5555A4F4" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__BATCH__35A7EF71" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__592635D8" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__BATCH__38845C1C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__5DEAEAF5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__VARIE__5EDF0F2E" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__BATCH__369C13AA" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__61BB7BD9" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__VARIE__63A3C44B" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__658C0CBD" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__SHIFT__68687968" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__VARIE__695C9DA1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__CREAT__6B44E613" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__SHIFT__6E2152BE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_THRE__VARIE__6F1576F7" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARI__CREAT__70FDBF69" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARI__CREAT__7306036C" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARI__CREAT__73FA27A5" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARI__CREAT__7BE56230" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VILL__CREAT__670A40DB" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VILL__CREAT__67FE6514" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK__GPIL_VARI__VARIE__74EE4BDE" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_DispatchNotes_mLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_DispatchNotes_mLocations1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_mStacks_mLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_tMaxLP5_mLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_CasesDetails_mStacks1" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_tDispatchDetails_mTransporters" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_tDispatchNotes_mUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="GREEN_LEAF_TRACEABILITYModel.FK_tDispatchDetails_tDispatchNotes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

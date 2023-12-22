@@ -1,0 +1,75 @@
+﻿@model GPILWebApp.Models.GPIL_Chemistry_Reports
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GPIL_Chemistry_Reports</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceOrganisation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceOrganisation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attrbute1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attrbute1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attrbute2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attrbute2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attribute3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attribute3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attribute4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attribute4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attribute5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attribute5)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

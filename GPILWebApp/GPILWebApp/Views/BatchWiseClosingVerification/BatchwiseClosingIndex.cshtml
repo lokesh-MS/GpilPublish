@@ -1,0 +1,286 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "BatchwiseClosingIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Batch-Wise Closing</h2>
+
+<hr />
+@*<hr style="border-color:aqua" />*@
+
+
+@*style="background-color:#438EB9;color:white;font-weight:normal;font-size:14px"*@
+
+<div class="row">
+    <div class="col-sm-1">
+        <div class="sm-1">
+
+        </div>
+    </div>
+
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+
+
+            <input type="radio" name="radio" value="Dispatch" /> Dispatch
+        </div>
+
+    </div>
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Receipt" /> Receipt
+
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Classification" /> Classification
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Crop_Transfer" /> Crop_Transfer
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Grade_Transfer" /> Grade_Transfer
+        </div>
+    </div>
+    @*<div class="col-sm-1">
+            <div class="sm-1">
+
+            </div>
+        </div>*@
+
+</div>
+
+@*<hr style="border-color:aqua" />*@
+
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+    <div class="col-sm-1">
+        <div class="sm-1">
+
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Grading" /> Grading
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Threshing" /> Threshing
+        </div>
+    </div>
+
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Sales" /> Sales
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Fumigation" /> Fumigation
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Threshing_WMS_Receipt" /> Threshing_WMS_Receipt
+        </div>
+    </div>
+    <div class="col-sm-1">
+        <div class="sm-1">
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label>Reference_No</label>
+            <select class="form-control" id="ddlRefereneNumber"></select>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+
+            <button type="reset" value="Submit" id="btnClose" class="btn btn-sm btn-success">
+                Close
+            </button>
+
+        </div>
+    </div>
+
+
+
+</div>
+<hr />
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+
+        $('input:radio[name="radio"]').change(function (event) {
+            debugger;
+            var Status = $("[name=radio]:checked").val();
+            GetBatchClosingDetails(Status);
+        });
+
+
+
+        function GetBatchClosingDetails(StatusButton) {
+            $('#ddlRefereneNumber').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT SHIPMENT NUMBER</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/BatchWiseClosingVerification/GetReferenceNumber',
+                data: { statusButton: StatusButton },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].REF + '</option>';
+                    }
+                    $('#ddlRefereneNumber').append(tblContent);
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+        }
+
+        // Batch Closing Button Event
+
+        $('#btnClose').on('click', function (event) {
+
+            var RefNo = $('#ddlRefereneNumber').val();
+            var Status = $("[name=radio]:checked").val();
+            RefNo = (RefNo == "0") ? "" : RefNo;
+            GetBatchClosingDtls(RefNo, Status);
+
+        });
+
+        function GetBatchClosingDtls(RefNO, StatusButton) {
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/BatchWiseClosingVerification/BatchWiseClosingFinal',
+                data: { refNo: RefNO, statusButton: StatusButton },
+                success: function (response) {
+                    if (response.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(response, "error");
+                    }
+                    else if (response.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + response, "success");
+                    }
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+
+        }
+
+
+
+
+
+    });
+
+
+
+</script>

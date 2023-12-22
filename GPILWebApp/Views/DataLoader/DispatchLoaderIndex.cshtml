@@ -1,0 +1,492 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.DataLoader.Dispatch>
+@{
+    ViewBag.Root = "Loader";
+    ViewBag.Title = "DispatchLoaderIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">Dispatch Loader</h2>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Clear" id="btnClear" style="width:95px" class="btn btn-success btn-sm" />
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div><label></label></div>
+            <input type="checkbox" id="chkPSW" name="ChkBox" value="chkPSW" />PSW
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <div class="sm-3">
+            <label></label>
+        </div>
+    </div>
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<hr />
+
+<div class="row">
+    <div class="col-xs-12">
+        @*<h3 class="header smaller lighter blue">DISPATCH LOADER</h3>*@
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "DISPATCH DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+
+
+                        <th>SNO</th>
+                        <th>SHIPMENT_NO</th>
+                        <th>SENDER_ORG_CODE</th>
+                        <th>RECEIVER_ORG_CODE</th>
+                        <th>SEND_BY</th>
+                        <th>SENDER_TRUCK_NO</th>
+                        <th>RC_NO</th>
+                        <th>DRIVER_NAME</th>
+                        <th>DRIVING_LICENCE_NO</th>
+                        <th>TRANSPORT_NAME </th>
+                        <th>FRIEGHT_CHARGES</th>
+                        <th>GPIL_BALE_NUMBER</th>
+                        <th>FROM_SUBINVENTORY_CODE</th>
+                        <th>TO_SUBINVENTORY_CODE</th>
+                        <th>LOADING_DATETIME </th>
+                        <th>INS_STS</th>
+
+
+                        <th>Add/Edit/Update/Delete </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="loader">
+</div>
+
+<div class="row">
+    <label></label>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="sm-3">
+
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="sm-3">
+
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="sm-3">
+
+
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Close" id="btnBack" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="sm-3">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+    $(document).ready(function () {
+        //alert("hi")
+        $('.alert').hide();
+        var spinner = $('#loader');
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+        $('#btnBack').on('click', function (event) {
+
+
+            window.location = "/Home/Index";
+            dt1.destroy();
+
+
+        });
+
+
+
+        $('#btnClear').on('click', function (event) {
+            $('#txtExcelData').val('');
+
+            window.location = "/DataLoader/DispatchLoaderIndex";
+            dt1.destroy();
+
+
+        });
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+        $('#btnSubmit').on('click', function (event) {
+           // alert("hi")
+            var DispatchList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (DispatchList.length > 0) {
+            formData.append('postedFile', DispatchList[0]);
+            GetDispatch(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+        function GetDispatch(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'POST',
+                url: '/DataLoader/ImportDFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+
+                    var gethdnSHIPMENT_NO = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+
+
+                        var SHIPMENT_NO = (data[i].SHIPMENT_NO == null) ? "" : data[i].SHIPMENT_NO;
+
+                        gethdnSHIPMENT_NO = SHIPMENT_NO; // this gives textbox value
+                        var SENDER_ORG_CODE = (data[i].SENDER_ORG_CODE == null) ? "" : data[i].SENDER_ORG_CODE;
+                        var RECEIVER_ORG_CODE = (data[i].RECEIVER_ORG_CODE == null) ? "" : data[i].RECEIVER_ORG_CODE;
+                        var SEND_BY = (data[i].SEND_BY == null) ? "" : data[i].SEND_BY;
+                        var SENDER_TRUCK_NO = (data[i].SENDER_TRUCK_NO == null) ? "" : data[i].SENDER_TRUCK_NO;
+                        var RC_NO = (data[i].RC_NO == null) ? "" : data[i].RC_NO;
+                        var DRIVER_NAME = (data[i].DRIVER_NAME == null) ? "" : data[i].DRIVER_NAME;
+                        var DRIVING_LICENCE_NO = (data[i].DRIVING_LICENCE_NO == null) ? "" : data[i].DRIVING_LICENCE_NO;
+                        var TRANSPORT_NAME = (data[i].TRANSPORT_NAME == null) ? "" : data[i].TRANSPORT_NAME;
+                        var FRIEGHT_CHARGES = (data[i].FRIEGHT_CHARGES == null) ? "" : data[i].FRIEGHT_CHARGES;
+                        var GPIL_BALE_NUMBER = (data[i].GPIL_BALE_NUMBER == null) ? "" : data[i].GPIL_BALE_NUMBER;
+                        var FROM_SUBINVENTORY_CODE = (data[i].FROM_SUBINVENTORY_CODE == null) ? "" : data[i].FROM_SUBINVENTORY_CODE;
+                        var TO_SUBINVENTORY_CODE = (data[i].TO_SUBINVENTORY_CODE == null) ? "" : data[i].TO_SUBINVENTORY_CODE;
+                        var LOADING_DATETIME = (data[i].LOADING_DATETIME == null) ? "" : data[i].LOADING_DATETIME;
+                        var INS_STS = (data[i].INS_STS == null) ? "" : data[i].INS_STS;
+
+
+                        if (SHIPMENT_NO == "" || SENDER_ORG_CODE == "" || RECEIVER_ORG_CODE == "" || SEND_BY == "" || SENDER_TRUCK_NO == "" || RC_NO == "" ||
+                           DRIVER_NAME == "" || DRIVING_LICENCE_NO == "" || TRANSPORT_NAME == "" || FRIEGHT_CHARGES == "" || GPIL_BALE_NUMBER == "" || FROM_SUBINVENTORY_CODE == "" || TO_SUBINVENTORY_CODE == "" || INS_STS == "")
+                        {
+                            bootstrap_alert.warning('Empty In Data Which Have Provided Please verify red color rows', "error");
+                            tblContent = tblContent + '<tr style="background-color:Red;color:Black">'
+                                                        + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                                        @*select SHIPMENT_NO, SENDER_ORG_CODE, RECEIVER_ORG_CODE, SEND_BY, SENDER_TRUCK_NO, RC_NO, DRIVER_NAME, DRIVING_LICENCE_NO,
+                                                    TRANSPORT_NAME, FRIEGHT_CHARGES, GPIL_BALE_NUMBER, FROM_SUBINVENTORY_CODE, TO_SUBINVENTORY_CODE, LOADING_DATETIME,'V' AS INS_STS*@
+                                                        + '<td class="trBg"><span class="trBg">' + SHIPMENT_NO + '</span><input class="text" value="' + SHIPMENT_NO + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + SENDER_ORG_CODE + '</span><input class="text" value="' + SENDER_ORG_CODE + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + RECEIVER_ORG_CODE + '</span><input class="text" value="' + RECEIVER_ORG_CODE + '" style="display:none"/></span></td>'
+
+                                                        + '<td class="trBg"><span class="trBg">' + SEND_BY + '</span><input class="text" value="' + SEND_BY + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + SENDER_TRUCK_NO + '</span><input class="text" value="' + SENDER_TRUCK_NO + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + RC_NO + '</span><input class="text" value="' + RC_NO + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + DRIVER_NAME + '</span><input class="text" value="' + DRIVER_NAME + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + DRIVING_LICENCE_NO + '</span><input class="text" value="' + DRIVING_LICENCE_NO + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + TRANSPORT_NAME + '</span><input class="text" value="' + TRANSPORT_NAME + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + FRIEGHT_CHARGES + '</span><input class="text" value="' + FRIEGHT_CHARGES + '" style="display:none"/></span></td>'
+
+                                                        + '<td class="trBg"><span class="trBg">' + GPIL_BALE_NUMBER + '</span><input class="text" value="' + GPIL_BALE_NUMBER + '" style="display:none"/></span></td>'
+
+                                                        + '<td class="trBg"><span class="trBg">' + FROM_SUBINVENTORY_CODE + '</span><input class="text" value="' + FROM_SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + TO_SUBINVENTORY_CODE + '</span><input class="text" value="' + TO_SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+
+                                                        + '<td class="trBg"><span class="trBg">' + LOADING_DATETIME + '</span><input class="text" value="' + LOADING_DATETIME + '" style="display:none"/></span></td>'
+                                                        + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none"/></span></td>'
+
+
+                                                        + '<td class="trBg"><input class="text1" type="hidden" value="' + SHIPMENT_NO + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                                                        + '</tr >';
+                        }
+                        else
+                        {
+                            tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            @*select SHIPMENT_NO, SENDER_ORG_CODE, RECEIVER_ORG_CODE, SEND_BY, SENDER_TRUCK_NO, RC_NO, DRIVER_NAME, DRIVING_LICENCE_NO,
+                        TRANSPORT_NAME, FRIEGHT_CHARGES, GPIL_BALE_NUMBER, FROM_SUBINVENTORY_CODE, TO_SUBINVENTORY_CODE, LOADING_DATETIME,'V' AS INS_STS*@
+                            + '<td class="trBg"><span class="trBg">' + SHIPMENT_NO + '</span><input class="text" value="' + SHIPMENT_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_ORG_CODE + '</span><input class="text" value="' + SENDER_ORG_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + RECEIVER_ORG_CODE + '</span><input class="text" value="' + RECEIVER_ORG_CODE + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + SEND_BY + '</span><input class="text" value="' + SEND_BY + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SENDER_TRUCK_NO + '</span><input class="text" value="' + SENDER_TRUCK_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + RC_NO + '</span><input class="text" value="' + RC_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVER_NAME + '</span><input class="text" value="' + DRIVER_NAME + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DRIVING_LICENCE_NO + '</span><input class="text" value="' + DRIVING_LICENCE_NO + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TRANSPORT_NAME + '</span><input class="text" value="' + TRANSPORT_NAME + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + FRIEGHT_CHARGES + '</span><input class="text" value="' + FRIEGHT_CHARGES + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + GPIL_BALE_NUMBER + '</span><input class="text" value="' + GPIL_BALE_NUMBER + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + FROM_SUBINVENTORY_CODE + '</span><input class="text" value="' + FROM_SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TO_SUBINVENTORY_CODE + '</span><input class="text" value="' + TO_SUBINVENTORY_CODE + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + LOADING_DATETIME + '</span><input class="text" value="' + LOADING_DATETIME + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none"/></span></td>'
+
+
+                            + '<td class="trBg"><input class="text1" type="hidden" value="' + SHIPMENT_NO + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+
+}
+
+
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+                    var myTable1 =
+                      $('#dynamic-tabl')
+                          //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                          .DataTable({
+                              "bLengthChange": true,
+                              "paging": false,
+                              "jQueryUI": true,
+                              bAutoWidth: false,
+                              "sScrollY": "250px",
+                              "sScrollX": "100%",
+                              "sScrollXInner":"100%",
+                              'order': [[0, 'asc']],
+                              "aoColumns": [
+                                  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                                  { "bSortable": false },
+
+                                  // { "bSortable": false }
+                              ],
+                              "aaSorting": [],
+
+
+                              select: {
+                                  style: 'multi'
+                              }
+                          });
+
+
+                },
+            });
+        }
+
+        $('#btnComplete').on('click', function () {
+            var DispatchList = $("#txtExcelData").get(0).files;
+            if (DispatchList.length > 0) {
+            var chkPSW = $("#chkPSW").is(':checked');
+            var generation = {};
+            var Dispatchs = new Array();
+            $("#dynamic-tabl tbody tr").each(function () {
+
+                @*select SHIPMENT_NO, SENDER_ORG_CODE, RECEIVER_ORG_CODE, SEND_BY, SENDER_TRUCK_NO, RC_NO, DRIVER_NAME, DRIVING_LICENCE_NO,
+                TRANSPORT_NAME, FRIEGHT_CHARGES, GPIL_BALE_NUMBER, FROM_SUBINVENTORY_CODE, TO_SUBINVENTORY_CODE, LOADING_DATETIME,'V' AS INS_STS*@
+
+                var row = $(this);
+                var Dispatch = {};
+                Dispatch.SNO = row.find("td:eq(0)")[0].innerText;
+                Dispatch.SHIPMENT_NO = row.find("td:eq(1)")[0].innerText;
+                Dispatch.SENDER_ORG_CODE = row.find("td:eq(2)")[0].innerText;
+                Dispatch.RECEIVER_ORG_CODE = row.find("td:eq(3)")[0].innerText;
+                Dispatch.SEND_BY = row.find("td:eq(4)")[0].innerText;
+                Dispatch.SENDER_TRUCK_NO = row.find("td:eq(5)")[0].innerText;
+
+                Dispatch.RC_NO = row.find("td:eq(6)")[0].innerText;
+                Dispatch.DRIVER_NAME = row.find("td:eq(7)")[0].innerText;
+                Dispatch.DRIVING_LICENCE_NO = row.find("td:eq(8)")[0].innerText;
+                Dispatch.TRANSPORT_NAME = row.find("td:eq(9)")[0].innerText;
+                Dispatch.FRIEGHT_CHARGES = row.find("td:eq(10)")[0].innerText;
+
+                Dispatch.GPIL_BALE_NUMBER = row.find("td:eq(11)")[0].innerText;
+                Dispatch.FROM_SUBINVENTORY_CODE = row.find("td:eq(12)")[0].innerText;
+
+                Dispatch.TO_SUBINVENTORY_CODE = row.find("td:eq(13)")[0].innerText;
+                Dispatch.LOADING_DATETIME = row.find("td:eq(14)")[0].innerText;
+                Dispatch.INS_STS = row.find("td:eq(15)")[0].innerText;
+
+                Dispatchs.push(Dispatch);
+            });
+                if (Dispatchs.length > 0) {
+            generation.Dispatchs = Dispatchs;
+            generation.chkPSW = chkPSW;
+            spinner.show();
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/DataLoader/DispatchComplete",
+                data: JSON.stringify(generation),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //$('#postedFile').val() = "";
+                    //alert("Successfully");
+                    if (response.startsWith("Error", 1)) {
+                       // bootstrap_alert.warning(response, "error");
+                        sweetAlert("Oops...!!!", response, "error");
+                        spinner.hide();
+                    }
+                    else {
+                        if (response.startsWith("Error", 1)) {
+                           // bootstrap_alert.warning(response, "error");
+                            sweetAlert("Oops...!!!", response, "error");
+                        }
+                        else if (response.startsWith("Success", 1)) {
+                            sweetAlert("Done", response, "success");
+
+                            window.location = "/DataLoader/DispatchLoaderIndex";
+                            //bootstrap_alert.warning(response, "success");
+                        }
+                        spinner.hide();
+                    }
+                },
+                error: function (msg) {
+                    //alert(msg);
+                }
+            });
+        }
+        else {
+                bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+    }
+
+    } else {
+            bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+    }
+    });
+
+
+
+
+    });
+</script>

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Root = "Quality Lab";
+    ViewBag.Title = "ChemistryDataIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">CHEMISTRY DATA INDEX</h2>
+<hr />
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ManualIndex", "QualityLab") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "QualityLab") + "'");" class="btn btn-success btn-sm"> Excel Upload</button>
+    @*<button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Excel Upload </button>*@
+</p>

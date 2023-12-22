@@ -1,0 +1,390 @@
+﻿
+@{
+    ViewBag.Root = "GLT";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align:center; color:#438EB9">SCRAP MOISTURE</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="col-sm-3">
+
+
+            
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+            
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="col-sm-3">
+
+
+            <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GLTScrapMoisture") + "'");" class="btn btn-success btn-sm"> Import From Excel</button>
+        </div>
+
+    </div>
+
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Crop</label>
+            <div>
+                <select class="form-control" id="ddlCrop">
+                    <option value="0">SELECT CROP CODE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Variety</label>
+            <div>
+                <select class="form-control" id="ddlVariety">
+                    <option value="0">SELECT VARIETY</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Strip Grade</label>
+            <div>
+                <select class="form-control" id="ddlStripGrade">
+                    <option value="0">SELECT STRIP GRADE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Scrap Grade</label>
+            <div>
+                <select class="form-control" id="ddlScrapGrade">
+                    <option value="0">SELECT SCRAP GRADE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <label> </label>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Date</label>
+            <input class="form-control date-picker" id="txtFromDate" type="date" data-date-format="dd-mm-yyyy" />
+
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Sample Time</label>
+            <input class="form-control" id="txtSampleTime" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Run No</label>
+            <input class="form-control" id="txtRunNo" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Case Run No</label>
+            <input class="form-control" id="txtCaseRunNo" />
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="row">
+    <label> </label>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Acc Case No</label>
+            <input class="form-control" id="txtAccCaseNo" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Moisture Result</label>
+            <input class="form-control" id="txtMoistureResult" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sm-3">
+            <label>Case Temperature</label>
+            <input class="form-control" id="txtCaseTemperature" />
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="row">
+    <label> </label>
+</div>
+
+<div class="row">
+
+   
+    
+        <div class="col-md-6">
+
+            <button type="button" role="button" id="btnSubmit" class="btn btn-success btn-sm"> Save</button>
+            <button type="button" role="button" id="btnClear" class="btn btn-success btn-sm"> Clear</button>
+            <button type="button" role="button" class="btn btn-success btn-sm"> Close</button>
+        </div>
+
+    
+
+    
+    
+
+</div>
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+
+    GetCropCode();
+    GetScrapGrade();
+    GetVarietyCode();
+    GetStripGrade();
+
+
+
+    function GetCropCode() {
+        $('#ddlCrop').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTScrapMoisture/CropCode',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].CROP_YEAR + '</option>';
+                }
+                $('#ddlCrop').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+    function GetScrapGrade() {
+        $('#ddlScrapGrade').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT SCRAP GRADE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTScrapMoisture/ScrapGrade',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].ITEM_CODE + '</option>';
+                }
+                $('#ddlScrapGrade').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+    function GetVarietyCode() {
+        $('#ddlVariety').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT VARIETY</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTScrapMoisture/VarietyCode',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].VARIETY_TYPE + '</option>';
+                }
+                $('#ddlVariety').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+
+    function GetStripGrade() {
+        $('#ddlStripGrade').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT STRIP GRADE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/GLTScrapMoisture/StripGrade',
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option>' + data[i].ITEM_CODE + '</option>';
+                }
+                $('#ddlStripGrade').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+       
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var CropList = $('#ddlCrop').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+            var StripGradeList = $('#ddlStripGrade').val();
+            StripGradeList = (StripGradeList == "0") ? "" : StripGradeList;
+            var ScrapGradeList = $('#ddlScrapGrade').val();
+            ScrapGradeList = (ScrapGradeList == "0") ? "" : ScrapGradeList;
+            var DateList = $('#txtFromDate').val();
+            DateList = (DateList == "0") ? "" : DateList;
+            var SampleTimeList = $('#txtSampleTime').val();
+            SampleTimeList = (SampleTimeList == "0") ? "" : SampleTimeList;
+            var RunNoList = $('#txtRunNo').val();
+            RunNoList = (RunNoList == "0") ? "" : RunNoList;
+            var CaseRunNoList = $('#txtCaseRunNo').val();
+            CaseRunNoList = (CaseRunNoList == "0") ? "" : CaseRunNoList;
+            var AccCaseNoList = $('#txtAccCaseNo').val();
+            AccCaseNoList = (AccCaseNoList == "0") ? "" : AccCaseNoList;
+            var MoistureRsltlList = $('#txtMoistureResult').val();
+            MoistureRsltlList = (MoistureRsltlList == "0") ? "" : MoistureRsltlList;
+            var CaseTempList = $('#txtCaseTemperature').val();
+            CaseTempList = (CaseTempList == "0") ? "" : CaseTempList;
+            GetInsertScrapMoistureDetails(CropList, VarietyList, StripGradeList, ScrapGradeList, DateList, SampleTimeList, RunNoList, CaseRunNoList, AccCaseNoList, MoistureRsltlList, CaseTempList);
+        });
+
+        function GetInsertScrapMoistureDetails(Crop, Variety, StripGrade, ScrapGrade, Date, SampleTime, RunNo, CaseRunNo, AccCaseNo, MoistureRsltl, CaseTemp) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/GLTScrapMoisture/InsertScrapMoisture',
+                data: { crop: Crop, variety: Variety, stripGrade: StripGrade, scrapGrade: ScrapGrade, date: Date, sampleTime: SampleTime, runNo: RunNo, caseRunNo: CaseRunNo, accCaseNo: AccCaseNo, moistureRsltl: MoistureRsltl, caseTemp: CaseTemp },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                        Clear();
+                    }
+                },
+                error: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg.responseText, "error");
+                    }
+                    
+                }
+            });
+        }
+
+
+
+
+        function Clear() {
+            GetCropCode();
+            GetScrapGrade();
+            GetVarietyCode();
+            GetStripGrade();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtRunNo').val('');
+            $('#txtCaseRunNo').val('');
+            $('#txtAccCaseNo').val('');
+            $('#txtMoistureResult').val('');
+            $('#txtCaseTemperature').val('');
+        }
+
+
+        $('#btnClear').on('click', function (event) {
+            GetCropCode();
+            GetScrapGrade();
+            GetVarietyCode();
+            GetStripGrade();
+            $('#txtFromDate').val('');
+            $('#txtSampleTime').val('');
+            $('#txtRunNo').val('');
+            $('#txtCaseRunNo').val('');
+            $('#txtAccCaseNo').val('');
+            $('#txtMoistureResult').val('');
+            $('#txtCaseTemperature').val('');
+        });
+    });
+
+
+</script>

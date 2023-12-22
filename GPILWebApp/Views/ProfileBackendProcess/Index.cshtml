@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Root = "Profile";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">BACKEND PROCESS</h2>
+<hr />
+
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <label style="color: #438EB9;font-weight:bold" >Shipment Number:</label>
+
+        <input class="form-control" id="txtShipmentNumber" />
+    </div>
+
+    <div class="col-md-6">
+        <center> <label style="color: #438EB9;font-weight:bold">Select Report Type</label></center>
+        <div class="col-md-2"></div>
+        <div class="col-md-4"> <input type="radio" name="radio" value="WMSDISPATCH_LOCAL" /> WMSDISPATCH_LOCAL</div>
+
+
+        <div class="col-md-5"> <input type="radio" name="radio" value="WMSChemicalDetailsUpdation" /> WMSChemicalDetailsUpdation</div>
+
+        <div class="col-md-1"></div>
+    </div>
+
+    <div class="col-md-2">
+
+        <label></label>
+
+    </div>
+
+
+
+
+</div>
+
+@*<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Shipment Number:</label>
+            <input class="form-control" id="txtShipmentNumber" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Select Report Type</label>
+            <input type="radio" name="form-field-radio"  value="WMSDISPATCH_LOCAL" /> WMSDISPATCH_LOCAL
+            <input type="radio" name="form-field-radio" class="ace" value="WMSChemicalDetailsUpdation" /> WMSChemicalDetailsUpdation
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Select Report Type</label>
+            
+        </div>
+    </div>
+</div>*@
+
+<div class="row">
+    <label></label>
+</div>
+
+@*<div class="row">
+
+    <div class="col-md-6">*@
+        @*<div><label>Select Report Type</label></div>
+
+        <input type="radio" name="radio" value="WMSDISPATCH_LOCAL" /> WMSDISPATCH_LOCAL
+        <input type="radio" name="radio" value="WMSChemicalDetailsUpdation" /> WMSChemicalDetailsUpdation*@
+        
+
+    @*</div>
+
+
+</div>*@
+
+<div class="row">
+    <div class="col-md-4">
+        @*<div class="col-md-offset-2 col-md-10">*@
+        <br />
+        <button id="btnExecute" class="btn btn-success btn-sm" style="width:170px; height:37px">Execute</button>
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+        $('#btnExecute').on('click', function (event) {
+            var ShipmentNoList = $('#txtShipmentNumber').val();
+            var StatusList = $("[name=radio]:checked").val();
+            
+            if ($.trim($("#txtShipmentNumber").val()) == "") {
+                alert("Please enter Shipment Number!");
+            }
+            BackendProcess(ShipmentNoList, StatusList);
+        });
+
+
+        function BackendProcess(ShipmentNo, Status) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/ProfileBackendProcess/BackendProcessExecute',
+                data: { shipmentNumber: ShipmentNo, ReportType: Status },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+
+                        bootstrap_alert.warning(msg, "success");
+                    }
+                    else if (msg.startsWith("MESSAGE", 1)) {
+
+
+                        bootstrap_alert.warning(msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+    });
+</script>

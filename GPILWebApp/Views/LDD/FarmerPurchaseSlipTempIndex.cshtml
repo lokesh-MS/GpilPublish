@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "FarmerPurchaseSlipTempIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Farmer Purchase Slip</h2>
+
+<div class="row">
+    <div class="col-md-3">
+
+        <label>ORGANIZATION CODE</label>
+        @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        <label>FARMER CODE</label>
+
+        <select class="form-control" id="ddlFarmerCode">
+            <option value="0">SELECT FARMER CODE</option>
+
+        </select>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div id="TotalNOLots"></div>
+    </div>
+    
+</div>
+<div class="row">
+    
+    <div class="col-md-6">
+        <div id="TotalNOBales"></div>
+    </div>
+</div>
+
+<div id="IssueCount"></div>
+<div class="row">
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+        @*<button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>*@
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        var today = new Date();
+        today = '20140924';// yyyy + mm + dd;
+
+        $("#ddlOrgnMaster").on('change', function (event) {
+            $('#ddlFarmerCode').empty();
+            var OrgnCode = $('#ddlOrgnMaster').val() + today;
+            GetFarmerCode(OrgnCode);
+        });
+
+        function GetFarmerCode(OrgnCode) {
+            $('#ddlFarmerCode').empty();
+            debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT FARMER CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/FarmerCode',
+                data: { orgnCode: OrgnCode },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].FARMER_CODE + '">' + data[i].FARMER_LOT + '</option>';
+                    }
+                    $('#ddlFarmerCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+        $("#ddlOrgnMaster").on('change', function (event) {
+            $('#ddlFarmerCode').empty();
+            $('#TotalNOLots').empty();
+            $('#TotalNOBales').empty();
+            var OrgnCode = $('#ddlOrgnMaster').val() + today;
+            GetCount(OrgnCode);
+        });
+
+        function GetCount(OrgnCode) {
+            $('#TotalNOLots').empty();
+            $('#TotalNOBales').empty();
+            debugger;
+
+            var tblContentLnDett = '';
+            var tblContentLnDet = '';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/TotalCount',
+                data: { orgnCode: OrgnCode },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+
+
+
+                    for (var i = 0; i < data.length; i++) {
+                        tblContentLnDet = tblContentLnDett + '<label style="text-align:center; color:red">LOT COUNT : ' + data[i].LOT_NO + '</label>';
+                        tblContentLnDet = tblContentLnDet + '<label style="text-align:center; color:blue">BALES COUNT : ' + data[i].BALES + '</label>';
+                    }
+                    $('#TotalNOLots').empty();
+                    $('#TotalNOBales').empty();
+                    //$('#TotalNOLots').append(tblContentLnDett);
+                    //$('#TotalNOBales').append(tblContentLnDet);
+
+
+
+                    //$('#ddlFarmerCode').append(tblContent);
+                },
+                error: function (msg) {
+                    //alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+
+
+        //var today = new Date();
+        //var dd = String(today.getDate()).padStart(2, '0');
+        //var mm = String(today.getMonth() + 1).padStart(2, '0');
+        //var yyyy = today.getFullYear();
+        //debugger;
+        //today = '20170609';// yyyy + mm + dd;
+        //$("#ddlOrgnMaster").change(function () {
+        //    //$('#ddlFarmerCode').empty();
+        //    var OrgnNo = $('#ddlOrgnMaster').val() + today;
+        //    GetFarmerDetails(OrgnNo);
+        //});
+
+        //function GetFarmerDetails(OrgnCode) {
+        //    debugger;
+        //    //$('#ddlOrgnMaster').empty();
+        //    var tblContent = '';
+        //    //tblContent = tblContent + '<option value="0">SELECT ORGANIZATION CODE</option>';
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/LDD/FarmerCode',
+        //        data: { orgnCode: OrgnCode },
+        //        success: function (msg) {
+        //            var data = JSON.parse(msg);
+        //            for (var i = 0; i < data.length; i++) {
+        //                tblContent = tblContent + '<option value="' + data[i].FARMER_CODE + '">' + data[i].FARMER_LOT + '</option>';
+        //            }
+        //            $('#ddlFarmerCode').append(tblContent);
+        //        },
+        //        error: function (msg) {
+        //            //alert(0); alert(msg);
+        //        }
+        //    });
+        //}
+    });
+
+
+</script>

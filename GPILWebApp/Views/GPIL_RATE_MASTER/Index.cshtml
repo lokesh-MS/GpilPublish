@@ -1,0 +1,102 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_RATE_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Rate View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "GPIL_RATE_MASTER") + "'");" class="btn btn-success btn-sm"> Create New Item </button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex", "GPIL_RATE_MASTER") + "'");" class="btn btn-success btn-sm"> NRL LOADER</button>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("ExcelIndex1", "GPIL_RATE_MASTER") + "'");" class="btn btn-success btn-sm"> NORMAL LOADER</button>
+
+
+
+    @*<button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Excel Upload </button>*@
+</p>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Rate List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "RATE DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Loc_Code)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Item_Code)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rate)
+                        </th>
+                        <th></th>
+                    </tr>
+
+
+                </thead>
+                <tbody id="tbody">
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Loc_Code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Item_Code)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rate)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+        );
+    });
+
+</script>

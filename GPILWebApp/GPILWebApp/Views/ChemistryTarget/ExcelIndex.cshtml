@@ -1,0 +1,308 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.ChemistryTarget>
+@{
+    ViewBag.Root = "Quality Lab";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">EXCEL IMPORT CHEMISTRY TARGET DATA</h2>
+<hr />
+
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">CHEMISTRY TARGET UPLOAD</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            RESULT FOR "CHEMISTRY TARGET DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Grade</th>
+                        <th>Variety</th>
+                        <th>Mark</th>
+                        <th>LSL</th>
+                        <th>ASL</th>
+                        <th>USL</th>
+                        <th>LCL</th>
+                        <th>ALCL</th>
+                        <th>UCL</th>
+                        <th>MoistureL</th>
+                        <th>MoistureU</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+
+
+        $('.alert').hide();
+
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var ChemistryTargetList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (ChemistryTargetList.length > 0) {
+                formData.append('postedFile', ChemistryTargetList[0]);
+                GetChemistryTargetGrid(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+        function GetChemistryTargetGrid(formData) {
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/ChemistryTarget/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var Crop = (data[i].Crop == null) ? "" : data[i].Crop;
+                        var Grade = (data[i].Grade == null) ? "" : data[i].Grade;
+                        var Variety = (data[i].Variety == null) ? "" : data[i].Variety;
+                        var Mark = (data[i].Mark == null) ? "" : data[i].Mark;
+                        var LSL = (data[i].LSL == null) ? "" : data[i].LSL;
+                        var ASL = (data[i].ASL == null) ? "" : data[i].ASL;
+                        var USL = (data[i].USL == null) ? "" : data[i].USL;
+                        var LCL = (data[i].LCL == null) ? "" : data[i].LCL;
+
+                        var ALCL = (data[i].ALCL == null) ? "" : data[i].ALCL;
+                        var UCL = (data[i].UCL == null) ? "" : data[i].UCL;
+                        var MoistureL = (data[i].MoistureL == null) ? "" : data[i].MoistureL;
+                        var MoistureU = (data[i].MoistureU == null) ? "" : data[i].MoistureU;
+                       
+                        
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg"><span class="trBg">' + Crop + '</span><input class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Grade + '</span><input class="text" value="' + Grade + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Variety + '</span><input class="text" value="' + Variety + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Mark + '</span><input class="text" value="' + Mark + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + LSL + '</span><input class="text" value="' + LSL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ASL + '</span><input class="text" value="' + ASL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + USL + '</span><input class="text" value="' + USL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + LCL + '</span><input class="text" value="' + LCL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ALCL + '</span><input class="text" value="' + ALCL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + UCL + '</span><input class="text" value="' + UCL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + MoistureL + '</span><input class="text" value="' + MoistureL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + MoistureU + '</span><input class="text" value="' + MoistureU + '" style="display:none"/></span></td>'
+                            
+                            + '<td class="trBg"></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                    }
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+
+
+                },
+                error: function (msg) {
+
+                }
+            });
+        }
+
+        
+        $('#btnComplete').on('click', function () {
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+            if (ExcelIndexList.length > 0) {
+                var LCT = {};
+                var ChemistryTargets = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+                   
+                    var row = $(this);
+                    var ChemistryTarget = {};
+                    ChemistryTarget.SNO = row.find("td:eq(0)")[0].innerText;
+                    ChemistryTarget.Crop = row.find("td:eq(1)")[0].innerText;
+                    ChemistryTarget.Grade = row.find("td:eq(2)")[0].innerText;
+                    ChemistryTarget.Variety = row.find("td:eq(3)")[0].innerText;
+                    ChemistryTarget.Mark = row.find("td:eq(4)")[0].innerText;
+                    ChemistryTarget.LSL = row.find("td:eq(5)")[0].innerText;
+                    ChemistryTarget.ASL = row.find("td:eq(6)")[0].innerText;
+                    ChemistryTarget.USL = row.find("td:eq(7)")[0].innerText;
+                    ChemistryTarget.LCL = row.find("td:eq(8)")[0].innerText;
+                    ChemistryTarget.ALCL = row.find("td:eq(9)")[0].innerText;
+                    ChemistryTarget.UCL = row.find("td:eq(10)")[0].innerText;
+                    ChemistryTarget.MoistureL = row.find("td:eq(11)")[0].innerText;
+                    ChemistryTarget.MoistureU = row.find("td:eq(12)")[0].innerText;
+                    
+                    ChemistryTargets.push(ChemistryTarget);
+                });
+                if (ChemistryTargets.length > 0) {
+                    LCT.ChemistryTargets = ChemistryTargets;
+
+                    //Send the JSON array to Controller using AJAX.
+                    $.ajax({
+                        type: "POST",
+                        url: "/ChemistryTarget/ChemistryTargetLoaderComplete",
+                        data: JSON.stringify(LCT),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            if (msg.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(msg, "error");
+                            }
+                            else if (msg.startsWith("Success", 1)) {
+
+                                //window.location = "/GPIL_CROP_MASTER/Index";
+                                bootstrap_alert.warning('Successful ' + msg, "success");
+                            }
+                        },
+                        error: function (msg) {
+                            bootstrap_alert.warning(msg.responseText, "error");
+                        }
+                    });
+                }
+
+                else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            }
+            else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+
+
+    });
+
+</script>

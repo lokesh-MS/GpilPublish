@@ -1,0 +1,164 @@
+﻿@model GPILWebApp.Models.GPIL_Chemistry_Reports
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>GPIL_Chemistry_Reports</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Date Of Packing </label>
+                    @Html.EditorFor(model => model.DOP, new { htmlAttributes = new { @class = "form-control", type = "Date" } })
+                    @Html.ValidationMessageFor(model => model.DOP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Crop </label>
+                    @Html.DropDownListFor(model => model.Crop, new SelectList(ViewBag.GPIL_Chemical_Target, "Crop", "Crop"), "Please select", new { @id = "ddlCrop", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Crop, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Variety </label>
+                    @Html.DropDownListFor(model => model.Variety, new SelectList(ViewBag.GPIL_Chemical_Targets, "Variety", "Variety"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Variety, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Grade </label>
+                   @Html.DropDownListFor(model => model.Grade, new SelectList(ViewBag.GPIL_Chemical_Targetss, "Grade", "Grade"), "Please select", new { @id = "ddlGrade", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Mark </label>
+                    @Html.EditorFor(model => model.Mark, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Source Organization </label>
+                    @Html.EditorFor(model => model.SourceOrganisation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SourceOrganisation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Product </label>
+                    @Html.EditorFor(model => model.Product, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Product, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Export Type </label>
+                    @Html.DropDownListFor(model => model.Dom_Exp, new List<SelectListItem> {
+                    new SelectListItem {Text="Domestic" ,Value="FACTORY" },
+                    new SelectListItem {Text="Export" ,Value="FARMER" },
+               }, "SELECT EXPORT TYPE", new { @class = "form-control", @id = "ddlExportType" })
+                    @Html.ValidationMessageFor(model => model.Dom_Exp, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">Type </label>
+                    @Html.DropDownListFor(model => model.Type, new List<SelectListItem> {
+                    new SelectListItem {Text="NRL" ,Value="NRL" },
+                    new SelectListItem {Text="RLT" ,Value="RLT" },
+                    new SelectListItem {Text="Recon" ,Value="Recon" },
+                    new SelectListItem {Text="By Product" ,Value="By Product" },
+                    new SelectListItem {Text="Picking" ,Value="Picking" },
+               }, "SELECT TYPE", new { @class = "form-control", @id = "ddlType" })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*From No </label>
+                    @Html.EditorFor(model => model.From_Run_No, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.From_Run_No, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*To No </label>
+                    @Html.EditorFor(model => model.To_Run_No, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.To_Run_No, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*NIC </label>
+                    @Html.EditorFor(model => model.NIC, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NIC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*TRS </label>
+                    @Html.EditorFor(model => model.TRS, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TRS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*CL </label>
+                    @Html.EditorFor(model => model.CL, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sm-3">
+                    <label class="control-label">*Moisture Percent </label>
+                    @Html.EditorFor(model => model.MoisturePercent, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MoisturePercent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+
+     
+
+       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

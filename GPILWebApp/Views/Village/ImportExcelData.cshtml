@@ -1,0 +1,167 @@
+﻿@using System.Data
+@using System.Linq
+@model DataSet
+@{
+    ViewBag.Root = "Village Excel Upload";
+    ViewBag.Title = "ImportExcelData";
+}
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Index", "Village") + "'");" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-form"> Back </button>
+    <button type="button" role="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Save to database </button>
+</p>
+
+
+<h5>ImportExcelData</h5>
+
+<div class="table-responsive">
+
+
+
+    @if (Model != null)
+    {
+        @*<table id="dynamic-table" class="table  table-striped table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>SNO</th>
+                    <th>Village Code</th>
+                    <th>Village Name</th>
+                    <th class="hidden-480">Cluster Code</th>
+                    <th>
+                        <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+        </table>*@
+
+
+
+
+            WebGrid webGrid = new WebGrid(source: (from p in Model.Tables[0].AsEnumerable()
+                                                           select new
+                                                           {
+
+                                                               VillageCode = p.Field<object>("VillageCode").ToString(),
+                                                               VillageName = p.Field<object>("VillageName").ToString(),
+                                                               ClusterCode = p.Field<object>("ClusterCode").ToString(),
+                                                               Status = p.Field<object>("Status").ToString()
+
+                                                           }), canSort: false, canPage: false);
+                    @webGrid.GetHtml(tableStyle: "table  table-striped table-bordered table-hover table-condensed",
+                     htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                    columns: webGrid.Columns(
+
+                webGrid.Column("VillageCode", format:@<text><span id="VillageCode" class="read">@item.VillageCode</span> @Html.TextBox("VillageCode", (string)item.VillageCode, new { @class = "edit" }) </text>),
+                webGrid.Column("VillageName", format:@<text><span id="VillageCode" class="read">@item.VillageName</span> @Html.TextBox("VillageName", (string)item.VillageName, new { @class = "edit" }) </text>),
+                webGrid.Column("ClusterCode", format:@<text><span id="VillageCode" class="read">@item.ClusterCode</span> @Html.TextBox("ClusterCode", (string)item.ClusterCode, new { @class = "edit" }) </text>),
+                webGrid.Column("Status", format:@<text><span id="VillageCode" class="read">@item.Status</span> @Html.TextBox("Status", (string)item.Status, new { @class = "edit" }) </text>),
+                webGrid.Column("", style: "button",
+                            format:
+                            @<text>
+                                <button class="edit-case read" id="@item.VillageCode">Edit</button>
+                                <button class="delete-case read" id="@item.VillageCode">Delete</button>
+                                <button class="update-case edit" id="@item.VillageCode">Update</button>
+                                <button class="cancel-case edit" id="@item.VillageCode">Cancel</button>
+                            </text>)
+                ));
+
+
+
+    }
+
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    $(function () {
+        var tblContent = '';
+        $.ajax({
+            type: 'GET',
+            url: 'Village/GetExcelData',
+            data: { Sno: Sno, VillageCode: villagecode, VillageName: villageName, ClusterCode: clustercode, Status: status },
+            success: function (msg) {
+                var data = msg.Table;
+                for (var i = 0; i < data.length; i++) {
+
+                    var j = i + 1;
+                    var IndexID = "" + j;
+                    tblContent = tblContent + '<tr style="width:100%" data-detailid="' + data[i].Sno + '"  >'
+                        + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                        + '<td class="trBg">' + data[i].villagecode + '</td>'
+                        + '<td class="trBg">' + data[i].villageName + '</td>'
+                        + '<td class="trBg">' + data[i].clustercode + '</td>'
+                        + '<td class="trBg">' + data[i].status + '</td>'
+                        + '</tr >';
+                }
+            }
+        });
+
+
+
+        $('.edit').hide();
+        $('.edit-case').on('click', function () {
+            let tr = $(this).parents('tr:first');
+            tr.find('.edit, .read').toggle();
+        });
+        $('.update-case').on('click', function (e) {
+            e.preventDefault();
+            let tr = $(this).parents('tr:first');
+            id = $(this).prop('id');
+            let VillageName = tr.find('#VillageName').val();
+            let VillageCode = tr.find('#VillageCode').val();
+            VillageCode = tr.find('#VillageCode').val();
+
+            let ClusterCode = tr.find('#ClusterCode').val();
+            let Status = tr.find('#Status').val();
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                // url: "http://localhost:55627/Default2/Edit",
+
+                data: JSON.stringify({ "id": id, "VillageCode": VillageCode, "VillageName": VillageName, "ClusterCode": ClusterCode, "Status": Status }),
+                dataType: "json",
+                success: function (data) {
+                    tr.find('.edit, .read').toggle();
+                    $('.edit').hide();
+                    tr.find('#VillageCode').text(data.village.VillageCode);
+                    tr.find('#VillageCode').text(data.village.VillageCode);
+                    tr.find('#VillageName').text(data.village.VillageName);
+                    tr.find('#ClusterCode').text(data.village.ClusterCode);
+                    tr.find('#Status').text(data.village.Status);
+                },
+                error: function (err) {
+                    alert("error");
+                }
+            });
+        });
+        $('.cancel-case').on('click', function (e) {
+            e.preventDefault();
+            var tr = $(this).parents('tr:first');
+            var id = $(this).prop('id');
+            tr.find('.edit, .read').toggle();
+            //$('.edit').hide();
+        });
+        $('.delete-case').on('click', function (e) {
+            e.preventDefault();
+            var tr = $(this).parents('tr:first');
+            id = $(this).prop('id');
+            $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                url: "http://localhost:55627/Default2/Delete/" + id,
+                dataType: "json",
+                success: function (data) {
+                    alert('Delete success');
+                    window.location.href = "http://localhost:55627/Default2/Index";
+                },
+                error: function () {
+                    alert('Error occured during delete.');
+                }
+            });
+        });
+    });
+</script>
+
+

@@ -1,0 +1,419 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "Farmer Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+
+
+<h2 style="text-align:center; color:#438EB9">FARMER PURCHASE VERIFICATION</h2>
+<hr />
+
+@*@if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            <h3 style="color:red">@ViewBag.ErrorMessage</h3>
+        </div>
+    }*@
+<div class="row">
+    <div class="col-md-3">
+
+        @*<label>Purchase DOC NO</label>
+
+            @Html.DropDownList("PURCH_DOC_NO", new SelectList(ViewBag.GPIL_TAP_FARM_PURCHS_HDR, "PURCH_DOC_NO", "PURCH_DOC_NO"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })*@
+    </div>
+    <div class="col-md-3">
+
+        <label>Purchase DOC NO</label>
+
+        @Html.DropDownList("PURCH_DOC_NO", new SelectList(ViewBag.GPIL_TAP_FARM_PURCHS_HDR, "PURCH_DOC_NO", "PURCH_DOC_NO"), "Please select", new { @id = "ddlPoNumber", @class = "form-control" })
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div></div>
+        @*<button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+                View
+
+            </button>
+            <button type="reset" class="btn btn-sm btn-default">
+                Clear
+
+            </button>*@
+    </div>
+    <div class="col-md-3">
+        <div><label></label></div>
+        <button type="submit" value="Submit" id="btnSubmit" class="btn btn-sm btn-success">
+            View
+
+        </button>
+        <button type="reset" class="btn btn-sm btn-default">
+            Clear
+
+        </button>
+        <button type="button" role="button" id="btnVerified" class="btn btn-success btn-sm"> Verified </button>
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">Farmer Purchase List</h3>
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "FARMER PURCHASE DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+
+                        <th>CROP</th>
+                        <th>VARIETY</th>
+                        <th>PURCHASE DOC NO</th>
+                        <th>ORGANIZATION CODE</th>
+                        <th>TOTAL PURCHASED BALE</th>
+                        <th>TOTAL PURCHASED QUANTITY</th>
+                        <th>TOTAL PURCHASED VALUE</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loader">
+</div>
+
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+
+
+        $('.alert').hide();
+        var spinner = $('#loader');
+
+        $('#btnVerified').on('click', function (event) {
+            var PoNumberList = $('#ddlPoNumber').val();
+            if (PoNumberList == "") {
+                alert("Please select Purchse Doc No!");
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/Verification/FarmerPurchaseVerified',
+                data: { poNumber: PoNumberList },
+                success: function (msg) {
+                    if (msg.result == 'Redirect') {
+                        window.location = msg.url;
+                    }
+                     else if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        });
+
+        $('#btnSubmit').on('click', function (event) {
+            var PoNumberList = $('#ddlPoNumber').val();
+            GetFarmerPurchase(PoNumberList);
+        });
+        function GetFarmerPurchase(PoNumber) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            spinner.show();
+            $.ajax({
+                type: 'GET',
+                url: '/Verification/FarmerPurchase',
+                data: { poNumber: PoNumber },
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.Table.length; i++) {
+
+                        var j = i + 1;
+                        var IndexID = "" + j;
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            + '<td class="trBg">' + data.Table[i].CROP + '</td>'
+                            + '<td class="trBg" style="text-align:center;">' + data.Table[i].VARIETY + '</td>'
+                            + '<td class="trBg">' + data.Table[i].PURCH_DOC_NO + '</td>'
+                            + '<td class="trBg">' + data.Table[i].ORGN_CODE + '</td>'
+                            + '<td class="trBg">' + data.Table[i].TOTAL_BALES + '</td>'
+                            + '<td class="trBg">' + data.Table[i].TOTAL_QTY + '</td>'
+                            + '<td class="trBg">' + data.Table[i].TOTAL_PURC_VAL + '</td>'
+                            //<a href="link.html"> <button id="btnVerify" type="button""> Click </button>  </a>
+                            //<a class="btn btn-primary" href="FarmerPurchaseBaleWise?poNumber=' + $('#ddlPoNumber').val() + '&orgnCode=' + data.Table[i].ORGN_CODE + '"></a>
+                            + '<td class="trBg">  <button class="btnSelect">Verify</button></td>'
+                            + '</tr >';
+                    }
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+                    var myTable = $('#dynamic-tabl')
+                           .DataTable({
+                               bAutoWidth: false,
+                               sScrollX: 100,
+                               'order': [[0, 'asc']],
+                               "aoColumns": [
+                                   null, null, null, null, null, null, null, null,
+                                   {},
+                               ],
+                               select: {
+                                   style: 'multi'
+                               }
+                           });
+
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                                {
+                                    "extend": "colvis",
+                                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+
+                                },
+                                {
+                                    "extend": "copy",
+                                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "csv",
+                                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "excel",
+                                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "pdf",
+                                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "print",
+                                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    autoPrint: false,
+                                    message: 'This print was produced using the Print button for DataTables'
+                                }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container'));
+                },
+                error: function (msg) {
+                    alert(0); alert(msg);
+                }
+            });
+        }
+
+
+
+        $("#dynamic-tabl").on('click', '.btnSelect', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+
+            var col4 = currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+            var OrgnCodeList = col4;
+            var PoNumberList = $('#ddlPoNumber').val();
+
+            $.ajax({
+                url: '@Url.Action("FarmerPurchaceBW", "Verification")',
+                type: 'POST',
+                dataType: 'json',
+                data: { orgnCodeList: OrgnCodeList, poNumberList: PoNumberList },
+                success: function (data) {
+                    if (data.result == 'Redirect') {
+                        window.location = data.url;
+                    }
+                },
+                error: function (err) {
+
+                }
+
+            });
+        });
+        var myTable =
+            $('#dynamic-tabl')
+                .DataTable({
+                    bAutoWidth: false,
+                    'order': [[0, 'desc']],
+                    "aoColumns": [
+                        null, null, null, null, null, null, null, null,
+                        {},
+                    ],
+                    select: {
+                        style: 'multi'
+                    }
+                });
+        new $.fn.dataTable.Buttons(myTable, {
+            buttons: [
+                {
+                    "extend": "colvis",
+                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                    "className": "btn btn-white btn-primary btn-bold",
+
+                },
+                {
+                    "extend": "copy",
+                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                    "className": "btn btn-white btn-primary btn-bold"
+                },
+                {
+                    "extend": "csv",
+                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                    "className": "btn btn-white btn-primary btn-bold"
+                },
+                {
+                    "extend": "excel",
+                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                    "className": "btn btn-white btn-primary btn-bold"
+                },
+                {
+                    "extend": "pdf",
+                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                    "className": "btn btn-white btn-primary btn-bold"
+                },
+                {
+                    "extend": "print",
+                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                    "className": "btn btn-white btn-primary btn-bold",
+                    autoPrint: false,
+                    message: 'This print was produced using the Print button for DataTables'
+                }
+            ]
+        });
+        myTable.buttons().container().appendTo($('.tableTools-container'));
+
+        //style the message box
+        var defaultCopyAction = myTable.button(1).action();
+        myTable.button(1).action(function (e, dt, button, config) {
+            defaultCopyAction(e, dt, button, config);
+            $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+        });
+
+
+        var defaultColvisAction = myTable.button(0).action();
+        myTable.button(0).action(function (e, dt, button, config) {
+
+            defaultColvisAction(e, dt, button, config);
+
+
+            if ($('.dt-button-collection > .dropdown-menu').length == 0) {
+                $('.dt-button-collection')
+                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                    .find('a').attr('href', '#').wrap("<li />")
+            }
+            $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+        });
+
+
+
+        setTimeout(function () {
+            $($('.tableTools-container')).find('a.dt-button').each(function () {
+                var div = $(this).find(' > div').first();
+                if (div.length == 1) div.tooltip({ container: 'body', title: div.parent().text() });
+                else $(this).tooltip({ container: 'body', title: $(this).text() });
+            });
+        }, 2000);
+
+
+
+
+
+        myTable.on('select', function (e, dt, type, index) {
+            if (type === 'row') {
+                $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+            }
+        });
+        myTable.on('deselect', function (e, dt, type, index) {
+            if (type === 'row') {
+                $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+            }
+        });
+
+
+
+
+        /////////////////////////////////
+        //table checkboxes
+        $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+        //select/deselect all rows according to table header checkbox
+        $('#dynamic-tabl > thead > tr > th input[type=checkbox], #dynamic-tabl_wrapper input[type=checkbox]').eq(0).on('click', function () {
+            var th_checked = this.checked;//checkbox inside "TH" table header
+
+            $('#dynamic-tabl').find('tbody > tr').each(function () {
+                var row = this;
+                if (th_checked) myTable.row(row).select();
+                else myTable.row(row).deselect();
+            });
+        });
+
+        //select/deselect a row when the checkbox is checked/unchecked
+        $('#dynamic-tabl').on('click', 'td input[type=checkbox]', function () {
+            var row = $(this).closest('tr').get(0);
+            if (this.checked) myTable.row(row).deselect();
+            else myTable.row(row).select();
+        });
+
+
+
+        $(document).on('click', '#dynamic-tabl.dropdown-toggle', function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+    });
+
+</script>

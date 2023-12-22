@@ -1,0 +1,48 @@
+﻿@model GPILWebApp.Models.GPIL_SUPP_PURCHS_HDR
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "SupplierPurchaseVerificationIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Supplier Purchase Verification</h2>
+
+<div class="row">
+    <div class="col-md-3">
+
+        <label>Purchase DOC NO</label>
+        @Html.DropDownList("SUPP_CODE", new SelectList(ViewBag.GPIL_SUPP_PURCHS_HDR, "SUPP_CODE", "SUPP_CODE"), "Please select", new { @id = "ddlPoNumber", @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        <label>FARMER CODE</label>
+
+        <select class="form-control" id="ddlSupplierCode">
+            <option value="0">SELECT FARMER CODE</option>
+
+        </select>
+    </div>
+
+</div>
+<script>
+    function GetSupplierDetails(LP4Number) {
+        $('#ddlSupplierCode').empty();
+        debugger;
+        var tblContent = '';
+        tblContent = tblContent + '<option value="0">SELECT SUPPLIER CODE</option>';
+        $.ajax({
+            type: 'GET',
+            url: '/VreificationNew/SupplierCode',
+            data: { suppCode: LP4Number },
+            success: function (msg) {
+                var data = JSON.parse(msg);
+                for (var i = 0; i < data.length; i++) {
+                    tblContent = tblContent + '<option value="' + data[i].SUPP_CODE + '">' + data[i].SUPPLIER + '</option>';
+                }
+                $('#ddlFarmerCode').append(tblContent);
+            },
+            error: function (msg) {
+                //alert(0); alert(msg);
+            }
+        });
+    }
+</script>

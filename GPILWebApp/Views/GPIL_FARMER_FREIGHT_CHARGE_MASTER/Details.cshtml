@@ -1,0 +1,180 @@
+@model GPILWebApp.Models.GPIL_FARMER_FREIGHT_CHARGE_MASTER
+
+@{
+    ViewBag.Title = "Details";
+    ViewBag.Root = "Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GPIL_FARMER_FREIGHT_CHARGE_MASTER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FREIGHT_CHARGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FREIGHT_CHARGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.REMARKS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REMARKS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_FREIGHT_CHARGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_FREIGHT_CHARGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.FLAG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FLAG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_UPDATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_UPDATED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LASTUPDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LASTUPDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATTRIBUTE5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATTRIBUTE5)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_CROP_MASTER.CROP_YEAR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_CROP_MASTER.CROP_YEAR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_ORGN_MASTER.ORGN_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_ORGN_MASTER.ORGN_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_VARIETY_MASTER.VARIETY_TYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_VARIETY_MASTER.VARIETY_TYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GPIL_VILLAGE_MASTER.VILLAGE_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GPIL_VILLAGE_MASTER.VILLAGE_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FREIGHT_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

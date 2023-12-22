@@ -1,0 +1,49 @@
+﻿@*@model IEnumerable<GPILWebApp.Models.GPIL_CROP_MASTER>*@
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Crop Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        
+        <h3 class="header smaller lighter blue">Crop List</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Latest Registered Records"
+        </div>
+
+        <div class="table-responsive">
+            <table id="dynamic-tables" class="table  table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>CROP</th>
+                        <th>CROP_YEAR</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.SNO</td>
+                                <td>@item.CROP</td>
+                                <td>@item.CROP_YEAR</td>
+                              
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+

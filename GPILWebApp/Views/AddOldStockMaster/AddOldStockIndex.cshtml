@@ -1,0 +1,275 @@
+﻿
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "AddOldStockIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align:center; color:#438EB9">Add Old Stock </h2>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Old Bale Number</label>
+            <input class="form-control" id="txtOldBaleNumber" ontextchanged="txtOldBaleNumber_TextChanged" />
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Grade Code</label>
+            <input class="form-control" id="txtGradeCode" />
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Crop</label>
+            <input class="form-control" id="txtCrop" disabled="disabled" />
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="row">
+    <lable> </lable>
+
+</div>
+<div class="row">
+    <lable> </lable>
+
+</div>
+
+<div class="row">
+    @*<div style='position:absolute; top:0; bottom:5; left:0; right:0'>*@
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Variety</label>
+            <input class="form-control" id="txtVariety" disabled="disabled" />
+
+        </div>
+    </div>
+
+
+
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Marked Weight</label>
+            <input class="form-control" id="txtMarkedWeight" />
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Sub Inventory Code</label>
+            @*<select class="form-control" id="ddlSubInventoryCode" />
+                <option value="0">SELECT SUBINVENTORY CODE</option>
+                </select>*@
+            @Html.DropDownList("SUB_INV_CODE", new SelectList(ViewBag.GPIL_SUBINVENTORYs, "SUB_INV_CODE", "SUB_INV_CODE"), "Please select", new { @id = "ddlSubInventoryCode", @class = "form-control" })
+
+        </div>
+    </div>
+</div>
+@*</div>*@
+
+<div class="row">
+    <lable> </lable>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <br />
+        <input type="submit" id="btnSubmit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+        @Html.ActionLink("Back to List", "Index")
+
+    </div>
+</div>
+
+<div class="row">
+    <div id="alert_placeholder"></div>
+    <span id="message"></span>
+</div>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+
+        bootstrap_alert = function () { }
+        bootstrap_alert.warning = function (message, status) {
+            if (status == "success") {
+                $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+            }
+            else if (status == "error") {
+                $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+            }
+            $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+                $("#alert_placeholder").slideUp(500);
+            });
+        }
+
+
+        $('#txtOldBaleNumber').change(function () {
+            $('.alert').hide();
+            //if ($(this).val().length != 13)
+            //{
+            //    alert("Please Enter Valid Bale Number!!");
+            //}
+            //debugger;
+            var BaleNumberList = $('#txtOldBaleNumber').val();
+            var Crop = $('#txtOldBaleNumber').val().substring(0, 2);
+            var Variety = $('#txtOldBaleNumber').val().substring(2, 4);
+            $('#txtVariety').val(Variety);
+            $('#txtCrop').val(Crop);
+            BaleValidation(BaleNumberList, Crop, Variety);
+
+        });
+
+
+        function BaleValidation(baleNumber, crop, variety) {
+            $('#txtOldBaleNumber').empty();
+            $('#txtVariety').empty();
+            $('#txtVariety').empty();
+            $.ajax({
+                type: 'GET',
+                url: '/AddOldStockMaster/ValidateBaleNumberOldStockDetails',
+                data: { strBaleNumber: baleNumber, strCrop: crop, strVariety: variety },
+                success: function (msg) {
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+
+            })
+        };
+
+        $('#txtGradeCode').change(function () {
+            var GradeList = $('#txtGradeCode').val();
+            var BaleNumberList = $('#txtOldBaleNumber').val();
+            var Crop = $('#txtOldBaleNumber').val().substring(0, 2);
+            var Variety = $('#txtOldBaleNumber').val().substring(2, 4);
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/AddOldStockMaster/ValidateGradeOldStockDetails',
+                data: { strGrade: GradeList, strBaleNumber: BaleNumberList, strCrop: Crop, strVariety: Variety },
+                success: function (msg) {
+
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+
+            })
+
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var GradeList = $('#txtGradeCode').val();
+            var BaleNumberList = $('#txtOldBaleNumber').val();
+            var Crop = $('#txtOldBaleNumber').val().substring(0, 2);
+            var Variety = $('#txtOldBaleNumber').val().substring(2, 4);
+            var MarkedWeightList = $('#txtMarkedWeight').val();
+            var SunInventoryList = $('#ddlSubInventoryCode').val();
+            AddOldStockDetails(BaleNumberList, Crop, Variety, GradeList, MarkedWeightList, SunInventoryList);
+        });
+
+
+
+
+        function AddOldStockDetails(BaleNumber, Crop, Variety, Grade, MarkedWeight, SunInventory) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/AddOldStockMaster/InsertOldStockDetails',
+                data: { strBaleNumber: BaleNumber, strCrop: Crop, strVariety: Variety, strGrade: Grade, strMarkedWeight: MarkedWeight, strSubinventory: SunInventory },
+                success: function (msg) {
+
+                    if (msg.startsWith("Error", 1)) {
+                        //bootstrap_alert.warning(msg, "error");
+                        sweetAlert("Oops...!!!", response, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+                        sweetAlert("Done", response, "success");
+
+                        window.location = "/GPIL_CROP_MASTER/Index";
+                        //bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    //bootstrap_alert.warning(msg.responseText, "error");
+                    sweetAlert("Oops...!!!", msg.responseText, "error");
+                }
+
+            })
+        };
+
+
+
+
+
+
+
+
+
+        //$('#txtOldBaleNumber').change(function () {
+        //    var BaleNumberList = $('#txtOldBaleNumber').val();
+        //    var GradeList = $('#txtOldBaleNumber').val().substring(4, 7);
+        //    var CropList = $('#txtOldBaleNumber').val().substring(0, 2);
+        //    var VarietyList = $('#txtOldBaleNumber').val().substring(2, 4);
+
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/AddOldStockMaster/Validation',
+        //        data: { headerid: OrgnCode, ReportType: Status },
+        //        success: function (msg) {
+        //            //$('#ddlOrgnMaster').val() = "";
+        //            let data = JSON.parse(msg);
+        //        },
+
+        //    });
+
+
+        //    if (GradeList != $('#txtGradeCode').val()) {
+        //        alert("Please Check the Bale Number")
+        //    }
+        //});
+    });
+
+</script>

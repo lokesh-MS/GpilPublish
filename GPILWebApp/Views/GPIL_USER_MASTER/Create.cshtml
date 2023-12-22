@@ -1,0 +1,547 @@
+﻿@model GPILWebApp.Models.GPIL_USER_MASTER
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">User Creation</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*User ID </label>
+
+                    @Html.EditorFor(model => model.USER_ID, new { htmlAttributes = new { @class = "form-control", id = "txtUserCode", @onchange = "UserIDCheck();", @ontextchange = "TextChange();", minlength = "4", maxlength = "6" } })
+                    @*<input type="button" id="GetUser" value="Populate User Details" onclick='populateUserDetails()' />*@
+                    @Html.ValidationMessageFor(model => model.USER_ID, "", new { @class = "text-danger" })
+                    <p id="Status"></p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*User Name </label>
+
+                    @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUserName", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*PassWord </label>
+
+                    @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control", id = "txtPassword", minlength = "4", maxlength = "10", type = "password" } })
+                    @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Confirm PassWord </label>
+
+                    @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control", id = "txtCnfrmPassword", @onchange = "UserPswdCheck();", minlength = "4", maxlength = "10", type = "password" } })
+                    @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*ERP Name </label>
+
+                    @Html.EditorFor(model => model.USER_ERP_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtERPName", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.USER_ERP_NAME, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Employee Code </label>
+
+                    @Html.EditorFor(model => model.EMP_CODE, new { htmlAttributes = new { @class = "form-control", id = "txtEmpCode", minlength = "4", maxlength = "6" } })
+                    @Html.ValidationMessageFor(model => model.EMP_CODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Designation </label>
+
+                    @Html.EditorFor(model => model.DESIGNATION, new { htmlAttributes = new { @class = "form-control", id = "txtDesignation", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.DESIGNATION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Department </label>
+
+                    @Html.EditorFor(model => model.DEPARTMENT, new { htmlAttributes = new { @class = "form-control", id = "txtDepartment", minlength = "4", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.DEPARTMENT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        @*<div class="row">
+                <div class="col-sm-6">
+                    <div class="sm-3">
+
+
+                        <label class="control-label">*Sync ID </label>
+
+                        @Html.EditorFor(model => model.SYNC_ID, new { htmlAttributes = new { @class = "form-control", id = "txtSyncID" } })
+                        @Html.ValidationMessageFor(model => model.SYNC_ID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="sm-3">
+                        <label class="control-label">*Sync Password </label>
+
+                        @Html.EditorFor(model => model.SYNC_PASSWORD, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SYNC_PASSWORD, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>*@
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*User Rights </label>
+
+                    @Html.EditorFor(model => model.USER_RIGHTS, new { htmlAttributes = new { @class = "form-control", id = "txtUserRights", minlength = "1", maxlength = "1" } })
+                    @Html.ValidationMessageFor(model => model.USER_RIGHTS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Mobile Number </label>
+
+                    @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", id = "txtMobNo", oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);", type = "number", minlength = "10", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">Email ID </label>
+
+                    @Html.EditorFor(model => model.EMAIL_ID, new { htmlAttributes = new { @class = "form-control", id = "txtEmailID", type = "email", minlength = "5", maxlength = "30" } })
+                    @Html.ValidationMessageFor(model => model.EMAIL_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+
+
+                    <label class="control-label">*Status</label>
+
+                    @Html.DropDownListFor(model => model.STATUS, new List<SelectListItem> {
+                    new SelectListItem {Text="Y" ,Value="Y" },
+                    new SelectListItem {Text="N" ,Value="N" }
+               }, "SELECT STATUS", new { @class = "form-control", @id = "ddlStatus" })
+                    @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <br />
+                    <input type="submit" id="btnSubmit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+                    <input type="button" id="btnView" value="View" style="width:95px" onclick=@("window.location.href='" + @Url.Action("Index", "GPIL_USER_MASTER") + "'") ; class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <p id="notify" style="display:none"> @TempData["SuccessMessage"]</p>
+
+            </div>
+        </div>
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/assets/js/sweetalert.min.js"></script>
+<link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+
+
+<script>
+    var mes = document.getElementById("notify").innerHTML
+    if (mes.startsWith("Success", 1)) {
+        sweetAlert("Done", mes, "success");
+        setTimeout(function () {
+            window.location = "/GPIL_USER_MASTER/Index";
+        }, 2000)
+    }
+    function UserIDCheck() {
+        var userID = $("#txtUserCode").val();
+        $.ajax({
+            url: '@Url.Action("CheckUserAvailability", "GPIL_USER_MASTER")',
+            type: "POST",
+            datatype: 'json',
+            data: { 'userdata': userID },
+            success: function (data) {
+                if (data != '') {
+                    var user = JSON.parse(data);
+                    $("#Status").html('<font color="Green"></font>');
+                    $("#txtUserCode").css("border-color", "Green");
+
+                    $('#txtUserName').val(user[0].USER_NAME);
+
+                    $('#txtPassword').val(user[0].PASSWORD);
+                    $('#txtCnfrmPassword').val(user[0].PASSWORD);
+                    $('#txtERPName').val(user[0].USER_ERP_NAME);
+                    $('#txtEmailID').val(user[0].EMAIL_ID);
+                    $('#txtUserRights').val(user[0].USER_RIGHTS);
+
+                    $('#txtEmpCode').val(user[0].EMP_CODE);
+                    $('#txtDesignation').val(user[0].DESIGNATION);
+                    $('#txtDepartment').val(user[0].DEPARTMENT);
+
+                    $('#txtMobNo').val(user[0].MOBILE_NO);
+                    $('#ddlStatus').val(user[0].STATUS);
+                    $('#btnSubmit').val("Update");
+                }
+                if (data == 0) {
+                    $("#Status").html('<font color="Green"> Taken !. you can create ID.</font>');
+                    $("#txtUserCode").css("border-color", "Green");
+                    $('#txtUserName').val('');
+                    $('#txtPassword').val('');
+                    $('#txtCnfrmPassword').val('');
+                    $('#txtERPName').val('');
+                    $('#txtEmailID').val('');
+                    $('#txtUserRights').val('');
+                    $('#txtEmpCode').val('');
+                    $('#txtDesignation').val('');
+                    $('#txtDepartment').val('');
+
+                    $('#txtMobNo').val('');
+                    $('#ddlStatus').val('');
+                    $('#btnSubmit').val("Create");
+                }
+            },
+            error: function () { alert("Huh? What? What did you need?.") }
+        });
+    }
+
+    //UserPswdCheck
+    //txtPassword
+    //txtCnfrmPassword
+    function UserPswdCheck() {
+        var password = $("#txtPassword").val()
+        var password1 = $("#txtCnfrmPassword").val()
+        var pswlen = password.length;
+        if (pswlen < 8) {
+            alert('Password Must be minmum  8 characters needed')
+        }
+        else {
+
+            if (password == password1) {
+                alert('Password Matched');
+                var nextIndex = $('input:text').index(this) + 1;
+            }
+            else {
+                alert('Password and Confirm Password Does not match!!');
+            }
+
+        }
+    }
+
+
+    @*function UserCheck()
+    {
+        $("#Status").html("Checking....");
+        $.post("@Url.Action("CheckUserAvailability", "GPIL_USER_MASTER")",
+
+    {
+        userdata: $("#txtUserCode").val()
+    },
+    function (data) {
+        if (data == 0) {
+            $("#Status").html('<font color="Green"> Taken !. you can create ID.</font>');
+            $("#txtUserCode").css("border-color", "Green");
+        }
+        else {
+            ////$("#Status").html('<font color="Red"> Taken !. UserID is already exist.</font>');
+            ////$("#txtUserCode").css("border-color", "Red");
+            //var user = JSON.parse(data);
+            //$('#txtUserCode').val(user.EMP_ID);
+            //$('#txtUserName').val(user.EMP_NAME);
+
+            $.ajax({
+                url: '@Url.Action("Create", "GPIL_USER_MASTER")',
+                type: "POST",
+                datatype: 'json',
+                data: { 'userdata': userID },
+                success: function (data) {
+                    if (data.d != '') {
+                        var user = JSON.parse(data.d);
+                        $('#txtUserCode').val(user.EMP_ID);
+                        $('#txtUserName').val(user.EMP_NAME);
+                        $('#txtEmailID').val(user.EMAIL_ID);
+                    }
+                },
+                error: function () { alert("Huh? What? What did you need?.") }
+            });
+
+
+        }
+    });
+    }*@
+
+
+    @*function TextChange()
+    {
+
+        $.post("@Url.Action("OnTextChange", "GPIL_USER_MASTER")",
+
+    {
+        userdata: $("#txtUserCode").val()
+    },
+    function (data) {
+        if (data.d != '')
+        {
+            var user = JSON.parse(data.d);
+            $('#txtUserCode').val(user.userID);
+            $('#txtUserName').val(user.Emp_Name);
+        }
+        else
+        {
+
+            error: { alert("Huh? What? What did you need?.") }
+        }
+    });
+    }*@
+
+
+
+
+
+
+    @*function TextChange(data) {
+        $("#txtUserCode").on('blur', function () {
+            var userID = $("#txtUserCode").val();
+
+            $.ajax({
+                url: '@Url.Action("OnTextChange", "GPIL_USER_MASTER")',
+                type: "GET",
+                datatype: 'json',
+                data: { 'id': userID },
+                success: function (data) {
+                    if (data.d != '') {
+                        var user = JSON.parse(data.d);
+                        $('#txtUserCode').val(user.userID);
+                        $('#txtUserName').val(user.Emp_Name);
+                    }
+                },
+                error: function () { alert("Huh? What? What did you need?.") }
+            });
+        })
+
+
+
+
+    }*@
+
+
+
+
+
+
+
+    @*$(document).ready(function () {
+
+
+
+
+
+
+
+
+    });*@
+
+
+    @*$(function () {
+        $("#txtUserCode").on('blur', function () {
+            var userID = $("#txtUserCode").val();
+
+            $.ajax({
+                url: '@Url.Action("CheckUserAvailability", "GPIL_USER_MASTER")',
+                type: "GET",
+                datatype: 'json',
+                data: { 'USERID': userID },
+                success: function (data) {
+                    if (data.d != '') {
+                        var user = JSON.parse(data.d);
+                        $('#txtUserCode').val(user.USER_ID);
+                        $('#txtUserName').val(user.USER_Name);
+                    }
+                },
+                error: function () { alert("Huh? What? What did you need?.") }
+            });
+        })
+    })*@
+
+
+
+
+
+
+    @*function UserCheck()
+    {
+        $("#Status").html("Checking....");
+        $.post("@Url.Action("CheckUserAvailability", "GPIL_USER_MASTER")",
+
+    {
+        userdata: $("#txtUserCode").val()
+    },
+    function (data) {
+        if (data == 0) {
+            $("#Status").html('<font color="Green"> Taken !. you can create ID.</font>');
+            $("#txtUserCode").css("border-color", "Green");
+        }
+        else {
+            $("#Status").html('<font color="Red"> Taken !. UserID is already exist.</font>');
+            $("#txtUserCode").css("border-color", "Red");
+        }
+    });
+    }*@
+
+
+
+    //function TextChange(id) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/GPIL_USER_MASTER/OnTextChange',
+    //        dataType: "json",
+    //        data: { id: id },
+    //        success: function (response) {
+    //            console.log(response);
+    //            $("#txtUserName").val(response[0]['USER_NAME']);
+    //            // $("#txtUserName").val(response["txtUserName"]);
+    //            //$("").val(response["designation"]);
+    //            $("#startDate").val(response["starts_date"]);
+    //            $("#endDate").val(response["ends_date"]);
+    //            $("#txtJobProfile").val(response["job_profile"]);
+    //            $("#btnSubmit").val("Update");
+    //        }
+    //    });
+    //}
+
+
+
+    @*function TextChange()
+    {
+        $("#Status").html("Checking....");
+        $.post("@Url.Action("CheckUserAvailability", "GPIL_USER_MASTER")",
+
+    {
+        userdata: $("#txtUserCode").val()
+    },*@
+
+
+
+    // TextChange()
+
+
+    @*$.post("@Url.Action("OnTextChange", "GPIL_USER_MASTER")",
+
+    {
+        id: $("#txtUserCode").val()
+    },
+
+     function (data) {
+         var array = eval(data.d);
+         $('[id*=txtUserName]').val(array[0].USER_NAME);
+         $('[id*=age]').val(array[0].Age);
+     }
+     );*@
+
+
+
+    //$(function GetUserID(UID) {
+    //    //var obj = {};
+    //    //obj.fileName = '<%=ResolveUrl("~/Details.json") %>';
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "OnTextChange/GPIL_USER_MASTER",
+    //        data: { id: userID, },
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (data) {
+    //            var array = eval(data.d);
+    //            $('[id*=Name]').val(array[0].Name);
+    //            $('[id*=age]').val(array[0].Age);
+    //        },
+    //        failure: function (response) {
+    //            alert(data.d);
+    //        },
+    //        error: function (data) {
+    //            alert(data.d);
+    //        }
+    //    });
+    //});
+
+
+    @*$(function () {
+            $("#txtUserCode").on('blur', function () {
+                var userID = $("#txtUserCode").val();
+
+                $.ajax({
+                    url: '@Url.Action("OnTextChange", "GPIL_USER_MASTER")',
+                    type: "GET",
+                    datatype: 'json',
+                    data: { 'USERID': userID },
+                    success: function (data) {
+                        if (data.d != '') {
+                            var user = JSON.parse(data.d);
+                            $('#txtUserCode').val(user.Name);
+                            $('#txtUserName').val(user.Name);
+                        }
+                    },
+                    error: function () { alert("Huh? What? What did you need?.") }
+                });
+            })
+        })*@
+
+
+
+
+</script>

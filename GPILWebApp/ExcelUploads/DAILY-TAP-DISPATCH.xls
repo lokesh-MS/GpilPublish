@@ -1,0 +1,7 @@
+<table cellspacing="0" rules="all" border="1" style="border-collapse:collapse;">
+	<tr>
+		<td>SNO</td><td>SHIPMENT_NO</td><td>SENDER_ORGN_CODE</td><td>SENDER_NO</td><td>BALES</td><td>QUANTITY</td><td>RECEIVER_ORGN_CODE</td><td>SENDER_TRUCK_NO</td><td>AVE_PRICE</td>
+	</tr><tr>
+		<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+	</tr>
+</table>

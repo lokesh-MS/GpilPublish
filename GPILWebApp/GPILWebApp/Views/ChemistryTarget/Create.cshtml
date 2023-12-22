@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Root = "Quality Lab";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">CREATE CHEMISTRY TARGET</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>CROP</label>
+            @Html.DropDownList("CROP_YEAR", new SelectList(ViewBag.GPIL_CROP_MASTERs, "CROP_YEAR", "CROP_YEAR"), "Please select", new { @id = "ddlCropYear", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>VARIETY</label>
+            @Html.DropDownList("VARIETY_TYPE", new SelectList(ViewBag.GPIL_VARIETY_MASTERs, "VARIETY_TYPE", "VARIETY_TYPE"), "Please select", new { @id = "ddlVariety", @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>GRADE</label>
+            @Html.DropDownList("ITEM_CODE", new SelectList(ViewBag.GPIL_ITEM_MASTERs, "ITEM_CODE", "ITEM_CODE"), "Please select", new { @id = "ddlGrade", @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Mark</label>
+            <input class="form-control" id="txtMark" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>LSL Value</label>
+            <input class="form-control" id="txtLslValue" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>USL Value</label>
+            <input class="form-control" id="txtUslValue" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>AVE</label>
+            <input class="form-control" id="txtAve" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>LCL Value</label>
+            <input class="form-control" id="txtLclValue" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>UCL Value</label>
+            <input class="form-control" id="txtUclValue" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Moisture LSL Vlaue</label>
+            <input class="form-control" id="txtMoistureLslValue" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>Moisture USL Vlaue</label>
+            <input class="form-control" id="txtMoistureUslValue" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-3">
+            <label>AVE</label>
+            <input class="form-control" id="txtAve2" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <label></label>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        @*<div class="col-md-offset-2 col-md-10">*@
+        <br />
+        <input type="button" id="btnSubmit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+        @Html.ActionLink("Back to List", "Index")
+        @*<input type="button" id="btnView" value="Cancel" style="width:95px" onclick=@("window.location.href='" + @Url.Action("Index", "GPIL_ITEM_MASTER") + "'") ; class="btn btn-primary btn-sm" />*@
+        @*</div>*@
+    </div>
+</div>
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+
+
+        $('.alert').hide();
+        
+        $("#txtUslValue").on('change', function (event) {
+            var LSLValueList = $('#txtLslValue').val();
+            LSLValueList = (LSLValueList == "0") ? "" : LSLValueList;
+            var USLValueList = $('#txtUslValue').val();
+            USLValueList = (USLValueList == "0") ? "" : USLValueList;
+            var AveList = $('#txtAve').val();
+            AveList = (AveList == "0") ? "" : AveList;
+            GetUSLAvergeValue(LSLValueList, USLValueList, AveList);
+        });
+
+        function GetUSLAvergeValue(LSLValue, USLValue, Ave) {          
+            
+            $.ajax({
+                type: 'GET',
+                url: '/ChemistryTarget/GetUSLAvgValue',
+                data: { lslvalue: LSLValue, uslValue: USLValue, avg1: Ave },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+        $("#txtMoistureUslValue").on('change', function (event) {
+            var MoiLslList = $('#txtMoistureLslValue').val();
+            MoiLslList = (MoiLslList == "0") ? "" : MoiLslList;
+            var MoiUslList = $('#txtMoistureUslValue').val();
+            MoiUslList = (MoiUslList == "0") ? "" : MoiUslList;
+            var Ave2List = $('#txtAve2').val();
+            Ave2List = (Ave2List == "0") ? "" : Ave2List;
+            GetMoistureUSLAvergeValue(MoiLslList, MoiUslList, Ave2List);
+        });
+
+        function GetMoistureUSLAvergeValue(MoiLsl, MoiUsl, Ave2) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/ChemistryTarget/GetMoiUslValue',
+                data: { moiLsl: MoiLsl, moiUsl: MoiUsl, ave2: Ave2 },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var CropList = $('#ddlCropYear').val();
+            CropList = (CropList == "0") ? "" : CropList;
+            var VarietyList = $('#ddlVariety').val();
+            VarietyList = (VarietyList == "0") ? "" : VarietyList;
+            var GradeList = $('#ddlGrade').val();
+            GradeList = (GradeList == "0") ? "" : GradeList;
+            var MarkList = $('#txtMark').val();
+            MarkList = (MarkList == "0") ? "" : MarkList;
+            var LslList = $('#txtLslValue').val();
+            LslList = (LslList == "0") ? "" : LslList;
+            var UslList = $('#txtUslValue').val();
+            UslList = (UslList == "0") ? "" : UslList;
+            var AveList = $('#txtAve').val();
+            AveList = (AveList == "0") ? "" : AveList;
+            var LclList = $('#txtLclValue').val();
+            LclList = (LclList == "0") ? "" : LclList;
+            var UclList = $('#txtUclValue').val();
+            UclList = (UclList == "0") ? "" : UclList;
+            var MoiLslList = $('#txtMoistureLslValue').val();
+            MoiLslList = (MoiLslList == "0") ? "" : MoiLslList;
+            var MoiUslList = $('#txtMoistureUslValue').val();
+            MoiUslList = (MoiUslList == "0") ? "" : MoiUslList;
+            var Ave2List = $('#txtAve2').val();
+            Ave2List = (Ave2List == "0") ? "" : Ave2List;
+            
+            GetInsertChemistryTargetDetails(CropList, VarietyList, GradeList, MarkList, LslList, UslList, AveList, LclList, UclList, MoiLslList, MoiUslList, Ave2List);
+        });
+
+        function GetInsertChemistryTargetDetails(Crop, Variety, Grade, Mark, Lsl, Usl, Ave, Lcl, Ucl, MoiLsl, MoiUsl, Ave2) {
+            var tblContent = '';
+            $.ajax({
+                type: 'Post',
+                url: '/ChemistryTarget/InsertChemistryTargetData',
+                data: { crop: Crop, variety: Variety, grade: Grade, mark: Mark, lsl: Lsl, usl: Usl, ave: Ave, lcl: Lcl, ucl: Ucl, moiLsl: MoiLsl, moiUsl: MoiUsl, ave2: Ave2 },
+                success: function (msg) {
+                    if (msg.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(msg, "error");
+                    }
+                    else if (msg.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + msg, "success");
+                    }
+                },
+                error: function (msg) {
+                    bootstrap_alert.warning(msg.responseText, "error");
+                }
+            });
+        }
+
+
+
+
+    });
+
+
+
+
+</script>

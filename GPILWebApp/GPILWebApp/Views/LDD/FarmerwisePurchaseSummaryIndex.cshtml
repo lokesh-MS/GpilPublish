@@ -1,0 +1,363 @@
+﻿
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "FarmerwisePurchaseSummaryIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) url('../../Images/Loading.gif') no-repeat center center;
+        z-index: 10000;
+        /*background-image: url('../../Images/Loading.gif');*/
+    }
+</style>
+<h2 style="text-align:center; color:#438EB9">FARMER WISE PURCHASE SUMMARY</h2>
+<hr />
+
+<div class="row mb-0">
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Crop</label>
+            <div>
+                @Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @id = "ddlCropMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label">Variety Code</label>
+            <div class="form-control-sm">
+                @Html.DropDownList("VARIETY", new SelectList(ViewBag.GPIL_VARIETY_MASTER, "VARIETY", "VARIETY1"), "Please select", new { @id = "ddlVarietyMaster", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    @*<div class="col-sm-3">
+            <div class="form-sm-3">
+                <label class="control-label">Variety Code</label>
+                <div class="input-group">
+                    <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                    </span>
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+
+
+</div>
+
+
+
+<div class="row mb-0">
+
+    <div class="col-sm-3">
+        <div class="form-sm-3">
+            <label class="control-label"></label>
+            <div>
+                <input type="button" value="View" id="btnSubmit" style="width:55px" class="btn btn-success btn-sm" />
+                <input type="button" id="btnClear" value="Clear" style="width:55px" class="btn btn-danger btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label class="control-label"></label>
+</div>
+
+<div class="row">
+    <center>
+        <div id="alert_placeholder"></div>
+        <span id="message"></span>
+    </center>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue"></h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "Farmer Wise Purchase Summary Details"
+        </div>
+
+
+        <!-- div.dataTables_borderWrap -->
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            SNO
+                        </th>
+
+                        <th>
+                            FARMER_CODE
+                        </th>
+
+                        <th>
+                            FARM_NAME
+                        </th>
+
+                        <th>
+                            FATHER_NAME
+                        </th>
+
+                        <th>
+                            VILLAGE
+                        </th>
+
+                        <th>
+                            BANK_NAME
+                        </th>
+
+                        <th>
+                            AccNo
+                        </th>
+
+                        <th>
+                            BRANCH_NAME
+                        </th>
+                        <th>
+                            IFSC_CODE
+                        </th>
+                        <th>
+                            BALES
+                        </th>
+                        <th>
+                            QUANTITY
+                        </th>
+                        <th>
+                            TOTAL_VALUE
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="FarmerWisePurchase"></div>
+<div id="loader">
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+        var spinner = $('#loader');
+        $('#btnSubmit').on('click', function (event) {
+
+            var CropList = $('#ddlCropMaster').val();
+            var VarietyList = $('#ddlVarietyMaster').val();
+            GetFarmerWisePurchaseSummary(CropList, VarietyList);
+        });
+
+
+        function GetFarmerWisePurchaseSummary(Crop, Variety) {
+            debugger;
+            spinner.show();
+            var tblContent = '';
+            var tblContentLnDet = '<table id="dynamic-tabl1" class="table table-striped table-bordered table-hover alert-dark table-condensed">';
+            $.ajax({
+                type: 'GET',
+                url: '/LDD/FarmerWisePurchaseSummaryDetails',
+                data: { strCrop: Crop, StrVariety: Variety },
+                success: function (msg) {
+                    let data = JSON.parse(msg);
+
+                    if (data == "Error: Please Select All Fields") {
+                        bootstrap_alert.warning(msg, "error");
+
+                        //$('#FarmerWisePurchase').hide();
+                        spinner.hide();
+
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            var IndexID = "" + j;
+                            tblContent = tblContent + '<tr>'
+                                + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FARMER_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FARM_NAME + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].FATHER_NAME + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].VILLAGE + '</td>'
+                                + '<td class="trBg" style="text-align:center;">' + data[i].BANK_NAME + '</td>'
+                                + '<td class="trBg" style="text-align:center; width="100%">' + data[i].AccNo + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].BRANCH_NAME + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].IFSC_CODE + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].BALES + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].QUANTITY + '</td>'
+                                + '<td class="trBg" style="text-align:right;">' + data[i].TOTAL_VALUE + '</td>'
+
+                                + '</tr >';
+                        }
+
+                    }
+                    //dt1.destroy
+                    var dt1 = $('#dynamic-tabl').DataTable();
+                    dt1.destroy();
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                    spinner.hide();
+
+
+                    //$('#menu_table_data').html(data);
+                    //var no_of_rows = $('#menu_table_data').find('tr').length;
+                    //$('#dynamic-tabl').children('tr').length;
+
+                    if (data.length > 0) {
+                        var intBaleCount = ""; //lblFarmerCount
+                        var dblQuantity = "";  //lblPurchase
+                        var dblValue = "";  //lblBalanceLoan
+                        var ToTintBaleCount = "0";
+                        var ToTdblQuantity = "0";
+                        var ToTdblValue = "0";
+                        for (var i = 0; i < data.length; i++) {
+                            var j = i + 1;
+                            intBaleCount = (data[i].BALES == null) ? "0" : data[i].BALES;
+                            dblQuantity = (data[i].QUANTITY == null) ? "0" : data[i].QUANTITY;
+                            dblValue = (data[i].TOTAL_VALUE == null) ? "0" : data[i].TOTAL_VALUE;
+                            //dblAmountBalToPay = (data[i].LOAN_BAL == null) ? "0" : data[i].LOAN_BAL;
+                            ToTintBaleCount = parseFloat(ToTintBaleCount) + parseFloat(intBaleCount);
+                            ToTdblQuantity = parseFloat(ToTdblQuantity) + parseFloat(dblQuantity);
+                            ToTdblValue = parseFloat(ToTdblValue) + parseFloat(dblValue);
+                            //ToTdblAmountBalToPay = parseFloat(ToTdblAmountBalToPay) + parseFloat(dblAmountBalToPay);
+                        }
+                        tblContentLnDet = tblContentLnDet + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total No. of Farmers : ' + data.length + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total No. of Bales Purchase : ' + ToTintBaleCount + '  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total Purchase Quantity : ' + ToTdblQuantity + ' kgs  </label></td >'
+                            + '<td class="trBg" style="text-align:center;" ><label style="background-color:Blue;color:ghostwhite">Total Net Purchase Amount : Rs. ' + ToTdblValue + '  </label></td >'
+                            //+ '<td class="trBg" style="text-align:center;" ><label>Total Net Pay Amount : Rs. ' + ToTdblAmountBalToPay + ' </label></td >'
+                            + '</tr ></table>';
+                    }
+                    $('#FarmerWisePurchase').empty();
+                    $('#FarmerWisePurchase').append(tblContentLnDet);
+                    // $('#FarmerWisePurchase').show();
+
+
+
+
+
+                    var myTable = $('#dynamic-tabl')
+                    .DataTable({
+                        //paging: false,
+                        paging: true,
+                        scrollY: true,
+                        //scrollX: true,
+                        'order': [[0, 'asc']],
+                    });
+
+                    new $.fn.dataTable.Buttons(myTable, {
+                        buttons: [
+                                {
+                                    "extend": "colvis",
+                                    "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+
+                                },
+                                {
+                                    "extend": "copy",
+                                    "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "csv",
+                                    "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "excel",
+                                    "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "pdf",
+                                    "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                                    "className": "btn btn-white btn-primary btn-bold"
+                                },
+                                {
+                                    "extend": "print",
+                                    "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                                    "className": "btn btn-white btn-primary btn-bold",
+                                    autoPrint: false,
+                                    message: 'This print was produced using the Print button for DataTables'
+                                }
+                        ]
+                    });
+                    myTable.buttons().container().appendTo($('.tableTools-container'));
+
+                }
+
+
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+
+        $('#btnClear').on('click', function (event) {
+            $('#ddlCropMaster').val('');
+            $('#ddlVarietyMaster').val('');
+
+            var dt1 = $('#dynamic-tabl').DataTable();
+            dt1.destroy();
+            var tblContent = '';
+            $('#dynamic-tabl tbody').empty();
+            $('#dynamic-tabl tbody').append(tblContent)
+            var tblContentLnDet = '';
+            $('#FarmerWisePurchase').empty();
+            $('#FarmerWisePurchase').append(tblContentLnDet);
+            //$("input:radio[name=radio]:checked")[0].checked = false;
+        });
+
+
+
+
+    });
+
+</script>

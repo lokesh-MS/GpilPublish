@@ -1,0 +1,118 @@
+﻿@model GPILWebApp.Models.GPIL_ITEM_MASTER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Item Details</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITEM_CODE_GROUP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITEM_CODE_GROUP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITEM_GROUP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITEM_GROUP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITEM_TYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITEM_TYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITEM_DESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITEM_DESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CROP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CROP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VARIETY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VARIETY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COST_CATEGORY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COST_CATEGORY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ORGN_TYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ORGN_TYPE)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_DATE)
+        </dd>
+
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS)
+        </dd>
+
+        
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ITEM_CODE }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

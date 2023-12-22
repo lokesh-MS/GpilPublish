@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "FumigationDetailsLoaderIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">GLTS-WMS PACKED STOCK MATCH</h2>
+<hr />
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">FUMIGATION DETAILS LOADER</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "GLTS-WMS PACKED STOCK DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        @*SELECT GPIL_BALE_NUMBER,ORGN_CODE,FUM_DATE,'V' AS INS_STS from [Sheet1$]*@
+                        <th>SNO</th>
+                        <th>GPIL_BALE_NUMBER</th>
+                        <th>ORGN_CODE</th>
+                        <th>FUM_DATE</th>
+                        <th>INS_STS</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        $('.alert').hide();
+
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            //var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            //window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var ReceiptList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            formData.append('postedFile', ReceiptList[0]);
+            GetFumigationDetails(formData);
+        });
+
+
+        function GetFumigationDetails(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/FumigationDetailsLoader/ImportFDLFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                   @*SELECT GPIL_BALE_NUMBER,ORGN_CODE,FUM_DATE,'V' AS INS_STS from [Sheet1$]*@
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+
+                        var GPIL_BALE_NUMBER = (data[i].GPIL_BALE_NUMBER == null) ? "" : data[i].GPIL_BALE_NUMBER;
+                        var ORGN_CODE = (data[i].ORGN_CODE == null) ? "" : data[i].ORGN_CODE;
+                        var FUM_DATE = (data[i].FUM_DATE == null) ? "" : data[i].FUM_DATE;
+                        var INS_STS = (data[i].INS_STS == null) ? "" : data[i].INS_STS;
+                        
+
+
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                             + '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ORGN_CODE + '</span><input class="text" value="' + ORGN_CODE + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + FUM_DATE + '</span><input class="text" value="' + FUM_DATE + '" style="display:none" /></span></td>'                           
+                            + '<td class="trBg"><span class="trBg">' + INS_STS + '</span><input class="text" value="' + INS_STS + '" style="display:none" /></span></td>'
+
+
+                            + '<td class="trBg">  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                    }
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+                },
+
+
+
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+
+
+            });
+        }
+
+
+
+    });
+
+
+</script>

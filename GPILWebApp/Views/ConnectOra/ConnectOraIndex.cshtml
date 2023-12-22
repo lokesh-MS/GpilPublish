@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Root = "Verification";
+    ViewBag.Title = "ConnectOraIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Re-Direct / Re-Locate / Connect Ora</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="sm-3">
+
+
+            <input type="radio" name="radio" value="Re-Direct" /> Re-Direct
+        </div>
+
+    </div>
+    <div class="col-sm-4">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Re-Locate" /> Re-Locate
+
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="sm-3">
+            <input type="radio" name="radio" value="Connect_Ora" /> Connect_Ora
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label>Header Reference_No</label>
+            <select class="form-control" id="ddlRefereneNumber">
+                <option value="0">Please Select</option>
+            </select>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label>ORGANIZATION CODE</label>
+            @Html.DropDownList("ORGN_CODE", new SelectList(ViewBag.GPIL_ORGN_MASTER, "ORGN_CODE", "ORGN_CODE1"), "Please select", new { @id = "ddlOrgnMaster", @class = "form-control" })
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="sm-4">
+            <label></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="sm-4">
+
+            <button type="reset" value="Submit" id="btnClose" class="btn btn-sm btn-success">
+                Close
+            </button>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div id="alert_placeholder"></div>
+<span id="message"></span>
+<hr />
+
+
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+
+        rdoClr();
+        function rdoClr() {
+
+            $('input:radio[name="radio"]').change(function (event) {
+                $('#ddlOrgnMaster').val('');
+
+            });
+        }
+
+
+        $('input:radio[name="radio"]').change(function (event) {
+            //debugger;
+            var Status = $("[name=radio]:checked").val();
+            GetRedirectRelocateDetails(Status);
+        });
+
+
+
+        function GetRedirectRelocateDetails(StatusButton) {
+            $('#ddlRefereneNumber').empty();
+            //debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">Please Select</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/ConnectOra/GetReferenceNumber',
+                data: { statusButton: StatusButton },
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].REF + '</option>';
+                    }
+                    $('#ddlRefereneNumber').append(tblContent);
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+        }
+
+
+        // Connect Ora Closing Button Event
+
+        $('#btnClose').on('click', function (event) {
+
+            var RefNo = $('#ddlRefereneNumber').val();
+            RefNo = (RefNo == "0") ? "" : RefNo;
+
+            var OrgnList = $('#ddlOrgnMaster').val();
+            OrgnList = (OrgnList == "0") ? "" : OrgnList;
+            var Status = $("[name=radio]:checked").val();
+            GetConnectOraDtls(RefNo, OrgnList, Status);
+
+        });
+
+
+        function GetConnectOraDtls(RefNO, OrgnCode, StatusButton) {
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/ConnectOra/ConnectOraClosing',
+                data: { refNo: RefNO, orgnCode: OrgnCode, statusButton: StatusButton },
+                success: function (response) {
+                    if (response.startsWith("Error", 1)) {
+                        bootstrap_alert.warning(response, "error");
+                    }
+                    else if (response.startsWith("Success", 1)) {
+
+                        //window.location = "/GPIL_CROP_MASTER/Index";
+                        bootstrap_alert.warning('Successful ' + response, "success");
+                    }
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+
+        }
+
+
+
+
+
+    });
+</script>

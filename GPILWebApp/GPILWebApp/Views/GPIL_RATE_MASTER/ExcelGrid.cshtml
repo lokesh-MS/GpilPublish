@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ExcelGrid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ExcelGrid</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h1>ViewBag.Error</h1>
+    <h1>ViewBag.message</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+                <input type="submit" value="Save" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="header smaller lighter blue">RATE List</h3>
+            <div class="clearfix">
+                <div class="pull-right tableTools-container"></div>
+            </div>
+            <div class="table-header">
+                Results for "RATE DETAILS"
+            </div>
+            <div class="form-horizondal" id="frmdetl">
+                <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Loc_Code</th>
+                            <th>Item_Code</th>
+                            <th>Rate</th>
+                            
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        @foreach (var c in ViewBag.LCrops)
+                        {
+                            <tr>
+                                <td>@c.Loc_Code</td>
+                                <td>@c.Item_Code</td>
+                                <td>@c.Rate</td>                                
+                                <td>
+                                    @Html.ActionLink("Edit", "EditExcelGrid", new { id = c.Loc_Code }) |
+                                    @Html.ActionLink("Details", "Details", new { id = c.Loc_Code }) |
+                                    @Html.ActionLink("Delete", "DeleteExcelGrid", new { id = c.Loc_Code })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dynamic-tabl').dataTable(
+           );
+    });
+</script>

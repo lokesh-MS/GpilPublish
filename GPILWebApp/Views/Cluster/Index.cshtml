@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GPILWebApp.Models.GPIL_CLUSTER_MASTER>
+
+@{
+    ViewBag.Root = "Master";
+    ViewBag.Title = "Cluster Master Creation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p>
+    <button type="button" role="button" onclick="@("window.location.href='" + @Url.Action("Create", "Cluster") + "'");" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-form"> Create New Item </button>
+</p>
+
+<table id="dynamic-table" class="table  table-striped table-bordered table-hover table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SNO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLUSTER_CODE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLUSTER_NAME)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.STATUS)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.GPIL_USER_MASTER.USER_NAME)
+        </th>
+      
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SNO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLUSTER_CODE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLUSTER_NAME)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.STATUS)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.GPIL_USER_MASTER.USER_NAME)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CLUSTER_CODE }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CLUSTER_CODE }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CLUSTER_CODE })
+            </td>
+        </tr>
+    }
+
+</table>

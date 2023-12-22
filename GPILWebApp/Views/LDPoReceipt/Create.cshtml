@@ -1,0 +1,482 @@
+﻿@model GPILWebApp.ViewModel.PoReceipt
+@{
+    ViewBag.Root = "LD";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">Po Receipt Creation</h2>
+
+@*@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.AntiForgeryToken()*@
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Crop Code </label>
+                    <select class="form-control" id="ddlCropCode">
+                        <option value="0">SELECT CROP CODE</option>
+                    </select>  
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Invoice Number </label>
+                    @Html.EditorFor(model => model.Invoice, new { htmlAttributes = new { @class = "form-control", id = "txtInvoiceNumber", @onchange = "InVoiceCheck();" } })
+                    @Html.ValidationMessageFor(model => model.Invoice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Item Code </label>
+                    <select class="form-control" id="ddlItemCode">
+                        <option value="0">SELECT ITEM CODE</option>
+                    </select>  
+                    @*@Html.DropDownList("CROP", new SelectList(ViewBag.GPIL_CROP_MASTER, "CROP", "CROP1"), "Please select", new { @class = "form-control", @id = "ddlItemCode", @onchange = "InVoiceCheck();" })*@
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Invoice Date </label>
+                    @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control", id = "txtInvoiceDate", type = "Date" } })
+                    @Html.ValidationMessageFor(model => model.InvoiceDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Po Number </label>
+                    @Html.EditorFor(model => model.PoNum, new { htmlAttributes = new { @class = "form-control", id = "txtPoNumber" } })
+                    @Html.ValidationMessageFor(model => model.PoNum, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Supplier Code </label>
+                    <select class="form-control" id="ddlSupplierCode">
+                        <option value="0">SELECT SUPPLIER CODE</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Quantity </label>
+                    @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control", id = "txtQuantity", @onchange = "QtyCheck();" } })
+                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                    <label class="control-label" id="lblExStock">0.0</label>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Amount </label>
+                    @Html.EditorFor(model => model.Amt, new { htmlAttributes = new { @class = "form-control", id = "txtAmount" } })
+                    @Html.ValidationMessageFor(model => model.Amt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*CGST & SGST %</label>
+                    @Html.EditorFor(model => model.CGSTPercent, new { htmlAttributes = new { @class = "form-control", id = "txtCgstPercent" } })
+                    @Html.ValidationMessageFor(model => model.CGSTPercent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*IGST % </label>
+                    @Html.EditorFor(model => model.IGSTPercent, new { htmlAttributes = new { @class = "form-control", id = "txtIgstPercent" } })
+                    @Html.ValidationMessageFor(model => model.IGSTPercent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Total Amount </label>
+                    @Html.EditorFor(model => model.TotAmt, new { htmlAttributes = new { @class = "form-control", id = "txtTotalAmount", @onchange = "TMCheck();" } })
+                    @Html.ValidationMessageFor(model => model.TotAmt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*GST Value </label>
+                    @Html.EditorFor(model => model.CGSTValue, new { htmlAttributes = new { @class = "form-control", id = "txtGstValue" } })
+                    @Html.ValidationMessageFor(model => model.CGSTValue, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*IGST Value</label>
+                    @Html.EditorFor(model => model.IGSTValue, new { htmlAttributes = new { @class = "form-control", id = "txtIgstValue" } })
+                    @Html.ValidationMessageFor(model => model.IGSTValue, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <label class="control-label">*Total Amount INR</label>
+                    @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", id = "txtTotalAmountInr" } })
+                    @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                    <label class="control-label" id="lbloldpoamt">0</label>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div class="sm-3">
+                    <div class="col-md-offset-2 col-md-10">
+                        <br />
+                        <input type="submit" id="btnSubmit" value="Create" style="width:95px" class="btn btn-success btn-sm" />
+                        <input type="button" id="btnView" value="Cancel" style="width:95px" onclick=@("window.location.href='" + @Url.Action("Index", "GPIL_ITEM_MASTER") + "'") ; class="btn btn-primary btn-sm" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+//}
+
+
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+
+
+<script>
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+
+    function InVoiceCheck() {
+        var PoNumber = $("#txtPoNumber").val();
+        var ItemCode = $("#ddlItemCode").val();
+        var InvoiceNumber = $("#txtInvoiceNumber").val();
+        //var Crop = $("#ddlCropCode").val();
+        $.ajax({
+            url: '@Url.Action("CheckPOAvailability", "LDPoReceipt")',
+            type: "POST",
+            datatype: 'json',
+            data: { 'poNumber': PoNumber, 'itemCode': ItemCode, 'invoiceNumber': InvoiceNumber },
+            success: function (data) {
+                if (data != '') {
+                    var user = JSON.parse(data);
+                    $("#Status").html('<font color="Green"></font>');
+                    $("#InvoiceNumber").css("border-color", "Green");
+                    //$('#txtUserCode').val(user.EMP_ID);
+                    $('#txtQuantity').val(user[0].Qty);
+                    $('#txtAmount').val(user[0].UnitPrice);
+                    $('#txtTotalAmount').val(user[0].UnitTotal);
+                    $('#txtCgstPercent').val(user[0].CGSTPercent);
+                    $('#txtGstValue').val(user[0].CGSTAmt);
+                    $('#txtIgstPercent').val(user[0].IGSTPercent);
+                    $('#txtIgstValue').val(user[0].IGStAmt);
+                    $('#txtTotalAmountInr').val(user[0].Total);
+                    $('#lblExStock').html($('#txtQuantity').val());
+                    $('#txtInvoiceDate').val(user[0].DatePo);
+                    //$('#ddlSupplierCode').val(user[0].Supplier);
+
+                    $('#btnSubmit').val("Update");
+
+                }
+                if (data == 0) {
+                    $("#Status").html('<font color="Green"> Taken !. you can create ID.</font>');
+                    $("#InvoiceNumber").css("border-color", "Green");
+                    $('#txtQuantity').val('');
+                    $('#txtAmount').val('');
+                    $('#txtTotalAmount').val('');
+                    $('#txtCgstPercent').val('');
+                    $('#txtGstValue').val('');
+                    $('#txtIgstPercent').val('');
+                    $('#txtIgstValue').val('');
+                    $('#txtTotalAmountInr').val('');
+                    $('#lblExStock').val('0.0');
+                    $('#txtInvoiceDate').val('');
+
+                    $('#btnSubmit').val("Create");
+                }
+            },
+            error: function () { alert("Huh? What? What did you need?.") }
+        });
+    }
+
+
+
+    function QtyCheck() {
+        var GstPercent = $("#txtCgstPercent").val();
+        var IgstPercent = $("#txtIgstPercent").val();
+        var TotalAmount = $("#txtTotalAmountInr").val();
+
+        var QuantityList = $("#txtQuantity").val();
+        var AmountList = $("#txtAmount").val();
+        var TotalAmountList = $("#txtTotalAmount").val();
+        var GstList = $("#txtGstValue").val();
+        var IgstList = $("#txtIgstValue").val();
+        //var TotalAmountList = $("#txtInvoiceDate").val();
+       
+        if (GstPercent != '' & IgstPercent != '' & TotalAmount != '')
+        {
+            $('#lbloldpoamt').html($('#txtTotalAmountInr').val());
+            ttTotalAmount = QuantityList * AmountList;
+            ttGstValue =(TotalAmountList * GstPercent) / 100;
+            //ttGstValue = System.Math.Round((TotalAmountList * (GstPercent) / 100), 2).ToString().Trim();
+            ttIgstValue = (TotalAmountList * IgstPercent) / 100;
+            ttTotalAmountInr = (IgstList + TotalAmountList +GstList);
+            //ttIgstValue = System.Math.Round(((Convert.ToDouble(TotalAmountList) * Convert.ToDouble(IgstPercent)) / 100), 2).ToString().Trim();
+            //ttTotalAmountInr = System.Math.Round((Convert.ToDouble(IgstList) + Convert.ToDouble(TotalAmountList) + Convert.ToDouble(GstList)), 2).ToString();
+
+            $("#txtTotalAmount").val(ttTotalAmount);
+            $("#txtGstValue").val(ttGstValue);
+            $("#txtIgstValue").val(ttIgstValue);
+            $("#txtTotalAmountInr").val(ttTotalAmountInr);
+           
+          
+
+        }
+
+       
+    }
+
+
+    function TMCheck() {
+        var QuantityList = $("#txtQuantity").val();
+        var TotalAmountList = $("#txtTotalAmount").val();
+        // txtAmount.Text = (Convert.ToDouble(txtPrice.Text) * Convert.ToDouble(txtQty.Text)).ToString();
+        ttTotalAmount = TotalAmountList * QuantityList
+        $("#txtAmount").val(ttTotalAmount);
+    }
+
+
+
+    $(document).ready(function () {
+        $('.alert').hide();
+
+        GetCropCode();
+        GetItemCode();
+        GetSupplierCode();
+        QtyCheck();
+
+
+
+
+
+
+        function GetCropCode() {
+            $('#ddlCropCode').empty();
+            //debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT CROP CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDPoReceipt/GetCropDetails',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].Crop + '</option>';
+                    }
+                    $('#ddlCropCode').append(tblContent);
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+        }
+
+        function GetItemCode() {
+            $('#ddlItemCode').empty();
+            //debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT ITEM CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDPoReceipt/GetItemDetails',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option value="' + data[i].ItemCode + '">' + data[i].ItemCode + '</option>';
+                    }
+                    $('#ddlItemCode').append(tblContent);
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+        }
+
+        function GetSupplierCode() {
+            $('#ddlSupplierCode').empty();
+            //debugger;
+            var tblContent = '';
+            tblContent = tblContent + '<option value="0">SELECT SUPPLIER CODE</option>';
+            $.ajax({
+                type: 'GET',
+                url: '/LDPoReceipt/GetSupplierDetails',
+                data: 'json',
+                success: function (msg) {
+                    var data = JSON.parse(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        tblContent = tblContent + '<option>' + data[i].SUPP_NAME + '</option>';
+                    }
+                    $('#ddlSupplierCode').append(tblContent);
+                },
+                error: function (response) {
+
+                    //if (response.startsWith("Error", 1)) {
+                    //    bootstrap_alert.warning(response, "error");
+                    //}
+                    bootstrap_alert.warning(response.responseText, "error");
+                }
+            });
+        }
+        //, 'crop': Crop 
+        
+
+        $('#btnSubmit').on('click', function (event) {
+            var CropList = $('#ddlCropCode').val();
+            var InvoiceNoList = $("#txtInvoiceNumber").val();
+            var ItemCodeList = $('#ddlItemCode').val();
+            var InvoiceDateList = $("#txtInvoiceDate").val();
+            var PoNumberList = $('#txtPoNumber').val();
+            var SupplierCodeList = $("#ddlSupplierCode").val();
+            var QuantityList = $('#txtQuantity').val();
+            var AmountList = $("#txtAmount").val();
+            var CgstPercentList = $('#txtCgstPercent').val();
+            var IgstPercentlist = $("#txtIgstPercent").val();
+            var TotalAmountList = $('#txtTotalAmount').val();
+            var GstValueList = $("#txtGstValue").val();
+            var IgstValueList = $('#txtIgstValue').val();
+            var TotAmtInrList = $("#txtTotalAmountInr").val();
+           
+            
+            GetPoReceiptDetails(CropList, InvoiceNoList, ItemCodeList, InvoiceDateList, PoNumberList, SupplierCodeList, QuantityList, AmountList, CgstPercentList, IgstPercentlist, TotalAmountList, GstValueList, IgstValueList, TotAmtInrList);
+        });
+
+
+
+
+
+        $('#btnComplete').on('click', function () {
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+            if (ExcelIndexList.length > 0) {
+                var LPR = {};
+                var PoReceipts = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+                    //<th>ITEM_CODE</th>        <th>ITEM_CODE_GROUP</th>                      <th>ITEM_GROUP</th>
+                    //                    <th>ITEM_TYPE</th>         <th>ITEM_DESC</th>                        <th>CROP</th>
+                    //                    <th>VARIETY</th>              <th>COST_CATEGORY</th>             <th>ORGN_TYPE</th>
+                    //                    <th>CREATED_BY</th>               <th>CREATED_DATE</th>                 <th>STATUS</th>
+                    //var row = $(this);
+                    var PoReceipt = {};
+                    PoReceipt.Crop = $('#ddlCropCode').val();
+                    PoReceipt.Invoice = $("#txtInvoiceNumber").val();
+                    PoReceipt.ItemCode = $('#ddlItemCode').val();
+                    PoReceipt.InvoiceDate = $("#txtInvoiceDate").val();
+                    PoReceipt.PoNum = $('#txtPoNumber').val();
+                    PoReceipt.Supplier = $("#ddlSupplierCode").val();
+                    PoReceipt.Qty = $('#txtQuantity').val();
+                    PoReceipt.Amt = $("#txtAmount").val();
+                    PoReceipt.CGSTPercent = $('#txtCgstPercent').val();
+                    PoReceipt.IGSTPercent = $("#txtIgstPercent").val();
+                    PoReceipt.TotAmt = $('#txtTotalAmount').val();
+                    PoReceipt.CGSTValue = $("#txtGstValue").val();
+                    PoReceipt.IGSTValue = $('#txtIgstValue').val();
+                    PoReceipt.TotalAmount = $("#txtTotalAmountInr").val();
+
+
+
+
+                    PoReceipts.push(PoReceipt);
+                });
+                if (PoReceipts.length > 0) {
+                    LPR.PoReceipts = PoReceipts;
+
+                    //Send the JSON array to Controller using AJAX.
+                    $.ajax({
+                        type: "POST",
+                        url: "/LDPoReceipt/CreatePoReceipt",
+                        data: JSON.stringify(LPR),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(response, "error");
+                            }
+                            else if (response.startsWith("Succuss", 1)) {
+
+                                window.location = "/GPIL_ITEM_MASTER/Index";
+                                bootstrap_alert.warning('Succussful', "success");
+                            }
+                        },
+                        error: function (response) {
+
+                            if (response.startsWith("Error")) {
+                                bootstrap_alert.warning(response, "error");
+                            }
+                            //bootstrap_alert.warning(response.responseText, "error"); 
+                        }
+                    });
+                } else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+        
+
+
+
+    });
+
+
+
+
+
+
+
+</script>

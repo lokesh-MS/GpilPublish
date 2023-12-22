@@ -1,0 +1,327 @@
+﻿@model IEnumerable<GPILWebApp.ViewModel.QualityLab>
+@{
+    ViewBag.Root = "Quality Lab";
+    ViewBag.Title = "ExcelIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center; color:#438EB9">EXCEL IMPORT CHEMISTRY DATA</h2>
+<hr />
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="sm-3">
+
+                <label class="label info">Excel File</label>
+                <input type="file" name="postedFile" id="txtExcelData" class="form-control" />
+                <br />
+                <input type="submit" value="Import" id="btnSubmit" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Add" id="btnAddNewRow" style="width:95px" class="btn btn-success btn-sm" />
+                <input type="submit" value="Complete" id="btnComplete" style="width:95px" class="btn btn-success btn-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <label>
+
+    </label>
+    <div id="alert_placeholder"></div>
+    <span id="message"></span>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">CHEMISTRY REPORTS LOADER</h3>
+
+        <div class="clearfix">
+            <div class="pull-right tableTools-container"></div>
+        </div>
+        <div class="table-header">
+            Results for "CHEMISTRY REPORT DETAILS"
+        </div>
+        <div class="form-horizondal" id="frmdetl" style="overflow-y: scroll; overflow-x: scroll; height:auto">
+            <table id="dynamic-tabl" class="table table-striped table-bordered table-hover alert-dark table-condensed">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Crop</th>
+                        <th>Grade</th>
+                        <th>Variety </th>
+                        <th>DOP</th>
+                        <th>Mark</th>
+                        <th>Product</th>
+                        <th>ExportType</th>
+                        <th>Type </th>
+                        <th>SourceOrg</th>
+                        <th>SRunNo</th>
+                        <th>ERunNo</th>
+                        <th>NIC</th>
+                        <th>TRS </th>
+                        <th>CL</th>
+                        <th>Moisture</th>
+
+                        <th>Add/Edit/Update/Delete </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+<script>
+
+
+    bootstrap_alert = function () { }
+    bootstrap_alert.warning = function (message, status) {
+        if (status == "success") {
+            $('#alert_placeholder').html('<div class="alert alert-success" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        else if (status == "error") {
+            $('#alert_placeholder').html('<div class="alert alert-danger" role="alert"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>')
+        }
+        $("#alert_placeholder").fadeTo(10000, 500).slideUp(500, function () {
+            $("#alert_placeholder").slideUp(500);
+        });
+    }
+
+
+    $(document).ready(function () {
+
+
+        $('.alert').hide();
+
+        //Create event handler
+        $('#btnCreate').on('click', function (event) {
+
+            var hdnHEADER_ID = $('#hdnHEADER_ID').val();
+            window.location = '/Verification/Create?HEADER_ID=' + hdnHEADER_ID
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Verification/Create',
+            //    data: { HEADER_ID: hdnHEADER_ID },
+            //    //success: function (msg) {
+            //    //    alert(0); alert("Successfully");
+            //    //},
+            //    //error: function (msg) {
+            //    //    alert(0); alert(msg);
+            //    //}
+            //});
+        });
+
+        //Edit event handler.
+        $("#dynamic-tabl").on('click', '.btnEdit', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".trBg").hide();
+                }
+            });
+            row.find(".btnUpdate").show();
+            row.find(".btnCancel").show();
+            row.find(".btnDelete").hide();
+            $(this).hide();
+        });
+
+        //Cancel event handler.
+        $("#dynamic-tabl").on('click', '.btnCancel', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".trBg");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("#dynamic-tabl").on('click', '.btnUpdate', function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find("input").length > 0) {
+                    var span = $(this).find("span");
+                    var input = $(this).find("input");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                }
+            });
+
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            row.find(".btnCancel").hide();
+            row.find(".btnUpdate").hide();
+            $(this).hide();
+        });
+
+        //Delete event handler.
+        $("#dynamic-tabl").on('click', '.btnDelete', function () {
+            if (confirm("Do you want to delete this row?")) {
+                var row = $(this).closest("tr");
+                row.remove();
+            }
+        });
+
+
+
+        $('#btnSubmit').on('click', function (event) {
+            var QualityDataList = $("#txtExcelData").get(0).files;
+            var formData = new FormData();
+            if (QualityDataList.length > 0) {
+            formData.append('postedFile', QualityDataList[0]);
+            GetQualityDataGrid(formData);
+            } else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+        function GetQualityDataGrid(formData) {
+            //var dt01 = $('#dynamic-tabl').DataTable();
+            var tblContent = '';
+            $.ajax({
+                type: 'POST',
+                url: '/QualityLab/ImportFromExcel',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    let data = $.parseJSON(msg);
+                    for (var i = 0; i < data.length; i++) {
+                        var j = i + 1;
+                        var Crop = (data[i].Crop == null) ? "" : data[i].Crop;
+                        var Grade = (data[i].Grade == null) ? "" : data[i].Grade;
+                        var Variety = (data[i].Variety == null) ? "" : data[i].Variety;
+                        var DOP = (data[i].DOP == null) ? "" : data[i].DOP;
+                        var Mark = (data[i].Mark == null) ? "" : data[i].Mark;
+                        var Product = (data[i].Product == null) ? "" : data[i].Product;
+                        var ExportType = (data[i].ExportType == null) ? "" : data[i].ExportType;
+                        var Type = (data[i].Type == null) ? "" : data[i].Type;
+
+                        var SourceOrg = (data[i].SourceOrg == null) ? "" : data[i].SourceOrg;
+                        var SRunNo = (data[i].SRunNo == null) ? "" : data[i].SRunNo;
+                        var ERunNo = (data[i].ERunNo == null) ? "" : data[i].ERunNo;
+                        var NIC = (data[i].NIC == null) ? "" : data[i].NIC;
+                        var TRS = (data[i].TRS == null) ? "" : data[i].TRS;
+                        var CL = (data[i].CL == null) ? "" : data[i].CL;
+                        var Moisture = (data[i].Moisture == null) ? "" : data[i].Moisture;
+
+                        tblContent = tblContent + '<tr>'
+                            + '<td class="trBg" style="text-align:center;" >' + j + '</td >'
+                            //+ '<td class="trBg"><span class="trBg1">' + GPIL_BALE_NUMBER + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Crop + '</span><input class="text" value="' + Crop + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Grade + '</span><input class="text" value="' + Grade + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Variety + '</span><input class="text" value="' + Variety + '" style="display:none"/></span></td>'
+                            //+ '<td class="trBg"><span class="trBg">' + Variety + '</span></td>'
+                            + '<td class="trBg"><span class="trBg">' + DOP + '</span><input class="text" value="' + DOP + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Mark + '</span><input class="text" value="' + Mark + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Product + '</span><input class="text" value="' + Product + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ExportType + '</span><input class="text" value="' + ExportType + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + Type + '</span><input class="text" value="' + Type + '" style="display:none"/></span></td>'
+
+                            + '<td class="trBg"><span class="trBg">' + SourceOrg + '</span><input class="text" value="' + SourceOrg + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + SRunNo + '</span><input class="text" value="' + SRunNo + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + ERunNo + '</span><input class="text" value="' + ERunNo + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + NIC + '</span><input class="text" value="' + NIC + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + TRS + '</span><input class="text" value="' + TRS + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + CL + '</span><input class="text" value="' + CL + '" style="display:none"/></span></td>'
+                            + '<td class="trBg"><span class="trBg">' + Moisture + '</span><input class="text" value="' + Moisture + '" style="display:none"/></span></td>'
+                            //+ '<td class="trBg"><input class="text1" type="hidden" value="' + GPIL_BALE_NUMBER + '"/></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '<td class="trBg"></span>  <button class="btnEdit">Edit</button><button class="btnDelete">Delete</button><button class="btnUpdate" style="display:none">Update</button><button class="btnCancel" style="display:none">Cancel</button></td>'
+                            + '</tr >';
+                    }
+                    $('#dynamic-tabl tbody').empty();
+                    $('#dynamic-tabl tbody').append(tblContent);
+
+
+                },
+                error: function (msg) {
+
+                }
+            });
+        }
+
+
+        $('#btnComplete').on('click', function () {
+            var ExcelIndexList = $("#txtExcelData").get(0).files;
+            if (ExcelIndexList.length > 0) {
+                var LQL = {};
+                var QualityLabs = new Array();
+                $("#dynamic-tabl tbody tr").each(function () {
+
+
+                    var row = $(this);
+                    var QualityLab = {};
+                    QualityLab.SNO = row.find("td:eq(0)")[0].innerText;
+                    QualityLab.Crop = row.find("td:eq(1)")[0].innerText;
+                    QualityLab.Grade = row.find("td:eq(2)")[0].innerText;
+                    QualityLab.Variety = row.find("td:eq(3)")[0].innerText;
+                    QualityLab.DOP = row.find("td:eq(4)")[0].innerText;
+                    QualityLab.Mark = row.find("td:eq(5)")[0].innerText;
+                    QualityLab.Product = row.find("td:eq(6)")[0].innerText;
+                    QualityLab.ExportType = row.find("td:eq(7)")[0].innerText;
+                    QualityLab.Type = row.find("td:eq(8)")[0].innerText;
+                    QualityLab.SourceOrg = row.find("td:eq(9)")[0].innerText;
+                    QualityLab.SRunNo = row.find("td:eq(10)")[0].innerText;
+                    QualityLab.ERunNo = row.find("td:eq(11)")[0].innerText;
+                    QualityLab.NIC = row.find("td:eq(12)")[0].innerText;
+                    QualityLab.TRS = row.find("td:eq(13)")[0].innerText;
+                    QualityLab.CL = row.find("td:eq(14)")[0].innerText;
+                    QualityLab.Moisture = row.find("td:eq(15)")[0].innerText;
+                    QualityLabs.push(QualityLab);
+                });
+                if (QualityLabs.length > 0) {
+                    LQL.QualityLabs = QualityLabs;
+
+                    //Send the JSON array to Controller using AJAX.
+                    $.ajax({
+                        type: "POST",
+                        url: "/QualityLab/QualityLoaderComplete",
+                        data: JSON.stringify(LQL),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            if (msg.startsWith("Error", 1)) {
+                                bootstrap_alert.warning(msg, "error");
+                            }
+                            else if (msg.startsWith("Success", 1)) {
+
+                                //window.location = "/GPIL_CROP_MASTER/Index";
+                                bootstrap_alert.warning('Successful ' + msg, "success");
+                            }
+                        },
+                        error: function (msg) {
+                            bootstrap_alert.warning(msg.responseText, "error");
+                        }
+                    });
+                }
+
+                else {
+                    bootstrap_alert.warning('Click Import and load the Excel Data!!!', "error");
+                }
+            }
+            else {
+                bootstrap_alert.warning('Select the Excel File to proceed further', "error");
+            }
+        });
+
+
+
+
+    });
+
+
+
+</script>
